@@ -4,3 +4,6 @@ nbconvert*
 *csv
 *cache
 *lock
+
+.git
+node_modules

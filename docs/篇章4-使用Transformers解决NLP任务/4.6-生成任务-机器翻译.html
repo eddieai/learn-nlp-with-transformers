@@ -1,0 +1,912 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <title>4.6-生成任务-机器翻译 · HonKit</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 5.1.4">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="4.7-生成任务-摘要生成.html" />
+    
+    
+    <link rel="prev" href="4.5-生成任务-语言模型.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">篇章1-前言</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../篇章1-前言/1.0-本地阅读和代码运行环境配置.html">
+            
+                <a href="../篇章1-前言/1.0-本地阅读和代码运行环境配置.html">
+            
+                    
+                    1.0-本地阅读和代码运行环境配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../篇章1-前言/1.1-Transformers在NLP中的兴起.html">
+            
+                <a href="../篇章1-前言/1.1-Transformers在NLP中的兴起.html">
+            
+                    
+                    1.1-Transformers在NLP中的兴起
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">篇章2-Transformer相关原理</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../篇章2-Transformer相关原理/2.0-前言.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.0-前言.html">
+            
+                    
+                    2.0-前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../篇章2-Transformer相关原理/2.1-图解attention.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.1-图解attention.html">
+            
+                    
+                    2.1-图解attention
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../篇章2-Transformer相关原理/2.2-图解transformer.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.2-图解transformer.html">
+            
+                    
+                    2.2-图解transformer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../篇章2-Transformer相关原理/2.2.1-Pytorch编写Transformer.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.2.1-Pytorch编写Transformer.html">
+            
+                    
+                    2.2.1-Pytorch编写Transformer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../篇章2-Transformer相关原理/2.2.1-Pytorch编写Transformer-选读.md">
+            
+                <span>
+            
+                    
+                    2.2.2-Pytorch编写Transformer-选读
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../篇章2-Transformer相关原理/2.3-图解BERT.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.3-图解BERT.html">
+            
+                    
+                    2.3-图解BERT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="../篇章2-Transformer相关原理/2.4-图解GPT.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.4-图解GPT.html">
+            
+                    
+                    2.4-图解GPT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="../篇章2-Transformer相关原理/2.5-篇章小测.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.5-篇章小测.html">
+            
+                    
+                    2.5-篇章小测
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">篇章3-编写一个Transformer模型：BERT</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../篇章3-编写一个Transformer模型：BERT/3.1-如何实现一个BERT.html">
+            
+                <a href="../篇章3-编写一个Transformer模型：BERT/3.1-如何实现一个BERT.html">
+            
+                    
+                    3.1-如何实现一个BERT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../篇章3-编写一个Transformer模型：BERT/3.2-如何应用一个BERT.html">
+            
+                <a href="../篇章3-编写一个Transformer模型：BERT/3.2-如何应用一个BERT.html">
+            
+                    
+                    3.2-如何应用一个BERT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../篇章3-编写一个Transformer模型：BERT/3.3-篇章小测.html">
+            
+                <a href="../篇章3-编写一个Transformer模型：BERT/3.3-篇章小测.html">
+            
+                    
+                    3.3-篇章小测
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">篇章4-使用Transformers解决NLP任务</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="4.0-前言.html">
+            
+                <a href="4.0-前言.html">
+            
+                    
+                    4.0-前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="4.0-基于HuggingFace-Transformers的预训练模型微调.html">
+            
+                <a href="4.0-基于HuggingFace-Transformers的预训练模型微调.html">
+            
+                    
+                    4.0-基于HuggingFace-Transformers的预训练模型微调
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="4.1-文本分类.html">
+            
+                <a href="4.1-文本分类.html">
+            
+                    
+                    4.1-文本分类
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="4.2-序列标注.html">
+            
+                <a href="4.2-序列标注.html">
+            
+                    
+                    4.2-序列标注
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="4.3-问答任务-抽取式问答.html">
+            
+                <a href="4.3-问答任务-抽取式问答.html">
+            
+                    
+                    4.3-问答任务-抽取式问答
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" data-path="4.4-问答任务-多选问答.html">
+            
+                <a href="4.4-问答任务-多选问答.html">
+            
+                    
+                    4.4-问答任务-多选问答
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" data-path="4.5-生成任务-语言模型.html">
+            
+                <a href="4.5-生成任务-语言模型.html">
+            
+                    
+                    4.5-生成任务-语言模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="4.8" data-path="4.6-生成任务-机器翻译.html">
+            
+                <a href="4.6-生成任务-机器翻译.html">
+            
+                    
+                    4.6-生成任务-机器翻译
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.9" data-path="4.7-生成任务-摘要生成.html">
+            
+                <a href="4.7-生成任务-摘要生成.html">
+            
+                    
+                    4.7-生成任务-摘要生成
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.10" data-path="4.8-篇章小测.html">
+            
+                <a href="4.8-篇章小测.html">
+            
+                    
+                    4.8-篇章小测
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            Published with HonKit
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >4.6-生成任务-机器翻译</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p>本文涉及的jupter notebook在<a href="https://github.com/datawhalechina/learn-nlp-with-transformers/tree/main/docs/%E7%AF%87%E7%AB%A04-%E4%BD%BF%E7%94%A8Transformers%E8%A7%A3%E5%86%B3NLP%E4%BB%BB%E5%8A%A1" target="_blank">篇章4代码库中</a>。</p>
+<p>建议直接使用google colab notebook打开本教程，可以快速下载相关数据集和模型。
+如果您正在google的colab中打开这个notebook，您可能需要安装Transformers和🤗Datasets库。将以下命令取消注释即可安装。</p>
+<pre><code class="lang-python">! pip install datasets transformers <span class="hljs-string">"sacrebleu&gt;=1.4.12,&lt;2.0.0"</span> sentencepiece
+</code></pre>
+<p>如果您正在本地打开这个notebook，请确保您认真阅读并安装了transformer-quick-start-zh的readme文件中的所有依赖库。您也可以在<a href="https://github.com/huggingface/transformers/tree/master/examples/seq2seq" target="_blank">这里</a>找到本notebook的多GPU分布式训练版本。</p>
+<h1 id="微调transformer模型解决翻译任务">微调transformer模型解决翻译任务</h1>
+<p>在这个notebook中，我们将展示如何使用<a href="https://github.com/huggingface/transformers" target="_blank">🤗 Transformers</a>代码库中的模型来解决自然语言处理中的翻译任务。我们将会使用<a href="http://www.statmt.org/wmt16/" target="_blank">WMT dataset</a>数据集。这是翻译任务最常用的数据集之一。</p>
+<p>下面展示了一个例子：</p>
+<p><img src="https://github.com/huggingface/notebooks/blob/master/examples/images/translation.png?raw=1" alt="Widget inference on a translation task"></img></p>
+<p>对于翻译任务，我们将展示如何使用简单的加载数据集，同时针对相应的仍无使用transformer中的Trainer接口对模型进行微调。</p>
+<pre><code class="lang-python">model_checkpoint = <span class="hljs-string">"Helsinki-NLP/opus-mt-en-ro"</span> 
+<span class="hljs-comment"># 选择一个模型checkpoint</span>
+</code></pre>
+<p>只要预训练的transformer模型包含seq2seq结构的head层，那么本notebook理论上可以使用各种各样的transformer模型<a href="https://huggingface.co/models" target="_blank">模型面板</a>，解决任何翻译任务。</p>
+<p>本文我们使用已经训练好的<a href="https://huggingface.co/Helsinki-NLP/opus-mt-en-ro" target="_blank"><code>Helsinki-NLP/opus-mt-en-ro</code></a> checkpoint来做翻译任务。 </p>
+<h2 id="加载数据">加载数据</h2>
+<p>我们将会使用🤗 Datasets库来加载数据和对应的评测方式。数据加载和评测方式加载只需要简单使用load_dataset和load_metric即可。我们使用WMT数据集中的English/Romanian双语翻译。</p>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset, load_metric
+
+raw_datasets = load_dataset(<span class="hljs-string">"wmt16"</span>, <span class="hljs-string">"ro-en"</span>)
+metric = load_metric(<span class="hljs-string">"sacrebleu"</span>)
+</code></pre>
+<pre><code>Downloading: 2.81kB [00:00, 523kB/s]                    
+Downloading: 3.19kB [00:00, 758kB/s]                    
+Downloading: 41.0kB [00:00, 11.0MB/s]                   
+
+
+Downloading and preparing dataset wmt16/ro-en (download: Unknown size, generated: Unknown size, post-processed: Unknown size, total: Unknown size) to /Users/niepig/.cache/huggingface/datasets/wmt16/ro-en/1.0.0/0d9fb3e814712c785176ad8cdb9f465fbe6479000ee6546725db30ad8a8b5f8a...
+
+
+Downloading: 100%|██████████| 225M/225M [00:18&lt;00:00, 12.2MB/s]
+Downloading: 100%|██████████| 23.5M/23.5M [00:16&lt;00:00, 1.44MB/s]
+Downloading: 100%|██████████| 38.7M/38.7M [00:03&lt;00:00, 9.82MB/s]
+
+
+Dataset wmt16 downloaded and prepared to /Users/niepig/.cache/huggingface/datasets/wmt16/ro-en/1.0.0/0d9fb3e814712c785176ad8cdb9f465fbe6479000ee6546725db30ad8a8b5f8a. Subsequent calls will reuse this data.
+
+
+Downloading: 5.40kB [00:00, 2.08MB/s]                   
+</code></pre><p>这个datasets对象本身是一种<a href="https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasetdict" target="_blank"><code>DatasetDict</code></a>数据结构. 对于训练集、验证集和测试集，只需要使用对应的key（train，validation，test）即可得到相应的数据。</p>
+<pre><code class="lang-python">raw_datasets
+</code></pre>
+<pre><code>DatasetDict({
+    train: Dataset({
+        features: ['translation'],
+        num_rows: 610320
+    })
+    validation: Dataset({
+        features: ['translation'],
+        num_rows: 1999
+    })
+    test: Dataset({
+        features: ['translation'],
+        num_rows: 1999
+    })
+})
+</code></pre><p>给定一个数据切分的key（train、validation或者test）和下标即可查看数据。</p>
+<pre><code class="lang-python">raw_datasets[<span class="hljs-string">"train"</span>][<span class="hljs-number">0</span>]
+<span class="hljs-comment"># 我们可以看到一句英语en对应一句罗马尼亚语言ro</span>
+</code></pre>
+<pre><code>{'translation': {'en': 'Membership of Parliament: see Minutes',
+  'ro': 'Componenţa Parlamentului: a se vedea procesul-verbal'}}
+</code></pre><p>为了能够进一步理解数据长什么样子，下面的函数将从数据集里随机选择几个例子进行展示。</p>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> datasets
+<span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">from</span> IPython.display <span class="hljs-keyword">import</span> display, HTML
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">show_random_elements</span>(<span class="hljs-params">dataset, num_examples=<span class="hljs-number">5</span></span>):
+    <span class="hljs-keyword">assert</span> num_examples &lt;= <span class="hljs-built_in">len</span>(dataset), <span class="hljs-string">"Can't pick more elements than there are in the dataset."</span>
+    picks = []
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_examples):
+        pick = random.randint(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(dataset)-<span class="hljs-number">1</span>)
+        <span class="hljs-keyword">while</span> pick <span class="hljs-keyword">in</span> picks:
+            pick = random.randint(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(dataset)-<span class="hljs-number">1</span>)
+        picks.append(pick)
+
+    df = pd.DataFrame(dataset[picks])
+    <span class="hljs-keyword">for</span> column, typ <span class="hljs-keyword">in</span> dataset.features.items():
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(typ, datasets.ClassLabel):
+            df[column] = df[column].transform(<span class="hljs-keyword">lambda</span> i: typ.names[i])
+    display(HTML(df.to_html()))
+</code></pre>
+<pre><code class="lang-python">show_random_elements(raw_datasets[<span class="hljs-string">"train"</span>])
+</code></pre>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>translation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>{'en': 'I do not believe that this is the right course.', 'ro': 'Nu cred că acesta este varianta corectă.'}</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>{'en': 'A total of 104 new jobs were created at the European Chemicals Agency, which mainly supervises our REACH projects.', 'ro': 'Un total de 104 noi locuri de muncă au fost create la Agenția Europeană pentru Produse Chimice, care, în special, supraveghează proiectele noastre REACH.'}</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>{'en': 'In view of the above, will the Council say what stage discussions for Turkish participation in joint Frontex operations have reached?', 'ro': 'Care este stadiul negocierilor referitoare la participarea Turciei la operațiunile comune din cadrul Frontex?'}</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>{'en': 'We now fear that if the scope of this directive is expanded, the directive will suffer exactly the same fate as the last attempt at introducing 'Made in' origin marking - in other words, that it will once again be blocked by the Council.', 'ro': 'Acum ne temem că, dacă sfera de aplicare a directivei va fi extinsă, aceasta va avea exact aceeaşi soartă ca ultima încercare de introducere a marcajului de origine "Made in”, cu alte cuvinte, că va fi din nou blocată la Consiliu.'}</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>{'en': 'The country dropped nine slots to 85th, with a score of 6.58.', 'ro': 'Ţara a coborât nouă poziţii, pe locul 85, cu un scor de 6,58.'}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<p>metric是<a href="https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasets.Metric" target="_blank"><code>datasets.Metric</code></a>类的一个实例，查看metric和使用的例子:</p>
+<pre><code class="lang-python">metric
+</code></pre>
+<pre><code>Metric(name: "sacrebleu", features: {'predictions': Value(dtype='string', id='sequence'), 'references': Sequence(feature=Value(dtype='string', id='sequence'), length=-1, id='references')}, usage: """
+Produces BLEU scores along with its sufficient statistics
+from a source against one or more references.
+
+Args:
+    predictions: The system stream (a sequence of segments)
+    references: A list of one or more reference streams (each a sequence of segments)
+    smooth: The smoothing method to use
+    smooth_value: For 'floor' smoothing, the floor to use
+    force: Ignore data that looks already tokenized
+    lowercase: Lowercase the data
+    tokenize: The tokenizer to use
+Returns:
+    'score': BLEU score,
+    'counts': Counts,
+    'totals': Totals,
+    'precisions': Precisions,
+    'bp': Brevity penalty,
+    'sys_len': predictions length,
+    'ref_len': reference length,
+Examples:
+
+    &gt;&gt;&gt; predictions = ["hello there general kenobi", "foo bar foobar"]
+    &gt;&gt;&gt; references = [["hello there general kenobi", "hello there !"], ["foo bar foobar", "foo bar foobar"]]
+    &gt;&gt;&gt; sacrebleu = datasets.load_metric("sacrebleu")
+    &gt;&gt;&gt; results = sacrebleu.compute(predictions=predictions, references=references)
+    &gt;&gt;&gt; print(list(results.keys()))
+    ['score', 'counts', 'totals', 'precisions', 'bp', 'sys_len', 'ref_len']
+    &gt;&gt;&gt; print(round(results["score"], 1))
+    100.0
+""", stored examples: 0)
+</code></pre><p>我们使用<code>compute</code>方法来对比predictions和labels，从而计算得分。predictions和labels都需要是一个list。具体格式见下面的例子：</p>
+<pre><code class="lang-python">fake_preds = [<span class="hljs-string">"hello there"</span>, <span class="hljs-string">"general kenobi"</span>]
+fake_labels = [[<span class="hljs-string">"hello there"</span>], [<span class="hljs-string">"general kenobi"</span>]]
+metric.compute(predictions=fake_preds, references=fake_labels)
+</code></pre>
+<pre><code>{'score': 0.0,
+ 'counts': [4, 2, 0, 0],
+ 'totals': [4, 2, 0, 0],
+ 'precisions': [100.0, 100.0, 0.0, 0.0],
+ 'bp': 1.0,
+ 'sys_len': 4,
+ 'ref_len': 4}
+</code></pre><h2 id="数据预处理">数据预处理</h2>
+<p>在将数据喂入模型之前，我们需要对数据进行预处理。预处理的工具叫Tokenizer。Tokenizer首先对输入进行tokenize，然后将tokens转化为预模型中需要对应的token ID，再转化为模型需要的输入格式。</p>
+<p>为了达到数据预处理的目的，我们使用AutoTokenizer.from_pretrained方法实例化我们的tokenizer，这样可以确保：</p>
+<ul>
+<li>我们得到一个与预训练模型一一对应的tokenizer。</li>
+<li>使用指定的模型checkpoint对应的tokenizer的时候，我们也下载了模型需要的词表库vocabulary，准确来说是tokens vocabulary。</li>
+</ul>
+<p>这个被下载的tokens vocabulary会被缓存起来，从而再次使用的时候不会重新下载。</p>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoTokenizer
+<span class="hljs-comment"># 需要安装`sentencepiece`： pip install sentencepiece</span>
+
+tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+</code></pre>
+<pre><code>Downloading: 100%|██████████| 1.13k/1.13k [00:00&lt;00:00, 466kB/s]
+Downloading: 100%|██████████| 789k/789k [00:00&lt;00:00, 882kB/s]
+Downloading: 100%|██████████| 817k/817k [00:00&lt;00:00, 902kB/s]
+Downloading: 100%|██████████| 1.39M/1.39M [00:01&lt;00:00, 1.24MB/s]
+Downloading: 100%|██████████| 42.0/42.0 [00:00&lt;00:00, 14.6kB/s]
+</code></pre><p>以我们使用的mBART模型为例，我们需要正确设置source语言和target语言。如果您要翻译的是其他双语语料，请查看<a href="https://huggingface.co/facebook/mbart-large-cc25" target="_blank">这里</a>。我们可以检查source和target语言的设置：</p>
+<pre><code class="lang-python"><span class="hljs-keyword">if</span> <span class="hljs-string">"mbart"</span> <span class="hljs-keyword">in</span> model_checkpoint:
+    tokenizer.src_lang = <span class="hljs-string">"en-XX"</span>
+    tokenizer.tgt_lang = <span class="hljs-string">"ro-RO"</span>
+</code></pre>
+<p>tokenizer既可以对单个文本进行预处理，也可以对一对文本进行预处理，tokenizer预处理后得到的数据满足预训练模型输入格式</p>
+<pre><code class="lang-python">tokenizer(<span class="hljs-string">"Hello, this one sentence!"</span>)
+</code></pre>
+<pre><code>{'input_ids': [125, 778, 3, 63, 141, 9191, 23, 0], 'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1]}
+</code></pre><p>上面看到的token IDs也就是input_ids一般来说随着预训练模型名字的不同而有所不同。原因是不同的预训练模型在预训练的时候设定了不同的规则。但只要tokenizer和model的名字一致，那么tokenizer预处理的输入格式就会满足model需求的。关于预处理更多内容参考<a href="https://huggingface.co/transformers/preprocessing.html" target="_blank">这个教程</a></p>
+<p>除了可以tokenize一句话，我们也可以tokenize一个list的句子。</p>
+<pre><code class="lang-python">tokenizer([<span class="hljs-string">"Hello, this one sentence!"</span>, <span class="hljs-string">"This is another sentence."</span>])
+</code></pre>
+<pre><code>{'input_ids': [[125, 778, 3, 63, 141, 9191, 23, 0], [187, 32, 716, 9191, 2, 0]], 'attention_mask': [[1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1]]}
+</code></pre><p>注意：为了给模型准备好翻译的targets，我们使用<code>as_target_tokenizer</code>来控制targets所对应的特殊token：</p>
+<pre><code class="lang-python"><span class="hljs-keyword">with</span> tokenizer.as_target_tokenizer():
+    <span class="hljs-built_in">print</span>(tokenizer(<span class="hljs-string">"Hello, this one sentence!"</span>))
+    model_input = tokenizer(<span class="hljs-string">"Hello, this one sentence!"</span>)
+    tokens = tokenizer.convert_ids_to_tokens(model_input[<span class="hljs-string">'input_ids'</span>])
+    <span class="hljs-comment"># 打印看一下special toke</span>
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">'tokens: {}'</span>.<span class="hljs-built_in">format</span>(tokens))
+</code></pre>
+<pre><code>{'input_ids': [10334, 1204, 3, 15, 8915, 27, 452, 59, 29579, 581, 23, 0], 'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+tokens: ['▁Hel', 'lo', ',', '▁', 'this', '▁o', 'ne', '▁se', 'nten', 'ce', '!', '&lt;/s&gt;']
+</code></pre><p>如果您使用的是T5预训练模型的checkpoints，需要对特殊的前缀进行检查。T5使用特殊的前缀来告诉模型具体要做的任务，具体前缀例子如下：</p>
+<pre><code class="lang-python"><span class="hljs-keyword">if</span> model_checkpoint <span class="hljs-keyword">in</span> [<span class="hljs-string">"t5-small"</span>, <span class="hljs-string">"t5-base"</span>, <span class="hljs-string">"t5-larg"</span>, <span class="hljs-string">"t5-3b"</span>, <span class="hljs-string">"t5-11b"</span>]:
+    prefix = <span class="hljs-string">"translate English to Romanian: "</span>
+<span class="hljs-keyword">else</span>:
+    prefix = <span class="hljs-string">""</span>
+</code></pre>
+<p>现在我们可以把所有内容放在一起组成我们的预处理函数了。我们对样本进行预处理的时候，我们还会<code>truncation=True</code>这个参数来确保我们超长的句子被截断。默认情况下，对与比较短的句子我们会自动padding。</p>
+<pre><code class="lang-python">max_input_length = <span class="hljs-number">128</span>
+max_target_length = <span class="hljs-number">128</span>
+source_lang = <span class="hljs-string">"en"</span>
+target_lang = <span class="hljs-string">"ro"</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">preprocess_function</span>(<span class="hljs-params">examples</span>):
+    inputs = [prefix + ex[source_lang] <span class="hljs-keyword">for</span> ex <span class="hljs-keyword">in</span> examples[<span class="hljs-string">"translation"</span>]]
+    targets = [ex[target_lang] <span class="hljs-keyword">for</span> ex <span class="hljs-keyword">in</span> examples[<span class="hljs-string">"translation"</span>]]
+    model_inputs = tokenizer(inputs, max_length=max_input_length, truncation=<span class="hljs-literal">True</span>)
+
+    <span class="hljs-comment"># Setup the tokenizer for targets</span>
+    <span class="hljs-keyword">with</span> tokenizer.as_target_tokenizer():
+        labels = tokenizer(targets, max_length=max_target_length, truncation=<span class="hljs-literal">True</span>)
+
+    model_inputs[<span class="hljs-string">"labels"</span>] = labels[<span class="hljs-string">"input_ids"</span>]
+    <span class="hljs-keyword">return</span> model_inputs
+</code></pre>
+<p>以上的预处理函数可以处理一个样本，也可以处理多个样本exapmles。如果是处理多个样本，则返回的是多个样本被预处理之后的结果list。</p>
+<pre><code class="lang-python">preprocess_function(raw_datasets[<span class="hljs-string">'train'</span>][:<span class="hljs-number">2</span>])
+</code></pre>
+<pre><code>{'input_ids': [[393, 4462, 14, 1137, 53, 216, 28636, 0], [24385, 14, 28636, 14, 4646, 4622, 53, 216, 28636, 0]], 'attention_mask': [[1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]], 'labels': [[42140, 494, 1750, 53, 8, 59, 903, 3543, 9, 15202, 0], [36199, 6612, 9, 15202, 122, 568, 35788, 21549, 53, 8, 59, 903, 3543, 9, 15202, 0]]}
+</code></pre><p>接下来对数据集datasets里面的所有样本进行预处理，处理的方式是使用map函数，将预处理函数prepare_train_features应用到（map)所有样本上。</p>
+<pre><code class="lang-python">tokenized_datasets = raw_datasets.<span class="hljs-built_in">map</span>(preprocess_function, batched=<span class="hljs-literal">True</span>)
+</code></pre>
+<pre><code>100%|██████████| 611/611 [02:32&lt;00:00,  3.99ba/s]
+100%|██████████| 2/2 [00:00&lt;00:00,  3.76ba/s]
+100%|██████████| 2/2 [00:00&lt;00:00,  3.89ba/s]
+</code></pre><p>更好的是，返回的结果会自动被缓存，避免下次处理的时候重新计算（但是也要注意，如果输入有改动，可能会被缓存影响！）。datasets库函数会对输入的参数进行检测，判断是否有变化，如果没有变化就使用缓存数据，如果有变化就重新处理。但如果输入参数不变，想改变输入的时候，最好清理调这个缓存。清理的方式是使用<code>load_from_cache_file=False</code>参数。另外，上面使用到的<code>batched=True</code>这个参数是tokenizer的特点，以为这会使用多线程同时并行对输入进行处理。</p>
+<h2 id="微调transformer模型">微调transformer模型</h2>
+<p>既然数据已经准备好了，现在我们需要下载并加载我们的预训练模型，然后微调预训练模型。既然我们是做seq2seq任务，那么我们需要一个能解决这个任务的模型类。我们使用<code>AutoModelForSeq2SeqLM</code>这个类。和tokenizer相似，<code>from_pretrained</code>方法同样可以帮助我们下载并加载模型，同时也会对模型进行缓存，就不会重复下载模型啦。</p>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoModelForSeq2SeqLM, DataCollatorForSeq2Seq, Seq2SeqTrainingArguments, Seq2SeqTrainer
+
+model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
+</code></pre>
+<pre><code>Downloading: 100%|██████████| 301M/301M [00:19&lt;00:00, 15.1MB/s]
+</code></pre><p>由于我们微调的任务是机器翻译，而我们加载的是预训练的seq2seq模型，所以不会提示我们加载模型的时候扔掉了一些不匹配的神经网络参数（比如：预训练语言模型的神经网络head被扔掉了，同时随机初始化了机器翻译的神经网络head）。</p>
+<p>为了能够得到一个<code>Seq2SeqTrainer</code>训练工具，我们还需要3个要素，其中最重要的是训练的设定/参数<a href="https://huggingface.co/transformers/main_classes/trainer.html#transformers.Seq2SeqTrainingArguments" target="_blank"><code>Seq2SeqTrainingArguments</code></a>。这个训练设定包含了能够定义训练过程的所有属性</p>
+<pre><code class="lang-python">batch_size = <span class="hljs-number">16</span>
+args = Seq2SeqTrainingArguments(
+    <span class="hljs-string">"test-translation"</span>,
+    evaluation_strategy = <span class="hljs-string">"epoch"</span>,
+    learning_rate=<span class="hljs-number">2e-5</span>,
+    per_device_train_batch_size=batch_size,
+    per_device_eval_batch_size=batch_size,
+    weight_decay=<span class="hljs-number">0.01</span>,
+    save_total_limit=<span class="hljs-number">3</span>,
+    num_train_epochs=<span class="hljs-number">1</span>,
+    predict_with_generate=<span class="hljs-literal">True</span>,
+    fp16=<span class="hljs-literal">False</span>,
+)
+</code></pre>
+<p>上面evaluation_strategy = "epoch"参数告诉训练代码：我们每个epcoh会做一次验证评估。</p>
+<p>上面batch_size在这个notebook之前定义好了。</p>
+<p>由于我们的数据集比较大，同时<code>Seq2SeqTrainer</code>会不断保存模型，所以我们需要告诉它至多保存<code>save_total_limit=3</code>个模型。</p>
+<p>最后我们需要一个数据收集器data collator，将我们处理好的输入喂给模型。</p>
+<pre><code class="lang-python">data_collator = DataCollatorForSeq2Seq(tokenizer, model=model)
+</code></pre>
+<p>设置好<code>Seq2SeqTrainer</code>还剩最后一件事情，那就是我们需要定义好评估方法。我们使用<code>metric</code>来完成评估。将模型预测送入评估之前，我们也会做一些数据后处理：</p>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">postprocess_text</span>(<span class="hljs-params">preds, labels</span>):
+    preds = [pred.strip() <span class="hljs-keyword">for</span> pred <span class="hljs-keyword">in</span> preds]
+    labels = [[label.strip()] <span class="hljs-keyword">for</span> label <span class="hljs-keyword">in</span> labels]
+
+    <span class="hljs-keyword">return</span> preds, labels
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">compute_metrics</span>(<span class="hljs-params">eval_preds</span>):
+    preds, labels = eval_preds
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(preds, <span class="hljs-built_in">tuple</span>):
+        preds = preds[<span class="hljs-number">0</span>]
+    decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=<span class="hljs-literal">True</span>)
+
+    <span class="hljs-comment"># Replace -100 in the labels as we can't decode them.</span>
+    labels = np.where(labels != -<span class="hljs-number">100</span>, labels, tokenizer.pad_token_id)
+    decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=<span class="hljs-literal">True</span>)
+
+    <span class="hljs-comment"># Some simple post-processing</span>
+    decoded_preds, decoded_labels = postprocess_text(decoded_preds, decoded_labels)
+
+    result = metric.compute(predictions=decoded_preds, references=decoded_labels)
+    result = {<span class="hljs-string">"bleu"</span>: result[<span class="hljs-string">"score"</span>]}
+
+    prediction_lens = [np.count_nonzero(pred != tokenizer.pad_token_id) <span class="hljs-keyword">for</span> pred <span class="hljs-keyword">in</span> preds]
+    result[<span class="hljs-string">"gen_len"</span>] = np.mean(prediction_lens)
+    result = {k: <span class="hljs-built_in">round</span>(v, <span class="hljs-number">4</span>) <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> result.items()}
+    <span class="hljs-keyword">return</span> result
+</code></pre>
+<p>最后将所有的参数/数据/模型传给<code>Seq2SeqTrainer</code>即可</p>
+<pre><code class="lang-python">trainer = Seq2SeqTrainer(
+    model,
+    args,
+    train_dataset=tokenized_datasets[<span class="hljs-string">"train"</span>],
+    eval_dataset=tokenized_datasets[<span class="hljs-string">"validation"</span>],
+    data_collator=data_collator,
+    tokenizer=tokenizer,
+    compute_metrics=compute_metrics
+)
+</code></pre>
+<p>调用<code>train</code>方法进行微调训练。</p>
+<pre><code class="lang-python">trainer.train()
+</code></pre>
+<p>最后别忘了，查看如何上传模型 ，上传模型到](<a href="https://huggingface.co/transformers/model_sharing.html" target="_blank">https://huggingface.co/transformers/model_sharing.html</a>) 到<a href="https://huggingface.co/models" target="_blank">🤗 Model Hub</a>。随后您就可以像这个notebook一开始一样，直接用模型名字就能使用您的模型啦。</p>
+<pre><code class="lang-python">
+
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="4.5-生成任务-语言模型.html" class="navigation navigation-prev " aria-label="Previous page: 4.5-生成任务-语言模型">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="4.7-生成任务-摘要生成.html" class="navigation navigation-next " aria-label="Next page: 4.7-生成任务-摘要生成">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"4.6-生成任务-机器翻译","level":"4.8","depth":1,"next":{"title":"4.7-生成任务-摘要生成","level":"4.9","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.7-生成任务-摘要生成.md","ref":"./篇章4-使用Transformers解决NLP任务/4.7-生成任务-摘要生成.md","articles":[]},"previous":{"title":"4.5-生成任务-语言模型","level":"4.7","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.5-生成任务-语言模型.md","ref":"./篇章4-使用Transformers解决NLP任务/4.5-生成任务-语言模型.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"篇章4-使用Transformers解决NLP任务/4.6-生成任务-机器翻译.md","mtime":"2024-08-23T15:34:37.404Z","type":"markdown"},"gitbook":{"version":"5.1.4","time":"2024-08-23T15:50:04.957Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

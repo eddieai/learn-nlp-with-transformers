@@ -32,6 +32,7 @@ Natural Language Processing with transformers.
 * [1.1-Transformers在NLP中的兴起](./篇章1-前言/1.1-Transformers在NLP中的兴起.md)
 
 ## 篇章2-Transformer相关原理
+* [2.0-前言](./篇章2-Transformer相关原理/2.0-前言.md)
 * [2.1-图解attention](./篇章2-Transformer相关原理/2.1-图解attention.md)
 * [2.2-图解transformer](./篇章2-Transformer相关原理/2.2-图解transformer.md)
 * [2.2.1-Pytorch编写Transformer.md](./篇章2-Transformer相关原理/2.2.1-Pytorch编写Transformer.md)
@@ -47,6 +48,7 @@ Natural Language Processing with transformers.
 
 ## 篇章4-使用Transformers解决NLP任务
 * [4.0-前言](./篇章4-使用Transformers解决NLP任务/4.0-前言.md)
+* [4.0-基于HuggingFace-Transformers的预训练模型微调](./篇章4-使用Transformers解决NLP任务/4.0-基于HuggingFace-Transformers的预训练模型微调.md)
 * [4.1-文本分类](./篇章4-使用Transformers解决NLP任务/4.1-文本分类.md)
 * [4.2-序列标注](./篇章4-使用Transformers解决NLP任务/4.2-序列标注.md)
 * [4.3-问答任务-抽取式问答](./篇章4-使用Transformers解决NLP任务/4.3-问答任务-抽取式问答.md)

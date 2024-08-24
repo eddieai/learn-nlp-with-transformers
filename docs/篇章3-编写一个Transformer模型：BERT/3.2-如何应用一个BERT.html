@@ -1,0 +1,1763 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <title>3.2-如何应用一个BERT · HonKit</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 5.1.4">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="3.3-篇章小测.html" />
+    
+    
+    <link rel="prev" href="3.1-如何实现一个BERT.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">篇章1-前言</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../篇章1-前言/1.0-本地阅读和代码运行环境配置.html">
+            
+                <a href="../篇章1-前言/1.0-本地阅读和代码运行环境配置.html">
+            
+                    
+                    1.0-本地阅读和代码运行环境配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../篇章1-前言/1.1-Transformers在NLP中的兴起.html">
+            
+                <a href="../篇章1-前言/1.1-Transformers在NLP中的兴起.html">
+            
+                    
+                    1.1-Transformers在NLP中的兴起
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">篇章2-Transformer相关原理</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../篇章2-Transformer相关原理/2.0-前言.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.0-前言.html">
+            
+                    
+                    2.0-前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../篇章2-Transformer相关原理/2.1-图解attention.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.1-图解attention.html">
+            
+                    
+                    2.1-图解attention
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../篇章2-Transformer相关原理/2.2-图解transformer.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.2-图解transformer.html">
+            
+                    
+                    2.2-图解transformer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../篇章2-Transformer相关原理/2.2.1-Pytorch编写Transformer.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.2.1-Pytorch编写Transformer.html">
+            
+                    
+                    2.2.1-Pytorch编写Transformer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../篇章2-Transformer相关原理/2.2.1-Pytorch编写Transformer-选读.md">
+            
+                <span>
+            
+                    
+                    2.2.2-Pytorch编写Transformer-选读
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../篇章2-Transformer相关原理/2.3-图解BERT.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.3-图解BERT.html">
+            
+                    
+                    2.3-图解BERT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="../篇章2-Transformer相关原理/2.4-图解GPT.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.4-图解GPT.html">
+            
+                    
+                    2.4-图解GPT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="../篇章2-Transformer相关原理/2.5-篇章小测.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.5-篇章小测.html">
+            
+                    
+                    2.5-篇章小测
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">篇章3-编写一个Transformer模型：BERT</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="3.1-如何实现一个BERT.html">
+            
+                <a href="3.1-如何实现一个BERT.html">
+            
+                    
+                    3.1-如何实现一个BERT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.2" data-path="3.2-如何应用一个BERT.html">
+            
+                <a href="3.2-如何应用一个BERT.html">
+            
+                    
+                    3.2-如何应用一个BERT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="3.3-篇章小测.html">
+            
+                <a href="3.3-篇章小测.html">
+            
+                    
+                    3.3-篇章小测
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">篇章4-使用Transformers解决NLP任务</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../篇章4-使用Transformers解决NLP任务/4.0-前言.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.0-前言.html">
+            
+                    
+                    4.0-前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../篇章4-使用Transformers解决NLP任务/4.0-基于HuggingFace-Transformers的预训练模型微调.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.0-基于HuggingFace-Transformers的预训练模型微调.html">
+            
+                    
+                    4.0-基于HuggingFace-Transformers的预训练模型微调
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../篇章4-使用Transformers解决NLP任务/4.1-文本分类.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.1-文本分类.html">
+            
+                    
+                    4.1-文本分类
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../篇章4-使用Transformers解决NLP任务/4.2-序列标注.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.2-序列标注.html">
+            
+                    
+                    4.2-序列标注
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="../篇章4-使用Transformers解决NLP任务/4.3-问答任务-抽取式问答.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.3-问答任务-抽取式问答.html">
+            
+                    
+                    4.3-问答任务-抽取式问答
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" data-path="../篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.html">
+            
+                    
+                    4.4-问答任务-多选问答
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" data-path="../篇章4-使用Transformers解决NLP任务/4.5-生成任务-语言模型.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.5-生成任务-语言模型.html">
+            
+                    
+                    4.5-生成任务-语言模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.8" data-path="../篇章4-使用Transformers解决NLP任务/4.6-生成任务-机器翻译.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.6-生成任务-机器翻译.html">
+            
+                    
+                    4.6-生成任务-机器翻译
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.9" data-path="../篇章4-使用Transformers解决NLP任务/4.7-生成任务-摘要生成.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.7-生成任务-摘要生成.html">
+            
+                    
+                    4.7-生成任务-摘要生成
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.10" data-path="../篇章4-使用Transformers解决NLP任务/4.8-篇章小测.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.8-篇章小测.html">
+            
+                    
+                    4.8-篇章小测
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            Published with HonKit
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >3.2-如何应用一个BERT</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="前言">前言</h2>
+<p>接着上一小节，我们对Huggingface开源代码库中的Bert模型进行了深入学习，这一节我们对如何应用BERT进行详细的讲解。</p>
+<p>涉及到的jupyter可以在<a href="https://github.com/datawhalechina/learn-nlp-with-transformers/tree/main/docs/%E7%AF%87%E7%AB%A03-%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AATransformer%E6%A8%A1%E5%9E%8B%EF%BC%9ABERT" target="_blank">代码库：篇章3-编写一个Transformer模型：BERT，下载</a></p>
+<p>本文基于 Transformers 版本 4.4.2（2021 年 3 月 19 日发布）项目中，pytorch 版的 BERT 相关代码，从代码结构、具体实现与原理，以及使用的角度进行分析，包含以下内容：</p>
+<ol>
+<li>BERT-based Models应用模型</li>
+<li>BERT训练和优化</li>
+<li>Bert解决NLP任务<ul>
+<li>BertForSequenceClassification</li>
+<li>BertForMultiChoice</li>
+<li>BertForTokenClassification</li>
+<li>BertForQuestionAnswering</li>
+</ul>
+</li>
+<li>BERT训练与优化</li>
+<li>Pre-Training<ul>
+<li>Fine-Tuning</li>
+<li>AdamW</li>
+<li>Warmup</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-bert-based-models">3-BERT-based Models</h2>
+<p>基于 BERT 的模型都写在/models/bert/modeling_bert.py里面，包括 BERT 预训练模型和 BERT 分类等模型。</p>
+<p>首先，以下所有的模型都是基于<code>BertPreTrainedModel</code>这一抽象基类的，而后者则基于一个更大的基类<code>PreTrainedModel</code>。这里我们关注<code>BertPreTrainedModel</code>的功能：</p>
+<p>用于初始化模型权重，同时维护继承自<code>PreTrainedModel</code>的一些标记身份或者加载模型时的类变量。
+下面，首先从预训练模型开始分析。</p>
+<hr></hr>
+<h3 id="31-bertforpretraining">3.1 BertForPreTraining</h3>
+<p>众所周知，BERT 预训练任务包括两个：</p>
+<ul>
+<li>Masked Language Model（MLM）：在句子中随机用<code>[MASK]</code>替换一部分单词，然后将句子传入 BERT 中编码每一个单词的信息，最终用<code>[MASK]</code>的编码信息预测该位置的正确单词，这一任务旨在训练模型根据上下文理解单词的意思；</li>
+<li>Next Sentence Prediction（NSP）：将句子对 A 和 B 输入 BERT，使用<code>[CLS]</code>的编码信息进行预测 B 是否 A 的下一句，这一任务旨在训练模型理解预测句子间的关系。</li>
+</ul>
+<p><img src="pictures/3-3-bert-lm.png" alt="图Bert预训练"></img> 图Bert预训练</p>
+<p>而对应到代码中，这一融合两个任务的模型就是BertForPreTraining，其中包含两个组件：</p>
+<pre><code>class BertForPreTraining(BertPreTrainedModel):
+    def __init__(self, config):
+        super().__init__(config)
+
+        self.bert = BertModel(config)
+        self.cls = BertPreTrainingHeads(config)
+
+        self.init_weights()
+    # ...
+</code></pre><p>这里的BertModel在上一章节中已经详细介绍了（注意，这里设置的是默认<code>add_pooling_layer=True</code>，即会提取<code>[CLS]</code>对应的输出用于 NSP 任务），而<code>BertPreTrainingHeads</code>则是负责两个任务的预测模块：</p>
+<pre><code>class BertPreTrainingHeads(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.predictions = BertLMPredictionHead(config)
+        self.seq_relationship = nn.Linear(config.hidden_size, 2)
+
+    def forward(self, sequence_output, pooled_output):
+        prediction_scores = self.predictions(sequence_output)
+        seq_relationship_score = self.seq_relationship(pooled_output)
+        return prediction_scores, seq_relationship_score
+</code></pre><p>又是一层封装：<code>BertPreTrainingHeads</code>包裹了<code>BertLMPredictionHead</code> 和一个代表 NSP 任务的线性层。这里不把 NSP 对应的任务也封装一个<code>BertXXXPredictionHead</code>。</p>
+<p><strong>其实是有封装这个类的，不过它叫做BertOnlyNSPHead，在这里用不上</strong></p>
+<p>继续下探<code>BertPreTrainingHeads</code>：</p>
+<pre><code>class BertLMPredictionHead(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.transform = BertPredictionHeadTransform(config)
+
+        # The output weights are the same as the input embeddings, but there is
+        # an output-only bias for each token.
+        self.decoder = nn.Linear(config.hidden_size, config.vocab_size, bias=False)
+
+        self.bias = nn.Parameter(torch.zeros(config.vocab_size))
+
+        # Need a link between the two variables so that the bias is correctly resized with `resize_token_embeddings`
+        self.decoder.bias = self.bias
+
+    def forward(self, hidden_states):
+        hidden_states = self.transform(hidden_states)
+        hidden_states = self.decoder(hidden_states)
+        return hidden_states
+</code></pre><p>这个类用于预测<code>[MASK]</code>位置的输出在每个词作为类别的分类输出，注意到：</p>
+<ul>
+<li>该类重新初始化了一个全 0 向量作为预测权重的 bias；</li>
+<li>该类的输出形状为[batch_size, seq_length, vocab_size]，即预测每个句子每个词是什么类别的概率值（注意这里没有做 softmax）；</li>
+<li><p>又一个封装的类：BertPredictionHeadTransform，用来完成一些线性变换：</p>
+<pre><code>class BertPredictionHeadTransform(nn.Module):
+  def __init__(self, config):
+      super().__init__()
+      self.dense = nn.Linear(config.hidden_size, config.hidden_size)
+      if isinstance(config.hidden_act, str):
+          self.transform_act_fn = ACT2FN[config.hidden_act]
+      else:
+          self.transform_act_fn = config.hidden_act
+      self.LayerNorm = nn.LayerNorm(config.hidden_size, eps=config.layer_norm_eps)
+
+  def forward(self, hidden_states):
+      hidden_states = self.dense(hidden_states)
+      hidden_states = self.transform_act_fn(hidden_states)
+      hidden_states = self.LayerNorm(hidden_states)
+      return hidden_states
+</code></pre></li>
+</ul>
+<p>回到<code>BertForPreTraining</code>，继续看两块 <code>loss</code> 是怎么处理的。它的前向传播和BertModel的有所不同，多了<code>labels</code>和<code>next_sentence_label</code> 两个输入：</p>
+<ul>
+<li><p>labels：形状为[batch_size, seq_length] ，代表 MLM 任务的标签，注意这里对于原本未被遮盖的词设置为 -100，被遮盖词才会有它们对应的 id，和任务设置是反过来的。</p>
+<ul>
+<li>例如，原始句子是I want to [MASK] an apple，这里我把单词eat给遮住了输入模型，对应的label设置为[-100, -100, -100, 【eat对应的id】, -100, -100]；</li>
+<li>为什么要设置为 -100 而不是其他数？因为torch.nn.CrossEntropyLoss默认的ignore_index=-100，也就是说对于标签为 100 的类别输入不会计算 loss。</li>
+</ul>
+</li>
+<li><p>next_sentence_label：这一个输入很简单，就是 0 和 1 的二分类标签。</p>
+</li>
+</ul>
+<pre><code># ...
+    def forward(
+        self,
+        input_ids=None,
+        attention_mask=None,
+        token_type_ids=None,
+        position_ids=None,
+        head_mask=None,
+        inputs_embeds=None,
+        labels=None,
+        next_sentence_label=None,
+        output_attentions=None,
+        output_hidden_states=None,
+        return_dict=None,
+    ): ...
+</code></pre><p>接下来两部分 loss 的组合：</p>
+<pre><code> # ...
+        total_loss = None
+        if labels is not None and next_sentence_label is not None:
+            loss_fct = CrossEntropyLoss()
+            masked_lm_loss = loss_fct(prediction_scores.view(-1, self.config.vocab_size), labels.view(-1))
+            next_sentence_loss = loss_fct(seq_relationship_score.view(-1, 2), next_sentence_label.view(-1))
+            total_loss = masked_lm_loss + next_sentence_loss
+        # ...
+</code></pre><p>直接相加，就是这么单纯的策略。
+当然，这份代码里面也包含了对于只想对单个目标进行预训练的 BERT 模型（具体细节不作展开）：</p>
+<ul>
+<li>BertForMaskedLM：只进行 MLM 任务的预训练；<ul>
+<li>基于BertOnlyMLMHead，而后者也是对BertLMPredictionHead的另一层封装；</li>
+</ul>
+</li>
+<li>BertLMHeadModel：这个和上一个的区别在于，这一模型是作为 decoder 运行的版本；<ul>
+<li>同样基于BertOnlyMLMHead；</li>
+</ul>
+</li>
+<li>BertForNextSentencePrediction：只进行 NSP 任务的预训练。<ul>
+<li>基于BertOnlyNSPHead，内容就是一个线性层。</li>
+</ul>
+</li>
+</ul>
+<pre><code class="lang-python">_CHECKPOINT_FOR_DOC = <span class="hljs-string">"bert-base-uncased"</span>
+_CONFIG_FOR_DOC = <span class="hljs-string">"BertConfig"</span>
+_TOKENIZER_FOR_DOC = <span class="hljs-string">"BertTokenizer"</span>
+<span class="hljs-keyword">from</span> transformers.models.bert.modeling_bert <span class="hljs-keyword">import</span> *
+<span class="hljs-keyword">from</span> transformers.models.bert.configuration_bert <span class="hljs-keyword">import</span> *
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">BertForPreTraining</span>(<span class="hljs-title class_ inherited__">BertPreTrainedModel</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, config</span>):
+        <span class="hljs-built_in">super</span>().__init__(config)
+
+        <span class="hljs-variable language_">self</span>.bert = BertModel(config)
+        <span class="hljs-variable language_">self</span>.cls = BertPreTrainingHeads(config)
+
+        <span class="hljs-variable language_">self</span>.init_weights()
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_output_embeddings</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.cls.predictions.decoder
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">set_output_embeddings</span>(<span class="hljs-params">self, new_embeddings</span>):
+        <span class="hljs-variable language_">self</span>.cls.predictions.decoder = new_embeddings
+
+<span class="hljs-meta">    @add_start_docstrings_to_model_forward(<span class="hljs-params">BERT_INPUTS_DOCSTRING.<span class="hljs-built_in">format</span>(<span class="hljs-params"><span class="hljs-string">"batch_size, sequence_length"</span></span>)</span>)</span>
+<span class="hljs-meta">    @replace_return_docstrings(<span class="hljs-params">output_type=BertForPreTrainingOutput, config_class=_CONFIG_FOR_DOC</span>)</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">
+        self,
+        input_ids=<span class="hljs-literal">None</span>,
+        attention_mask=<span class="hljs-literal">None</span>,
+        token_type_ids=<span class="hljs-literal">None</span>,
+        position_ids=<span class="hljs-literal">None</span>,
+        head_mask=<span class="hljs-literal">None</span>,
+        inputs_embeds=<span class="hljs-literal">None</span>,
+        labels=<span class="hljs-literal">None</span>,
+        next_sentence_label=<span class="hljs-literal">None</span>,
+        output_attentions=<span class="hljs-literal">None</span>,
+        output_hidden_states=<span class="hljs-literal">None</span>,
+        return_dict=<span class="hljs-literal">None</span>,
+    </span>):
+        <span class="hljs-string">r"""
+        labels (:obj:`torch.LongTensor` of shape ``(batch_size, sequence_length)``, `optional`):
+            Labels for computing the masked language modeling loss. Indices should be in ``[-100, 0, ...,
+            config.vocab_size]`` (see ``input_ids`` docstring) Tokens with indices set to ``-100`` are ignored
+            (masked), the loss is only computed for the tokens with labels in ``[0, ..., config.vocab_size]``
+        next_sentence_label (``torch.LongTensor`` of shape ``(batch_size,)``, `optional`):
+            Labels for computing the next sequence prediction (classification) loss. Input should be a sequence pair
+            (see :obj:`input_ids` docstring) Indices should be in ``[0, 1]``:
+            - 0 indicates sequence B is a continuation of sequence A,
+            - 1 indicates sequence B is a random sequence.
+        kwargs (:obj:`Dict[str, any]`, optional, defaults to `{}`):
+            Used to hide legacy arguments that have been deprecated.
+        Returns:
+        Example::
+from transformers import BertTokenizer, BertForPreTraining
+import torch
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = BertForPreTraining.from_pretrained('bert-base-uncased')
+inputs = tokenizer("Hello, my dog is cute", return_tensors="pt")
+outputs = model(**inputs)
+prediction_logits = outputs.prediction_logits
+seq_relationship_logits = outputs.seq_relationship_logits
+        """</span>
+        return_dict = return_dict <span class="hljs-keyword">if</span> return_dict <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> <span class="hljs-variable language_">self</span>.config.use_return_dict
+
+        outputs = <span class="hljs-variable language_">self</span>.bert(
+            input_ids,
+            attention_mask=attention_mask,
+            token_type_ids=token_type_ids,
+            position_ids=position_ids,
+            head_mask=head_mask,
+            inputs_embeds=inputs_embeds,
+            output_attentions=output_attentions,
+            output_hidden_states=output_hidden_states,
+            return_dict=return_dict,
+        )
+
+        sequence_output, pooled_output = outputs[:<span class="hljs-number">2</span>]
+        prediction_scores, seq_relationship_score = <span class="hljs-variable language_">self</span>.cls(sequence_output, pooled_output)
+
+        total_loss = <span class="hljs-literal">None</span>
+        <span class="hljs-keyword">if</span> labels <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> next_sentence_label <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            loss_fct = CrossEntropyLoss()
+            masked_lm_loss = loss_fct(prediction_scores.view(-<span class="hljs-number">1</span>, <span class="hljs-variable language_">self</span>.config.vocab_size), labels.view(-<span class="hljs-number">1</span>))
+            next_sentence_loss = loss_fct(seq_relationship_score.view(-<span class="hljs-number">1</span>, <span class="hljs-number">2</span>), next_sentence_label.view(-<span class="hljs-number">1</span>))
+            total_loss = masked_lm_loss + next_sentence_loss
+
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> return_dict:
+            output = (prediction_scores, seq_relationship_score) + outputs[<span class="hljs-number">2</span>:]
+            <span class="hljs-keyword">return</span> ((total_loss,) + output) <span class="hljs-keyword">if</span> total_loss <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> output
+
+        <span class="hljs-keyword">return</span> BertForPreTrainingOutput(
+            loss=total_loss,
+            prediction_logits=prediction_scores,
+            seq_relationship_logits=seq_relationship_score,
+            hidden_states=outputs.hidden_states,
+            attentions=outputs.attentions,
+        )
+
+<span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> BertTokenizer, BertForPreTraining
+<span class="hljs-keyword">import</span> torch
+tokenizer = BertTokenizer.from_pretrained(<span class="hljs-string">'bert-base-uncased'</span>)
+model = BertForPreTraining.from_pretrained(<span class="hljs-string">'bert-base-uncased'</span>)
+inputs = tokenizer(<span class="hljs-string">"Hello, my dog is cute"</span>, return_tensors=<span class="hljs-string">"pt"</span>)
+outputs = model(**inputs)
+prediction_logits = outputs.prediction_logits
+seq_relationship_logits = outputs.seq_relationship_logits
+</code></pre>
+<pre><code>Some weights of BertForPreTraining were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['cls.predictions.decoder.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+</code></pre><pre><code class="lang-python"><span class="hljs-meta">@add_start_docstrings(<span class="hljs-params">
+    <span class="hljs-string">"""Bert Model with a `language modeling` head on top for CLM fine-tuning. """</span>, BERT_START_DOCSTRING
+</span>)</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">BertLMHeadModel</span>(<span class="hljs-title class_ inherited__">BertPreTrainedModel</span>):
+
+    _keys_to_ignore_on_load_unexpected = [<span class="hljs-string">r"pooler"</span>]
+    _keys_to_ignore_on_load_missing = [<span class="hljs-string">r"position_ids"</span>, <span class="hljs-string">r"predictions.decoder.bias"</span>]
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, config</span>):
+        <span class="hljs-built_in">super</span>().__init__(config)
+
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> config.is_decoder:
+            logger.warning(<span class="hljs-string">"If you want to use `BertLMHeadModel` as a standalone, add `is_decoder=True.`"</span>)
+
+        <span class="hljs-variable language_">self</span>.bert = BertModel(config, add_pooling_layer=<span class="hljs-literal">False</span>)
+        <span class="hljs-variable language_">self</span>.cls = BertOnlyMLMHead(config)
+
+        <span class="hljs-variable language_">self</span>.init_weights()
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_output_embeddings</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.cls.predictions.decoder
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">set_output_embeddings</span>(<span class="hljs-params">self, new_embeddings</span>):
+        <span class="hljs-variable language_">self</span>.cls.predictions.decoder = new_embeddings
+
+<span class="hljs-meta">    @add_start_docstrings_to_model_forward(<span class="hljs-params">BERT_INPUTS_DOCSTRING.<span class="hljs-built_in">format</span>(<span class="hljs-params"><span class="hljs-string">"batch_size, sequence_length"</span></span>)</span>)</span>
+<span class="hljs-meta">    @replace_return_docstrings(<span class="hljs-params">output_type=CausalLMOutputWithCrossAttentions, config_class=_CONFIG_FOR_DOC</span>)</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">
+        self,
+        input_ids=<span class="hljs-literal">None</span>,
+        attention_mask=<span class="hljs-literal">None</span>,
+        token_type_ids=<span class="hljs-literal">None</span>,
+        position_ids=<span class="hljs-literal">None</span>,
+        head_mask=<span class="hljs-literal">None</span>,
+        inputs_embeds=<span class="hljs-literal">None</span>,
+        encoder_hidden_states=<span class="hljs-literal">None</span>,
+        encoder_attention_mask=<span class="hljs-literal">None</span>,
+        labels=<span class="hljs-literal">None</span>,
+        past_key_values=<span class="hljs-literal">None</span>,
+        use_cache=<span class="hljs-literal">None</span>,
+        output_attentions=<span class="hljs-literal">None</span>,
+        output_hidden_states=<span class="hljs-literal">None</span>,
+        return_dict=<span class="hljs-literal">None</span>,
+    </span>):
+        <span class="hljs-string">r"""
+        encoder_hidden_states  (:obj:`torch.FloatTensor` of shape :obj:`(batch_size, sequence_length, hidden_size)`, `optional`):
+            Sequence of hidden-states at the output of the last layer of the encoder. Used in the cross-attention if
+            the model is configured as a decoder.
+        encoder_attention_mask (:obj:`torch.FloatTensor` of shape :obj:`(batch_size, sequence_length)`, `optional`):
+            Mask to avoid performing attention on the padding token indices of the encoder input. This mask is used in
+            the cross-attention if the model is configured as a decoder. Mask values selected in ``[0, 1]``:
+            - 1 for tokens that are **not masked**,
+            - 0 for tokens that are **masked**.
+        labels (:obj:`torch.LongTensor` of shape :obj:`(batch_size, sequence_length)`, `optional`):
+            Labels for computing the left-to-right language modeling loss (next word prediction). Indices should be in
+            ``[-100, 0, ..., config.vocab_size]`` (see ``input_ids`` docstring) Tokens with indices set to ``-100`` are
+            ignored (masked), the loss is only computed for the tokens with labels n ``[0, ..., config.vocab_size]``
+        past_key_values (:obj:`tuple(tuple(torch.FloatTensor))` of length :obj:`config.n_layers` with each tuple having 4 tensors of shape :obj:`(batch_size, num_heads, sequence_length - 1, embed_size_per_head)`):
+            Contains precomputed key and value hidden states of the attention blocks. Can be used to speed up decoding.
+            If :obj:`past_key_values` are used, the user can optionally input only the last :obj:`decoder_input_ids`
+            (those that don't have their past key value states given to this model) of shape :obj:`(batch_size, 1)`
+            instead of all :obj:`decoder_input_ids` of shape :obj:`(batch_size, sequence_length)`.
+        use_cache (:obj:`bool`, `optional`):
+            If set to :obj:`True`, :obj:`past_key_values` key value states are returned and can be used to speed up
+            decoding (see :obj:`past_key_values`).
+        Returns:
+        Example::
+            from transformers import BertTokenizer, BertLMHeadModel, BertConfig
+            import torch
+            tokenizer = BertTokenizer.from_pretrained('bert-base-cased')
+            config = BertConfig.from_pretrained("bert-base-cased")
+            config.is_decoder = True
+            model = BertLMHeadModel.from_pretrained('bert-base-cased', config=config)
+            inputs = tokenizer("Hello, my dog is cute", return_tensors="pt")
+            outputs = model(**inputs)
+            prediction_logits = outputs.logits
+        """</span>
+        return_dict = return_dict <span class="hljs-keyword">if</span> return_dict <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> <span class="hljs-variable language_">self</span>.config.use_return_dict
+        <span class="hljs-keyword">if</span> labels <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            use_cache = <span class="hljs-literal">False</span>
+
+        outputs = <span class="hljs-variable language_">self</span>.bert(
+            input_ids,
+            attention_mask=attention_mask,
+            token_type_ids=token_type_ids,
+            position_ids=position_ids,
+            head_mask=head_mask,
+            inputs_embeds=inputs_embeds,
+            encoder_hidden_states=encoder_hidden_states,
+            encoder_attention_mask=encoder_attention_mask,
+            past_key_values=past_key_values,
+            use_cache=use_cache,
+            output_attentions=output_attentions,
+            output_hidden_states=output_hidden_states,
+            return_dict=return_dict,
+        )
+
+        sequence_output = outputs[<span class="hljs-number">0</span>]
+        prediction_scores = <span class="hljs-variable language_">self</span>.cls(sequence_output)
+
+        lm_loss = <span class="hljs-literal">None</span>
+        <span class="hljs-keyword">if</span> labels <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-comment"># we are doing next-token prediction; shift prediction scores and input ids by one</span>
+            shifted_prediction_scores = prediction_scores[:, :-<span class="hljs-number">1</span>, :].contiguous()
+            labels = labels[:, <span class="hljs-number">1</span>:].contiguous()
+            loss_fct = CrossEntropyLoss()
+            lm_loss = loss_fct(shifted_prediction_scores.view(-<span class="hljs-number">1</span>, <span class="hljs-variable language_">self</span>.config.vocab_size), labels.view(-<span class="hljs-number">1</span>))
+
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> return_dict:
+            output = (prediction_scores,) + outputs[<span class="hljs-number">2</span>:]
+            <span class="hljs-keyword">return</span> ((lm_loss,) + output) <span class="hljs-keyword">if</span> lm_loss <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> output
+
+        <span class="hljs-keyword">return</span> CausalLMOutputWithCrossAttentions(
+            loss=lm_loss,
+            logits=prediction_scores,
+            past_key_values=outputs.past_key_values,
+            hidden_states=outputs.hidden_states,
+            attentions=outputs.attentions,
+            cross_attentions=outputs.cross_attentions,
+        )
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">prepare_inputs_for_generation</span>(<span class="hljs-params">self, input_ids, past=<span class="hljs-literal">None</span>, attention_mask=<span class="hljs-literal">None</span>, **model_kwargs</span>):
+        input_shape = input_ids.shape
+        <span class="hljs-comment"># if model is used as a decoder in encoder-decoder model, the decoder attention mask is created on the fly</span>
+        <span class="hljs-keyword">if</span> attention_mask <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+            attention_mask = input_ids.new_ones(input_shape)
+
+        <span class="hljs-comment"># cut decoder_input_ids if past is used</span>
+        <span class="hljs-keyword">if</span> past <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            input_ids = input_ids[:, -<span class="hljs-number">1</span>:]
+
+        <span class="hljs-keyword">return</span> {<span class="hljs-string">"input_ids"</span>: input_ids, <span class="hljs-string">"attention_mask"</span>: attention_mask, <span class="hljs-string">"past_key_values"</span>: past}
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">_reorder_cache</span>(<span class="hljs-params">self, past, beam_idx</span>):
+        reordered_past = ()
+        <span class="hljs-keyword">for</span> layer_past <span class="hljs-keyword">in</span> past:
+            reordered_past += (<span class="hljs-built_in">tuple</span>(past_state.index_select(<span class="hljs-number">0</span>, beam_idx) <span class="hljs-keyword">for</span> past_state <span class="hljs-keyword">in</span> layer_past),)
+        <span class="hljs-keyword">return</span> reordered_past
+
+<span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> BertTokenizer, BertLMHeadModel, BertConfig
+<span class="hljs-keyword">import</span> torch
+tokenizer = BertTokenizer.from_pretrained(<span class="hljs-string">'bert-base-uncased'</span>)
+config = BertConfig.from_pretrained(<span class="hljs-string">"bert-base-uncased"</span>)
+config.is_decoder = <span class="hljs-literal">True</span>
+model = BertLMHeadModel.from_pretrained(<span class="hljs-string">'bert-base-uncased'</span>, config=config)
+inputs = tokenizer(<span class="hljs-string">"Hello, my dog is cute"</span>, return_tensors=<span class="hljs-string">"pt"</span>)
+outputs = model(**inputs)
+prediction_logits = outputs.logits
+</code></pre>
+<pre><code>Some weights of the model checkpoint at bert-base-uncased were not used when initializing BertLMHeadModel: ['cls.seq_relationship.weight', 'cls.seq_relationship.bias']
+- This IS expected if you are initializing BertLMHeadModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertLMHeadModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+</code></pre><pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">BertForNextSentencePrediction</span>(<span class="hljs-title class_ inherited__">BertPreTrainedModel</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, config</span>):
+        <span class="hljs-built_in">super</span>().__init__(config)
+
+        <span class="hljs-variable language_">self</span>.bert = BertModel(config)
+        <span class="hljs-variable language_">self</span>.cls = BertOnlyNSPHead(config)
+
+        <span class="hljs-variable language_">self</span>.init_weights()
+
+<span class="hljs-meta">    @add_start_docstrings_to_model_forward(<span class="hljs-params">BERT_INPUTS_DOCSTRING.<span class="hljs-built_in">format</span>(<span class="hljs-params"><span class="hljs-string">"batch_size, sequence_length"</span></span>)</span>)</span>
+<span class="hljs-meta">    @replace_return_docstrings(<span class="hljs-params">output_type=NextSentencePredictorOutput, config_class=_CONFIG_FOR_DOC</span>)</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">
+        self,
+        input_ids=<span class="hljs-literal">None</span>,
+        attention_mask=<span class="hljs-literal">None</span>,
+        token_type_ids=<span class="hljs-literal">None</span>,
+        position_ids=<span class="hljs-literal">None</span>,
+        head_mask=<span class="hljs-literal">None</span>,
+        inputs_embeds=<span class="hljs-literal">None</span>,
+        labels=<span class="hljs-literal">None</span>,
+        output_attentions=<span class="hljs-literal">None</span>,
+        output_hidden_states=<span class="hljs-literal">None</span>,
+        return_dict=<span class="hljs-literal">None</span>,
+        **kwargs,
+    </span>):
+        <span class="hljs-string">r"""
+        labels (:obj:`torch.LongTensor` of shape :obj:`(batch_size,)`, `optional`):
+            Labels for computing the next sequence prediction (classification) loss. Input should be a sequence pair
+            (see ``input_ids`` docstring). Indices should be in ``[0, 1]``:
+            - 0 indicates sequence B is a continuation of sequence A,
+            - 1 indicates sequence B is a random sequence.
+        Returns:
+        Example::
+from transformers import BertTokenizer, BertForNextSentencePrediction
+import torch
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = BertForNextSentencePrediction.from_pretrained('bert-base-uncased')
+prompt = "In Italy, pizza served in formal settings, such as at a restaurant, is presented unsliced."
+next_sentence = "The sky is blue due to the shorter wavelength of blue light."
+encoding = tokenizer(prompt, next_sentence, return_tensors='pt')
+outputs = model(**encoding, labels=torch.LongTensor([1]))
+logits = outputs.logits
+assert logits[0, 0] &lt; logits[0, 1] # next sentence was random
+        """</span>
+
+        <span class="hljs-keyword">if</span> <span class="hljs-string">"next_sentence_label"</span> <span class="hljs-keyword">in</span> kwargs:
+            warnings.warn(
+                <span class="hljs-string">"The `next_sentence_label` argument is deprecated and will be removed in a future version, use `labels` instead."</span>,
+                FutureWarning,
+            )
+            labels = kwargs.pop(<span class="hljs-string">"next_sentence_label"</span>)
+
+        return_dict = return_dict <span class="hljs-keyword">if</span> return_dict <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> <span class="hljs-variable language_">self</span>.config.use_return_dict
+
+        outputs = <span class="hljs-variable language_">self</span>.bert(
+            input_ids,
+            attention_mask=attention_mask,
+            token_type_ids=token_type_ids,
+            position_ids=position_ids,
+            head_mask=head_mask,
+            inputs_embeds=inputs_embeds,
+            output_attentions=output_attentions,
+            output_hidden_states=output_hidden_states,
+            return_dict=return_dict,
+        )
+
+        pooled_output = outputs[<span class="hljs-number">1</span>]
+
+        seq_relationship_scores = <span class="hljs-variable language_">self</span>.cls(pooled_output)
+
+        next_sentence_loss = <span class="hljs-literal">None</span>
+        <span class="hljs-keyword">if</span> labels <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            loss_fct = CrossEntropyLoss()
+            next_sentence_loss = loss_fct(seq_relationship_scores.view(-<span class="hljs-number">1</span>, <span class="hljs-number">2</span>), labels.view(-<span class="hljs-number">1</span>))
+
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> return_dict:
+            output = (seq_relationship_scores,) + outputs[<span class="hljs-number">2</span>:]
+            <span class="hljs-keyword">return</span> ((next_sentence_loss,) + output) <span class="hljs-keyword">if</span> next_sentence_loss <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> output
+
+        <span class="hljs-keyword">return</span> NextSentencePredictorOutput(
+            loss=next_sentence_loss,
+            logits=seq_relationship_scores,
+            hidden_states=outputs.hidden_states,
+            attentions=outputs.attentions,
+        )
+<span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> BertTokenizer, BertForNextSentencePrediction
+<span class="hljs-keyword">import</span> torch
+tokenizer = BertTokenizer.from_pretrained(<span class="hljs-string">'bert-base-uncased'</span>)
+model = BertForNextSentencePrediction.from_pretrained(<span class="hljs-string">'bert-base-uncased'</span>)
+prompt = <span class="hljs-string">"In Italy, pizza served in formal settings, such as at a restaurant, is presented unsliced."</span>
+next_sentence = <span class="hljs-string">"The sky is blue due to the shorter wavelength of blue light."</span>
+encoding = tokenizer(prompt, next_sentence, return_tensors=<span class="hljs-string">'pt'</span>)
+outputs = model(**encoding, labels=torch.LongTensor([<span class="hljs-number">1</span>]))
+logits = outputs.logits
+<span class="hljs-keyword">assert</span> logits[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>] &lt; logits[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>] <span class="hljs-comment"># next sentence was random</span>
+</code></pre>
+<pre><code>Downloading: 100%|██████████| 440M/440M [00:30&lt;00:00, 14.5MB/s]
+Some weights of the model checkpoint at bert-base-uncased were not used when initializing BertForNextSentencePrediction: ['cls.predictions.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.dense.bias', 'cls.predictions.decoder.weight', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.LayerNorm.bias']
+- This IS expected if you are initializing BertForNextSentencePrediction from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertForNextSentencePrediction from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+</code></pre><p>接下来介绍的是各种 Fine-tune 模型，基本都是分类任务：</p>
+<p><img src="pictures/3-4-bert-ft.png" alt="Bert：finetune"></img> 图：Bert：finetune</p>
+<hr></hr>
+<h3 id="32-bertforsequenceclassification">3.2 BertForSequenceClassification</h3>
+<p>这一模型用于句子分类（也可以是回归）任务，比如 GLUE benchmark 的各个任务。</p>
+<ul>
+<li>句子分类的输入为句子（对），输出为单个分类标签。</li>
+</ul>
+<p>结构上很简单，就是<code>BertModel</code>（有 pooling）过一个 dropout 后接一个线性层输出分类：</p>
+<pre><code>class BertForSequenceClassification(BertPreTrainedModel):
+    def __init__(self, config):
+        super().__init__(config)
+        self.num_labels = config.num_labels
+
+        self.bert = BertModel(config)
+        self.dropout = nn.Dropout(config.hidden_dropout_prob)
+        self.classifier = nn.Linear(config.hidden_size, config.num_labels)
+
+        self.init_weights()
+        # ...
+</code></pre><p>在前向传播时，和上面预训练模型一样需要传入labels输入。</p>
+<ul>
+<li><p>如果初始化的num_labels=1，那么就默认为回归任务，使用 MSELoss；</p>
+</li>
+<li><p>否则认为是分类任务。</p>
+</li>
+</ul>
+<pre><code class="lang-python"><span class="hljs-meta">@add_start_docstrings(<span class="hljs-params">
+    <span class="hljs-string">"""
+    Bert Model transformer with a sequence classification/regression head on top (a linear layer on top of the pooled
+    output) e.g. for GLUE tasks.
+    """</span>,
+    BERT_START_DOCSTRING,
+</span>)</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">BertForSequenceClassification</span>(<span class="hljs-title class_ inherited__">BertPreTrainedModel</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, config</span>):
+        <span class="hljs-built_in">super</span>().__init__(config)
+        <span class="hljs-variable language_">self</span>.num_labels = config.num_labels
+        <span class="hljs-variable language_">self</span>.config = config
+
+        <span class="hljs-variable language_">self</span>.bert = BertModel(config)
+        classifier_dropout = (
+            config.classifier_dropout <span class="hljs-keyword">if</span> config.classifier_dropout <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> config.hidden_dropout_prob
+        )
+        <span class="hljs-variable language_">self</span>.dropout = nn.Dropout(classifier_dropout)
+        <span class="hljs-variable language_">self</span>.classifier = nn.Linear(config.hidden_size, config.num_labels)
+
+        <span class="hljs-variable language_">self</span>.init_weights()
+
+<span class="hljs-meta">    @add_start_docstrings_to_model_forward(<span class="hljs-params">BERT_INPUTS_DOCSTRING.<span class="hljs-built_in">format</span>(<span class="hljs-params"><span class="hljs-string">"batch_size, sequence_length"</span></span>)</span>)</span>
+<span class="hljs-meta">    @add_code_sample_docstrings(<span class="hljs-params">
+        tokenizer_class=_TOKENIZER_FOR_DOC,
+        checkpoint=_CHECKPOINT_FOR_DOC,
+        output_type=SequenceClassifierOutput,
+        config_class=_CONFIG_FOR_DOC,
+    </span>)</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">
+        self,
+        input_ids=<span class="hljs-literal">None</span>,
+        attention_mask=<span class="hljs-literal">None</span>,
+        token_type_ids=<span class="hljs-literal">None</span>,
+        position_ids=<span class="hljs-literal">None</span>,
+        head_mask=<span class="hljs-literal">None</span>,
+        inputs_embeds=<span class="hljs-literal">None</span>,
+        labels=<span class="hljs-literal">None</span>,
+        output_attentions=<span class="hljs-literal">None</span>,
+        output_hidden_states=<span class="hljs-literal">None</span>,
+        return_dict=<span class="hljs-literal">None</span>,
+    </span>):
+        <span class="hljs-string">r"""
+        labels (:obj:`torch.LongTensor` of shape :obj:`(batch_size,)`, `optional`):
+            Labels for computing the sequence classification/regression loss. Indices should be in :obj:`[0, ...,
+            config.num_labels - 1]`. If :obj:`config.num_labels == 1` a regression loss is computed (Mean-Square loss),
+            If :obj:`config.num_labels &gt; 1` a classification loss is computed (Cross-Entropy).
+        """</span>
+        return_dict = return_dict <span class="hljs-keyword">if</span> return_dict <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> <span class="hljs-variable language_">self</span>.config.use_return_dict
+
+        outputs = <span class="hljs-variable language_">self</span>.bert(
+            input_ids,
+            attention_mask=attention_mask,
+            token_type_ids=token_type_ids,
+            position_ids=position_ids,
+            head_mask=head_mask,
+            inputs_embeds=inputs_embeds,
+            output_attentions=output_attentions,
+            output_hidden_states=output_hidden_states,
+            return_dict=return_dict,
+        )
+
+        pooled_output = outputs[<span class="hljs-number">1</span>]
+
+        pooled_output = <span class="hljs-variable language_">self</span>.dropout(pooled_output)
+        logits = <span class="hljs-variable language_">self</span>.classifier(pooled_output)
+
+        loss = <span class="hljs-literal">None</span>
+        <span class="hljs-keyword">if</span> labels <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.config.problem_type <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+                <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.num_labels == <span class="hljs-number">1</span>:
+                    <span class="hljs-variable language_">self</span>.config.problem_type = <span class="hljs-string">"regression"</span>
+                <span class="hljs-keyword">elif</span> <span class="hljs-variable language_">self</span>.num_labels &gt; <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> (labels.dtype == torch.long <span class="hljs-keyword">or</span> labels.dtype == torch.<span class="hljs-built_in">int</span>):
+                    <span class="hljs-variable language_">self</span>.config.problem_type = <span class="hljs-string">"single_label_classification"</span>
+                <span class="hljs-keyword">else</span>:
+                    <span class="hljs-variable language_">self</span>.config.problem_type = <span class="hljs-string">"multi_label_classification"</span>
+
+            <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.config.problem_type == <span class="hljs-string">"regression"</span>:
+                loss_fct = MSELoss()
+                <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.num_labels == <span class="hljs-number">1</span>:
+                    loss = loss_fct(logits.squeeze(), labels.squeeze())
+                <span class="hljs-keyword">else</span>:
+                    loss = loss_fct(logits, labels)
+            <span class="hljs-keyword">elif</span> <span class="hljs-variable language_">self</span>.config.problem_type == <span class="hljs-string">"single_label_classification"</span>:
+                loss_fct = CrossEntropyLoss()
+                loss = loss_fct(logits.view(-<span class="hljs-number">1</span>, <span class="hljs-variable language_">self</span>.num_labels), labels.view(-<span class="hljs-number">1</span>))
+            <span class="hljs-keyword">elif</span> <span class="hljs-variable language_">self</span>.config.problem_type == <span class="hljs-string">"multi_label_classification"</span>:
+                loss_fct = BCEWithLogitsLoss()
+                loss = loss_fct(logits, labels)
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> return_dict:
+            output = (logits,) + outputs[<span class="hljs-number">2</span>:]
+            <span class="hljs-keyword">return</span> ((loss,) + output) <span class="hljs-keyword">if</span> loss <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> output
+
+        <span class="hljs-keyword">return</span> SequenceClassifierOutput(
+            loss=loss,
+            logits=logits,
+            hidden_states=outputs.hidden_states,
+            attentions=outputs.attentions,
+        )
+</code></pre>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers.models.bert.tokenization_bert <span class="hljs-keyword">import</span> BertTokenizer
+<span class="hljs-keyword">from</span> transformers.models.bert.modeling_bert <span class="hljs-keyword">import</span> BertForSequenceClassification
+tokenizer = BertTokenizer.from_pretrained(<span class="hljs-string">"bert-base-cased-finetuned-mrpc"</span>)
+model = BertForSequenceClassification.from_pretrained(<span class="hljs-string">"bert-base-cased-finetuned-mrpc"</span>)
+
+classes = [<span class="hljs-string">"not paraphrase"</span>, <span class="hljs-string">"is paraphrase"</span>]
+
+sequence_0 = <span class="hljs-string">"The company HuggingFace is based in New York City"</span>
+sequence_1 = <span class="hljs-string">"Apples are especially bad for your health"</span>
+sequence_2 = <span class="hljs-string">"HuggingFace's headquarters are situated in Manhattan"</span>
+
+<span class="hljs-comment"># The tokekenizer will automatically add any model specific separators (i.e. &lt;CLS&gt; and &lt;SEP&gt;) and tokens to the sequence, as well as compute the attention masks.</span>
+paraphrase = tokenizer(sequence_0, sequence_2, return_tensors=<span class="hljs-string">"pt"</span>)
+not_paraphrase = tokenizer(sequence_0, sequence_1, return_tensors=<span class="hljs-string">"pt"</span>)
+
+paraphrase_classification_logits = model(**paraphrase).logits
+not_paraphrase_classification_logits = model(**not_paraphrase).logits
+
+paraphrase_results = torch.softmax(paraphrase_classification_logits, dim=<span class="hljs-number">1</span>).tolist()[<span class="hljs-number">0</span>]
+not_paraphrase_results = torch.softmax(not_paraphrase_classification_logits, dim=<span class="hljs-number">1</span>).tolist()[<span class="hljs-number">0</span>]
+
+<span class="hljs-comment"># Should be paraphrase</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(classes)):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"<span class="hljs-subst">{classes[i]}</span>: <span class="hljs-subst">{<span class="hljs-built_in">int</span>(<span class="hljs-built_in">round</span>(paraphrase_results[i] * <span class="hljs-number">100</span>))}</span>%"</span>)
+
+<span class="hljs-comment"># Should not be paraphrase</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(classes)):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"<span class="hljs-subst">{classes[i]}</span>: <span class="hljs-subst">{<span class="hljs-built_in">int</span>(<span class="hljs-built_in">round</span>(not_paraphrase_results[i] * <span class="hljs-number">100</span>))}</span>%"</span>)
+</code></pre>
+<pre><code>Downloading: 100%|██████████| 213k/213k [00:00&lt;00:00, 596kB/s]
+Downloading: 100%|██████████| 29.0/29.0 [00:00&lt;00:00, 12.4kB/s]
+Downloading: 100%|██████████| 436k/436k [00:00&lt;00:00, 808kB/s]
+Downloading: 100%|██████████| 433/433 [00:00&lt;00:00, 166kB/s]
+Downloading: 100%|██████████| 433M/433M [00:29&lt;00:00, 14.5MB/s]
+
+
+not paraphrase: 10%
+is paraphrase: 90%
+not paraphrase: 94%
+is paraphrase: 6%
+</code></pre><hr></hr>
+<h3 id="33-bertformultiplechoice">3.3 BertForMultipleChoice</h3>
+<p>这一模型用于多项选择，如 RocStories/SWAG 任务。</p>
+<ul>
+<li>多项选择任务的输入为一组分次输入的句子，输出为选择某一句子的单个标签。
+结构上与句子分类相似，只不过线性层输出维度为 1，即每次需要将每个样本的多个句子的输出拼接起来作为每个样本的预测分数。</li>
+<li>实际上，具体操作时是把每个 batch 的多个句子一同放入的，所以一次处理的输入为[batch_size, num_choices]数量的句子，因此相同 batch 大小时，比句子分类等任务需要更多的显存，在训练时需要小心。</li>
+</ul>
+<hr></hr>
+<h3 id="34-bertfortokenclassification">3.4 BertForTokenClassification</h3>
+<p>这一模型用于序列标注（词分类），如 NER 任务。</p>
+<ul>
+<li>序列标注任务的输入为单个句子文本，输出为每个 token 对应的类别标签。
+由于需要用到每个 token对应的输出而不只是某几个，所以这里的BertModel不用加入 pooling 层；</li>
+<li>同时，这里将<code>_keys_to_ignore_on_load_unexpected</code>这一个类参数设置为<code>[r"pooler"]</code>，也就是在加载模型时对于出现不需要的权重不发生报错。</li>
+</ul>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">BertForMultipleChoice</span>(<span class="hljs-title class_ inherited__">BertPreTrainedModel</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, config</span>):
+        <span class="hljs-built_in">super</span>().__init__(config)
+
+        <span class="hljs-variable language_">self</span>.bert = BertModel(config)
+        <span class="hljs-variable language_">self</span>.dropout = nn.Dropout(config.hidden_dropout_prob)
+        <span class="hljs-variable language_">self</span>.classifier = nn.Linear(config.hidden_size, <span class="hljs-number">1</span>)
+
+        <span class="hljs-variable language_">self</span>.init_weights()
+
+<span class="hljs-meta">    @add_start_docstrings_to_model_forward(<span class="hljs-params">BERT_INPUTS_DOCSTRING.<span class="hljs-built_in">format</span>(<span class="hljs-params"><span class="hljs-string">"batch_size, num_choices, sequence_length"</span></span>)</span>)</span>
+<span class="hljs-meta">    @add_code_sample_docstrings(<span class="hljs-params">
+        tokenizer_class=_TOKENIZER_FOR_DOC,
+        checkpoint=_CHECKPOINT_FOR_DOC,
+        output_type=MultipleChoiceModelOutput,
+        config_class=_CONFIG_FOR_DOC,
+    </span>)</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">
+        self,
+        input_ids=<span class="hljs-literal">None</span>,
+        attention_mask=<span class="hljs-literal">None</span>,
+        token_type_ids=<span class="hljs-literal">None</span>,
+        position_ids=<span class="hljs-literal">None</span>,
+        head_mask=<span class="hljs-literal">None</span>,
+        inputs_embeds=<span class="hljs-literal">None</span>,
+        labels=<span class="hljs-literal">None</span>,
+        output_attentions=<span class="hljs-literal">None</span>,
+        output_hidden_states=<span class="hljs-literal">None</span>,
+        return_dict=<span class="hljs-literal">None</span>,
+    </span>):
+        <span class="hljs-string">r"""
+        labels (:obj:`torch.LongTensor` of shape :obj:`(batch_size,)`, `optional`):
+            Labels for computing the multiple choice classification loss. Indices should be in ``[0, ...,
+            num_choices-1]`` where :obj:`num_choices` is the size of the second dimension of the input tensors. (See
+            :obj:`input_ids` above)
+        """</span>
+        return_dict = return_dict <span class="hljs-keyword">if</span> return_dict <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> <span class="hljs-variable language_">self</span>.config.use_return_dict
+        num_choices = input_ids.shape[<span class="hljs-number">1</span>] <span class="hljs-keyword">if</span> input_ids <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> inputs_embeds.shape[<span class="hljs-number">1</span>]
+
+        input_ids = input_ids.view(-<span class="hljs-number">1</span>, input_ids.size(-<span class="hljs-number">1</span>)) <span class="hljs-keyword">if</span> input_ids <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> <span class="hljs-literal">None</span>
+        attention_mask = attention_mask.view(-<span class="hljs-number">1</span>, attention_mask.size(-<span class="hljs-number">1</span>)) <span class="hljs-keyword">if</span> attention_mask <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> <span class="hljs-literal">None</span>
+        token_type_ids = token_type_ids.view(-<span class="hljs-number">1</span>, token_type_ids.size(-<span class="hljs-number">1</span>)) <span class="hljs-keyword">if</span> token_type_ids <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> <span class="hljs-literal">None</span>
+        position_ids = position_ids.view(-<span class="hljs-number">1</span>, position_ids.size(-<span class="hljs-number">1</span>)) <span class="hljs-keyword">if</span> position_ids <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> <span class="hljs-literal">None</span>
+        inputs_embeds = (
+            inputs_embeds.view(-<span class="hljs-number">1</span>, inputs_embeds.size(-<span class="hljs-number">2</span>), inputs_embeds.size(-<span class="hljs-number">1</span>))
+            <span class="hljs-keyword">if</span> inputs_embeds <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>
+            <span class="hljs-keyword">else</span> <span class="hljs-literal">None</span>
+        )
+
+        outputs = <span class="hljs-variable language_">self</span>.bert(
+            input_ids,
+            attention_mask=attention_mask,
+            token_type_ids=token_type_ids,
+            position_ids=position_ids,
+            head_mask=head_mask,
+            inputs_embeds=inputs_embeds,
+            output_attentions=output_attentions,
+            output_hidden_states=output_hidden_states,
+            return_dict=return_dict,
+        )
+
+        pooled_output = outputs[<span class="hljs-number">1</span>]
+
+        pooled_output = <span class="hljs-variable language_">self</span>.dropout(pooled_output)
+        logits = <span class="hljs-variable language_">self</span>.classifier(pooled_output)
+        reshaped_logits = logits.view(-<span class="hljs-number">1</span>, num_choices)
+
+        loss = <span class="hljs-literal">None</span>
+        <span class="hljs-keyword">if</span> labels <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            loss_fct = CrossEntropyLoss()
+            loss = loss_fct(reshaped_logits, labels)
+
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> return_dict:
+            output = (reshaped_logits,) + outputs[<span class="hljs-number">2</span>:]
+            <span class="hljs-keyword">return</span> ((loss,) + output) <span class="hljs-keyword">if</span> loss <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> output
+
+        <span class="hljs-keyword">return</span> MultipleChoiceModelOutput(
+            loss=loss,
+            logits=reshaped_logits,
+            hidden_states=outputs.hidden_states,
+            attentions=outputs.attentions,
+        )
+</code></pre>
+<pre><code class="lang-python"><span class="hljs-meta">@add_start_docstrings(<span class="hljs-params">
+    <span class="hljs-string">"""
+    Bert Model with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for
+    Named-Entity-Recognition (NER) tasks.
+    """</span>,
+    BERT_START_DOCSTRING,
+</span>)</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">BertForTokenClassification</span>(<span class="hljs-title class_ inherited__">BertPreTrainedModel</span>):
+
+    _keys_to_ignore_on_load_unexpected = [<span class="hljs-string">r"pooler"</span>]
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, config</span>):
+        <span class="hljs-built_in">super</span>().__init__(config)
+        <span class="hljs-variable language_">self</span>.num_labels = config.num_labels
+
+        <span class="hljs-variable language_">self</span>.bert = BertModel(config, add_pooling_layer=<span class="hljs-literal">False</span>)
+        classifier_dropout = (
+            config.classifier_dropout <span class="hljs-keyword">if</span> config.classifier_dropout <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> config.hidden_dropout_prob
+        )
+        <span class="hljs-variable language_">self</span>.dropout = nn.Dropout(classifier_dropout)
+        <span class="hljs-variable language_">self</span>.classifier = nn.Linear(config.hidden_size, config.num_labels)
+
+        <span class="hljs-variable language_">self</span>.init_weights()
+
+<span class="hljs-meta">    @add_start_docstrings_to_model_forward(<span class="hljs-params">BERT_INPUTS_DOCSTRING.<span class="hljs-built_in">format</span>(<span class="hljs-params"><span class="hljs-string">"batch_size, sequence_length"</span></span>)</span>)</span>
+<span class="hljs-meta">    @add_code_sample_docstrings(<span class="hljs-params">
+        tokenizer_class=_TOKENIZER_FOR_DOC,
+        checkpoint=_CHECKPOINT_FOR_DOC,
+        output_type=TokenClassifierOutput,
+        config_class=_CONFIG_FOR_DOC,
+    </span>)</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">
+        self,
+        input_ids=<span class="hljs-literal">None</span>,
+        attention_mask=<span class="hljs-literal">None</span>,
+        token_type_ids=<span class="hljs-literal">None</span>,
+        position_ids=<span class="hljs-literal">None</span>,
+        head_mask=<span class="hljs-literal">None</span>,
+        inputs_embeds=<span class="hljs-literal">None</span>,
+        labels=<span class="hljs-literal">None</span>,
+        output_attentions=<span class="hljs-literal">None</span>,
+        output_hidden_states=<span class="hljs-literal">None</span>,
+        return_dict=<span class="hljs-literal">None</span>,
+    </span>):
+        <span class="hljs-string">r"""
+        labels (:obj:`torch.LongTensor` of shape :obj:`(batch_size, sequence_length)`, `optional`):
+            Labels for computing the token classification loss. Indices should be in ``[0, ..., config.num_labels -
+            1]``.
+        """</span>
+        return_dict = return_dict <span class="hljs-keyword">if</span> return_dict <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> <span class="hljs-variable language_">self</span>.config.use_return_dict
+
+        outputs = <span class="hljs-variable language_">self</span>.bert(
+            input_ids,
+            attention_mask=attention_mask,
+            token_type_ids=token_type_ids,
+            position_ids=position_ids,
+            head_mask=head_mask,
+            inputs_embeds=inputs_embeds,
+            output_attentions=output_attentions,
+            output_hidden_states=output_hidden_states,
+            return_dict=return_dict,
+        )
+
+        sequence_output = outputs[<span class="hljs-number">0</span>]
+
+        sequence_output = <span class="hljs-variable language_">self</span>.dropout(sequence_output)
+        logits = <span class="hljs-variable language_">self</span>.classifier(sequence_output)
+
+        loss = <span class="hljs-literal">None</span>
+        <span class="hljs-keyword">if</span> labels <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            loss_fct = CrossEntropyLoss()
+            <span class="hljs-comment"># Only keep active parts of the loss</span>
+            <span class="hljs-keyword">if</span> attention_mask <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+                active_loss = attention_mask.view(-<span class="hljs-number">1</span>) == <span class="hljs-number">1</span>
+                active_logits = logits.view(-<span class="hljs-number">1</span>, <span class="hljs-variable language_">self</span>.num_labels)
+                active_labels = torch.where(
+                    active_loss, labels.view(-<span class="hljs-number">1</span>), torch.tensor(loss_fct.ignore_index).type_as(labels)
+                )
+                loss = loss_fct(active_logits, active_labels)
+            <span class="hljs-keyword">else</span>:
+                loss = loss_fct(logits.view(-<span class="hljs-number">1</span>, <span class="hljs-variable language_">self</span>.num_labels), labels.view(-<span class="hljs-number">1</span>))
+
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> return_dict:
+            output = (logits,) + outputs[<span class="hljs-number">2</span>:]
+            <span class="hljs-keyword">return</span> ((loss,) + output) <span class="hljs-keyword">if</span> loss <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> output
+
+        <span class="hljs-keyword">return</span> TokenClassifierOutput(
+            loss=loss,
+            logits=logits,
+            hidden_states=outputs.hidden_states,
+            attentions=outputs.attentions,
+        )
+</code></pre>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> BertForTokenClassification, BertTokenizer
+<span class="hljs-keyword">import</span> torch
+
+model = BertForTokenClassification.from_pretrained(<span class="hljs-string">"dbmdz/bert-large-cased-finetuned-conll03-english"</span>)
+tokenizer = BertTokenizer.from_pretrained(<span class="hljs-string">"bert-base-cased"</span>)
+
+label_list = [
+<span class="hljs-string">"O"</span>,       <span class="hljs-comment"># Outside of a named entity</span>
+<span class="hljs-string">"B-MISC"</span>,  <span class="hljs-comment"># Beginning of a miscellaneous entity right after another miscellaneous entity</span>
+<span class="hljs-string">"I-MISC"</span>,  <span class="hljs-comment"># Miscellaneous entity</span>
+<span class="hljs-string">"B-PER"</span>,   <span class="hljs-comment"># Beginning of a person's name right after another person's name</span>
+<span class="hljs-string">"I-PER"</span>,   <span class="hljs-comment"># Person's name</span>
+<span class="hljs-string">"B-ORG"</span>,   <span class="hljs-comment"># Beginning of an organisation right after another organisation</span>
+<span class="hljs-string">"I-ORG"</span>,   <span class="hljs-comment"># Organisation</span>
+<span class="hljs-string">"B-LOC"</span>,   <span class="hljs-comment"># Beginning of a location right after another location</span>
+<span class="hljs-string">"I-LOC"</span>    <span class="hljs-comment"># Location</span>
+]
+
+sequence = <span class="hljs-string">"Hugging Face Inc. is a company based in New York City. Its headquarters are in DUMBO, therefore very close to the Manhattan Bridge."</span>
+
+<span class="hljs-comment"># Bit of a hack to get the tokens with the special tokens</span>
+tokens = tokenizer.tokenize(tokenizer.decode(tokenizer.encode(sequence)))
+inputs = tokenizer.encode(sequence, return_tensors=<span class="hljs-string">"pt"</span>)
+
+outputs = model(inputs).logits
+predictions = torch.argmax(outputs, dim=<span class="hljs-number">2</span>)
+</code></pre>
+<pre><code>Downloading: 100%|██████████| 998/998 [00:00&lt;00:00, 382kB/s]
+Downloading: 100%|██████████| 1.33G/1.33G [01:30&lt;00:00, 14.7MB/s]
+</code></pre><pre><code class="lang-python"><span class="hljs-keyword">for</span> token, prediction <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(tokens, predictions[<span class="hljs-number">0</span>].numpy()):
+    <span class="hljs-built_in">print</span>((token, model.config.id2label[prediction]))
+</code></pre>
+<pre><code>('[CLS]', 'O')
+('Hu', 'I-ORG')
+('##gging', 'I-ORG')
+('Face', 'I-ORG')
+('Inc', 'I-ORG')
+('.', 'O')
+('is', 'O')
+('a', 'O')
+('company', 'O')
+('based', 'O')
+('in', 'O')
+('New', 'I-LOC')
+('York', 'I-LOC')
+('City', 'I-LOC')
+('.', 'O')
+('Its', 'O')
+('headquarters', 'O')
+('are', 'O')
+('in', 'O')
+('D', 'I-LOC')
+('##UM', 'I-LOC')
+('##BO', 'I-LOC')
+(',', 'O')
+('therefore', 'O')
+('very', 'O')
+('close', 'O')
+('to', 'O')
+('the', 'O')
+('Manhattan', 'I-LOC')
+('Bridge', 'I-LOC')
+('.', 'O')
+('[SEP]', 'O')
+</code></pre><hr></hr>
+<h3 id="35-bertforquestionanswering">3.5 BertForQuestionAnswering</h3>
+<p>这一模型用于解决问答任务，例如 SQuAD 任务。</p>
+<ul>
+<li>问答任务的输入为问题 +（对于 BERT 只能是一个）回答组成的句子对，输出为起始位置和结束位置用于标出回答中的具体文本。
+这里需要两个输出，即对起始位置的预测和对结束位置的预测，两个输出的长度都和句子长度一样，从其中挑出最大的预测值对应的下标作为预测的位置。</li>
+<li>对超出句子长度的非法 label，会将其压缩（torch.clamp_）到合理范围。</li>
+</ul>
+<p>以上就是关于 BERT 源码的介绍，下面介绍一些关于 BERT 模型实用的训练细节。</p>
+<pre><code class="lang-python"><span class="hljs-meta">@add_start_docstrings(<span class="hljs-params">
+    <span class="hljs-string">"""
+    Bert Model with a span classification head on top for extractive question-answering tasks like SQuAD (a linear
+    layers on top of the hidden-states output to compute `span start logits` and `span end logits`).
+    """</span>,
+    BERT_START_DOCSTRING,
+</span>)</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">BertForQuestionAnswering</span>(<span class="hljs-title class_ inherited__">BertPreTrainedModel</span>):
+
+    _keys_to_ignore_on_load_unexpected = [<span class="hljs-string">r"pooler"</span>]
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, config</span>):
+        <span class="hljs-built_in">super</span>().__init__(config)
+        <span class="hljs-variable language_">self</span>.num_labels = config.num_labels
+
+        <span class="hljs-variable language_">self</span>.bert = BertModel(config, add_pooling_layer=<span class="hljs-literal">False</span>)
+        <span class="hljs-variable language_">self</span>.qa_outputs = nn.Linear(config.hidden_size, config.num_labels)
+
+        <span class="hljs-variable language_">self</span>.init_weights()
+
+<span class="hljs-meta">    @add_start_docstrings_to_model_forward(<span class="hljs-params">BERT_INPUTS_DOCSTRING.<span class="hljs-built_in">format</span>(<span class="hljs-params"><span class="hljs-string">"batch_size, sequence_length"</span></span>)</span>)</span>
+<span class="hljs-meta">    @add_code_sample_docstrings(<span class="hljs-params">
+        tokenizer_class=_TOKENIZER_FOR_DOC,
+        checkpoint=_CHECKPOINT_FOR_DOC,
+        output_type=QuestionAnsweringModelOutput,
+        config_class=_CONFIG_FOR_DOC,
+    </span>)</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">
+        self,
+        input_ids=<span class="hljs-literal">None</span>,
+        attention_mask=<span class="hljs-literal">None</span>,
+        token_type_ids=<span class="hljs-literal">None</span>,
+        position_ids=<span class="hljs-literal">None</span>,
+        head_mask=<span class="hljs-literal">None</span>,
+        inputs_embeds=<span class="hljs-literal">None</span>,
+        start_positions=<span class="hljs-literal">None</span>,
+        end_positions=<span class="hljs-literal">None</span>,
+        output_attentions=<span class="hljs-literal">None</span>,
+        output_hidden_states=<span class="hljs-literal">None</span>,
+        return_dict=<span class="hljs-literal">None</span>,
+    </span>):
+        <span class="hljs-string">r"""
+        start_positions (:obj:`torch.LongTensor` of shape :obj:`(batch_size,)`, `optional`):
+            Labels for position (index) of the start of the labelled span for computing the token classification loss.
+            Positions are clamped to the length of the sequence (:obj:`sequence_length`). Position outside of the
+            sequence are not taken into account for computing the loss.
+        end_positions (:obj:`torch.LongTensor` of shape :obj:`(batch_size,)`, `optional`):
+            Labels for position (index) of the end of the labelled span for computing the token classification loss.
+            Positions are clamped to the length of the sequence (:obj:`sequence_length`). Position outside of the
+            sequence are not taken into account for computing the loss.
+        """</span>
+        return_dict = return_dict <span class="hljs-keyword">if</span> return_dict <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> <span class="hljs-variable language_">self</span>.config.use_return_dict
+
+        outputs = <span class="hljs-variable language_">self</span>.bert(
+            input_ids,
+            attention_mask=attention_mask,
+            token_type_ids=token_type_ids,
+            position_ids=position_ids,
+            head_mask=head_mask,
+            inputs_embeds=inputs_embeds,
+            output_attentions=output_attentions,
+            output_hidden_states=output_hidden_states,
+            return_dict=return_dict,
+        )
+
+        sequence_output = outputs[<span class="hljs-number">0</span>]
+
+        logits = <span class="hljs-variable language_">self</span>.qa_outputs(sequence_output)
+        start_logits, end_logits = logits.split(<span class="hljs-number">1</span>, dim=-<span class="hljs-number">1</span>)
+        start_logits = start_logits.squeeze(-<span class="hljs-number">1</span>).contiguous()
+        end_logits = end_logits.squeeze(-<span class="hljs-number">1</span>).contiguous()
+
+        total_loss = <span class="hljs-literal">None</span>
+        <span class="hljs-keyword">if</span> start_positions <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> end_positions <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-comment"># If we are on multi-GPU, split add a dimension</span>
+            <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(start_positions.size()) &gt; <span class="hljs-number">1</span>:
+                start_positions = start_positions.squeeze(-<span class="hljs-number">1</span>)
+            <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(end_positions.size()) &gt; <span class="hljs-number">1</span>:
+                end_positions = end_positions.squeeze(-<span class="hljs-number">1</span>)
+            <span class="hljs-comment"># sometimes the start/end positions are outside our model inputs, we ignore these terms</span>
+            ignored_index = start_logits.size(<span class="hljs-number">1</span>)
+            start_positions = start_positions.clamp(<span class="hljs-number">0</span>, ignored_index)
+            end_positions = end_positions.clamp(<span class="hljs-number">0</span>, ignored_index)
+
+            loss_fct = CrossEntropyLoss(ignore_index=ignored_index)
+            start_loss = loss_fct(start_logits, start_positions)
+            end_loss = loss_fct(end_logits, end_positions)
+            total_loss = (start_loss + end_loss) / <span class="hljs-number">2</span>
+
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> return_dict:
+            output = (start_logits, end_logits) + outputs[<span class="hljs-number">2</span>:]
+            <span class="hljs-keyword">return</span> ((total_loss,) + output) <span class="hljs-keyword">if</span> total_loss <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> output
+
+        <span class="hljs-keyword">return</span> QuestionAnsweringModelOutput(
+            loss=total_loss,
+            start_logits=start_logits,
+            end_logits=end_logits,
+            hidden_states=outputs.hidden_states,
+            attentions=outputs.attentions,
+        )
+</code></pre>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoTokenizer, AutoModelForQuestionAnswering
+<span class="hljs-keyword">import</span> torch
+
+tokenizer = AutoTokenizer.from_pretrained(<span class="hljs-string">"bert-large-uncased-whole-word-masking-finetuned-squad"</span>)
+model = AutoModelForQuestionAnswering.from_pretrained(<span class="hljs-string">"bert-large-uncased-whole-word-masking-finetuned-squad"</span>)
+
+text = <span class="hljs-string">"🤗 Transformers (formerly known as pytorch-transformers and pytorch-pretrained-bert) provides general-purpose architectures (BERT, GPT-2, RoBERTa, XLM, DistilBert, XLNet…) for Natural Language Understanding (NLU) and Natural Language Generation (NLG) with over 32+ pretrained models in 100+ languages and deep interoperability between TensorFlow 2.0 and PyTorch."</span>
+
+questions = [
+<span class="hljs-string">"How many pretrained models are available in 🤗 Transformers?"</span>,
+<span class="hljs-string">"What does 🤗 Transformers provide?"</span>,
+<span class="hljs-string">"🤗 Transformers provides interoperability between which frameworks?"</span>,
+]
+
+<span class="hljs-keyword">for</span> question <span class="hljs-keyword">in</span> questions:
+    inputs = tokenizer(question, text, add_special_tokens=<span class="hljs-literal">True</span>, return_tensors=<span class="hljs-string">"pt"</span>)
+    input_ids = inputs[<span class="hljs-string">"input_ids"</span>].tolist()[<span class="hljs-number">0</span>]
+    outputs = model(**inputs)
+    answer_start_scores = outputs.start_logits
+    answer_end_scores = outputs.end_logits
+    answer_start = torch.argmax(
+        answer_start_scores
+    )  <span class="hljs-comment"># Get the most likely beginning of answer with the argmax of the score</span>
+    answer_end = torch.argmax(answer_end_scores) + <span class="hljs-number">1</span>  <span class="hljs-comment"># Get the most likely end of answer with the argmax of the score</span>
+    answer = tokenizer.convert_tokens_to_string(tokenizer.convert_ids_to_tokens(input_ids[answer_start:answer_end]))
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Question: <span class="hljs-subst">{question}</span>"</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Answer: <span class="hljs-subst">{answer}</span>"</span>)
+</code></pre>
+<pre><code>Downloading: 100%|██████████| 443/443 [00:00&lt;00:00, 186kB/s]
+Downloading: 100%|██████████| 232k/232k [00:00&lt;00:00, 438kB/s]
+Downloading: 100%|██████████| 466k/466k [00:00&lt;00:00, 845kB/s]
+Downloading: 100%|██████████| 28.0/28.0 [00:00&lt;00:00, 10.5kB/s]
+Downloading: 100%|██████████| 1.34G/1.34G [01:28&lt;00:00, 15.1MB/s]
+
+
+Question: How many pretrained models are available in 🤗 Transformers?
+Answer: over 32 +
+Question: What does 🤗 Transformers provide?
+Answer: general - purpose architectures
+Question: 🤗 Transformers provides interoperability between which frameworks?
+Answer: tensorflow 2. 0 and pytorch
+</code></pre><hr></hr>
+<h2 id="bert训练和优化">BERT训练和优化</h2>
+<h3 id="41-pre-training">4.1 Pre-Training</h3>
+<p>预训练阶段，除了众所周知的 15%、80% mask 比例，有一个值得注意的地方就是参数共享。
+不止 BERT，所有 huggingface 实现的 PLM 的 word embedding 和 masked language model 的预测权重在初始化过程中都是共享的：</p>
+<pre><code>class PreTrainedModel(nn.Module, ModuleUtilsMixin, GenerationMixin):
+    # ...
+    def tie_weights(self):
+        """
+        Tie the weights between the input embeddings and the output embeddings.
+
+        If the :obj:`torchscript` flag is set in the configuration, can't handle parameter sharing so we are cloning
+        the weights instead.
+        """
+        output_embeddings = self.get_output_embeddings()
+        if output_embeddings is not None and self.config.tie_word_embeddings:
+            self._tie_or_clone_weights(output_embeddings, self.get_input_embeddings())
+
+        if self.config.is_encoder_decoder and self.config.tie_encoder_decoder:
+            if hasattr(self, self.base_model_prefix):
+                self = getattr(self, self.base_model_prefix)
+            self._tie_encoder_decoder_weights(self.encoder, self.decoder, self.base_model_prefix)
+    # ...
+</code></pre><p>至于为什么，应该是因为 word_embedding 和 prediction 权重太大了，以 bert-base 为例，其尺寸为(30522, 768)，降低训练难度。</p>
+<hr></hr>
+<h3 id="42-fine-tuning">4.2 Fine-Tuning</h3>
+<p>微调也就是下游任务阶段，也有两个值得注意的地方。</p>
+<h4 id="421-adamw">4.2.1 AdamW</h4>
+<p>首先介绍一下 BERT 的优化器：AdamW（AdamWeightDecayOptimizer）。</p>
+<p>这一优化器来自 ICLR 2017 的 Best Paper：《Fixing Weight Decay Regularization in Adam》中提出的一种用于修复 Adam 的权重衰减错误的新方法。论文指出，L2 正则化和权重衰减在大部分情况下并不等价，只在 SGD 优化的情况下是等价的；而大多数框架中对于 Adam+L2 正则使用的是权重衰减的方式，两者不能混为一谈。</p>
+<p>AdamW 是在 Adam+L2 正则化的基础上进行改进的算法，与一般的 Adam+L2 的区别如下：</p>
+<p><img src="pictures/3-5-adamw.png" alt="图：AdamW"></img> 图：AdamW</p>
+<p>关于 AdamW 的分析可以参考：</p>
+<ul>
+<li>AdamW and Super-convergence is now the fastest way to train neural nets [1]</li>
+<li>paperplanet：都 9102 年了，别再用 Adam + L2 regularization了 [2]</li>
+</ul>
+<p>通常，我们会选择模型的 weight 部分参与 decay 过程，而另一部分（包括 LayerNorm 的 weight）不参与（代码最初来源应该是 Huggingface 的示例）
+补充：关于这么做的理由，我暂时没有找到合理的解答。</p>
+<pre><code># model: a Bert-based-model object
+    # learning_rate: default 2e-5 for text classification
+    param_optimizer = list(model.named_parameters())
+    no_decay = ['bias', 'LayerNorm.bias', 'LayerNorm.weight']
+    optimizer_grouped_parameters = [
+        {'params': [p for n, p in param_optimizer if not any(
+            nd in n for nd in no_decay)], 'weight_decay': 0.01},
+        {'params': [p for n, p in param_optimizer if any(
+            nd in n for nd in no_decay)], 'weight_decay': 0.0}
+    ]
+    optimizer = AdamW(optimizer_grouped_parameters,
+                      lr=learning_rate)
+    # ...
+</code></pre><h4 id="422-warmup">4.2.2 Warmup</h4>
+<p>BERT 的训练中另一个特点在于 Warmup，其含义为：</p>
+<p>在训练初期使用较小的学习率（从 0 开始），在一定步数（比如 1000 步）内逐渐提高到正常大小（比如上面的 2e-5），避免模型过早进入局部最优而过拟合；</p>
+<ul>
+<li>在训练后期再慢慢将学习率降低到 0，避免后期训练还出现较大的参数变化。</li>
+<li>在 Huggingface 的实现中，可以使用多种 warmup 策略：<pre><code>TYPE_TO_SCHEDULER_FUNCTION = {
+  SchedulerType.LINEAR: get_linear_schedule_with_warmup,
+  SchedulerType.COSINE: get_cosine_schedule_with_warmup,
+  SchedulerType.COSINE_WITH_RESTARTS: get_cosine_with_hard_restarts_schedule_with_warmup,
+  SchedulerType.POLYNOMIAL: get_polynomial_decay_schedule_with_warmup,
+  SchedulerType.CONSTANT: get_constant_schedule,
+  SchedulerType.CONSTANT_WITH_WARMUP: get_constant_schedule_with_warmup,
+}
+</code></pre>具体而言：</li>
+<li>CONSTANT：保持固定学习率不变；</li>
+<li>CONSTANT_WITH_WARMUP：在每一个 step 中线性调整学习率；</li>
+<li>LINEAR：上文提到的两段式调整；</li>
+<li>COSINE：和两段式调整类似，只不过采用的是三角函数式的曲线调整；</li>
+<li>COSINE_WITH_RESTARTS：训练中将上面 COSINE 的调整重复 n 次；</li>
+<li>POLYNOMIAL：按指数曲线进行两段式调整。
+具体使用参考transformers/optimization.py：
+最常用的还是get_linear_scheduler_with_warmup即线性两段式调整学习率的方案。</li>
+</ul>
+<pre><code>def get_scheduler(
+    name: Union[str, SchedulerType],
+    optimizer: Optimizer,
+    num_warmup_steps: Optional[int] = None,
+    num_training_steps: Optional[int] = None,
+): ...
+</code></pre><p>以上即为关于 transformers 库（4.4.2 版本）中 BERT 应用的相关代码的具体实现分析，欢迎与读者共同交流探讨。</p>
+<h2 id="致谢">致谢</h2>
+<p>本文主要由浙江大学李泺秋撰写，本项目同学负责整理和汇总。</p>
+<pre><code class="lang-python">
+
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="3.1-如何实现一个BERT.html" class="navigation navigation-prev " aria-label="Previous page: 3.1-如何实现一个BERT">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="3.3-篇章小测.html" class="navigation navigation-next " aria-label="Next page: 3.3-篇章小测">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"3.2-如何应用一个BERT","level":"3.2","depth":1,"next":{"title":"3.3-篇章小测","level":"3.3","depth":1,"path":"篇章3-编写一个Transformer模型：BERT/3.3-篇章小测.md","ref":"./篇章3-编写一个Transformer模型：BERT/3.3-篇章小测.md","articles":[]},"previous":{"title":"3.1-如何实现一个BERT","level":"3.1","depth":1,"path":"篇章3-编写一个Transformer模型：BERT/3.1-如何实现一个BERT.md","ref":"./篇章3-编写一个Transformer模型：BERT/3.1-如何实现一个BERT.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"篇章3-编写一个Transformer模型：BERT/3.2-如何应用一个BERT.md","mtime":"2024-08-23T15:34:37.346Z","type":"markdown"},"gitbook":{"version":"5.1.4","time":"2024-08-23T15:50:04.957Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

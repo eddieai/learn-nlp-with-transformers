@@ -1,0 +1,1280 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <title>2.2.1-Pytorch编写Transformer · HonKit</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 5.1.4">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="2.2.1-Pytorch编写Transformer-选读.md" />
+    
+    
+    <link rel="prev" href="2.2-图解transformer.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">篇章1-前言</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../篇章1-前言/1.0-本地阅读和代码运行环境配置.html">
+            
+                <a href="../篇章1-前言/1.0-本地阅读和代码运行环境配置.html">
+            
+                    
+                    1.0-本地阅读和代码运行环境配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../篇章1-前言/1.1-Transformers在NLP中的兴起.html">
+            
+                <a href="../篇章1-前言/1.1-Transformers在NLP中的兴起.html">
+            
+                    
+                    1.1-Transformers在NLP中的兴起
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">篇章2-Transformer相关原理</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="2.0-前言.html">
+            
+                <a href="2.0-前言.html">
+            
+                    
+                    2.0-前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="2.1-图解attention.html">
+            
+                <a href="2.1-图解attention.html">
+            
+                    
+                    2.1-图解attention
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="2.2-图解transformer.html">
+            
+                <a href="2.2-图解transformer.html">
+            
+                    
+                    2.2-图解transformer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.4" data-path="2.2.1-Pytorch编写Transformer.html">
+            
+                <a href="2.2.1-Pytorch编写Transformer.html">
+            
+                    
+                    2.2.1-Pytorch编写Transformer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="2.2.1-Pytorch编写Transformer-选读.md">
+            
+                <span>
+            
+                    
+                    2.2.2-Pytorch编写Transformer-选读
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="2.3-图解BERT.html">
+            
+                <a href="2.3-图解BERT.html">
+            
+                    
+                    2.3-图解BERT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="2.4-图解GPT.html">
+            
+                <a href="2.4-图解GPT.html">
+            
+                    
+                    2.4-图解GPT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="2.5-篇章小测.html">
+            
+                <a href="2.5-篇章小测.html">
+            
+                    
+                    2.5-篇章小测
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">篇章3-编写一个Transformer模型：BERT</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../篇章3-编写一个Transformer模型：BERT/3.1-如何实现一个BERT.html">
+            
+                <a href="../篇章3-编写一个Transformer模型：BERT/3.1-如何实现一个BERT.html">
+            
+                    
+                    3.1-如何实现一个BERT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../篇章3-编写一个Transformer模型：BERT/3.2-如何应用一个BERT.html">
+            
+                <a href="../篇章3-编写一个Transformer模型：BERT/3.2-如何应用一个BERT.html">
+            
+                    
+                    3.2-如何应用一个BERT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../篇章3-编写一个Transformer模型：BERT/3.3-篇章小测.html">
+            
+                <a href="../篇章3-编写一个Transformer模型：BERT/3.3-篇章小测.html">
+            
+                    
+                    3.3-篇章小测
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">篇章4-使用Transformers解决NLP任务</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../篇章4-使用Transformers解决NLP任务/4.0-前言.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.0-前言.html">
+            
+                    
+                    4.0-前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../篇章4-使用Transformers解决NLP任务/4.0-基于HuggingFace-Transformers的预训练模型微调.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.0-基于HuggingFace-Transformers的预训练模型微调.html">
+            
+                    
+                    4.0-基于HuggingFace-Transformers的预训练模型微调
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../篇章4-使用Transformers解决NLP任务/4.1-文本分类.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.1-文本分类.html">
+            
+                    
+                    4.1-文本分类
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../篇章4-使用Transformers解决NLP任务/4.2-序列标注.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.2-序列标注.html">
+            
+                    
+                    4.2-序列标注
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="../篇章4-使用Transformers解决NLP任务/4.3-问答任务-抽取式问答.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.3-问答任务-抽取式问答.html">
+            
+                    
+                    4.3-问答任务-抽取式问答
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" data-path="../篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.html">
+            
+                    
+                    4.4-问答任务-多选问答
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" data-path="../篇章4-使用Transformers解决NLP任务/4.5-生成任务-语言模型.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.5-生成任务-语言模型.html">
+            
+                    
+                    4.5-生成任务-语言模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.8" data-path="../篇章4-使用Transformers解决NLP任务/4.6-生成任务-机器翻译.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.6-生成任务-机器翻译.html">
+            
+                    
+                    4.6-生成任务-机器翻译
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.9" data-path="../篇章4-使用Transformers解决NLP任务/4.7-生成任务-摘要生成.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.7-生成任务-摘要生成.html">
+            
+                    
+                    4.7-生成任务-摘要生成
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.10" data-path="../篇章4-使用Transformers解决NLP任务/4.8-篇章小测.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.8-篇章小测.html">
+            
+                    
+                    4.8-篇章小测
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            Published with HonKit
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >2.2.1-Pytorch编写Transformer</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <pre><code class="lang-python"><span class="hljs-keyword">from</span> IPython.display <span class="hljs-keyword">import</span> Image
+Image(filename=<span class="hljs-string">'pictures/transformer.png'</span>)
+</code></pre>
+<p><img src="2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_files/2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_0_0.png" alt="png"></img></p>
+<p>本文翻译自哈佛NLP<a href="https://nlp.seas.harvard.edu/2018/04/03/attention.html" target="_blank">The Annotated Transformer</a>
+本文主要由Harvard NLP的学者在2018年初撰写，以逐行实现的形式呈现了论文的“注释”版本,对原始论文进行了重排，并在整个过程中添加了评论和注释。本文的note book可以在<a href="https://github.com/datawhalechina/learn-nlp-with-transformers/tree/main/docs/%E7%AF%87%E7%AB%A02-Transformer%E7%9B%B8%E5%85%B3%E5%8E%9F%E7%90%86" target="_blank">篇章2</a>下载。</p>
+<p>内容组织：</p>
+<ul>
+<li>Pytorch编写完整的Transformer<ul>
+<li>背景</li>
+<li>模型架构</li>
+<li>Encoder部分和Decoder部分<ul>
+<li>Encoder</li>
+<li>Decoder</li>
+<li>Attention</li>
+<li>模型中Attention的应用</li>
+<li>基于位置的前馈网络</li>
+</ul>
+</li>
+<li>Embeddings和softmax</li>
+<li>位置编码</li>
+<li>完整模型</li>
+</ul>
+</li>
+<li>训练<ul>
+<li>批处理和mask</li>
+<li>Traning Loop</li>
+<li>训练数据和批处理</li>
+<li>硬件和训练时间</li>
+<li>优化器</li>
+<li>正则化<ul>
+<li>标签平滑</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>实例<ul>
+<li>合成数据</li>
+<li>损失函数计算</li>
+<li>贪婪解码</li>
+</ul>
+</li>
+<li>真实场景例</li>
+<li>结语</li>
+<li>致谢</li>
+</ul>
+<h1 id="预备工作">预备工作</h1>
+<pre><code class="lang-python"><span class="hljs-comment"># !pip install http://download.pytorch.org/whl/cu80/torch-0.3.0.post4-cp36-cp36m-linux_x86_64.whl numpy matplotlib spacy torchtext seaborn</span>
+</code></pre>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> torch
+<span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn
+<span class="hljs-keyword">import</span> torch.nn.functional <span class="hljs-keyword">as</span> F
+<span class="hljs-keyword">import</span> math, copy, time
+<span class="hljs-keyword">from</span> torch.autograd <span class="hljs-keyword">import</span> Variable
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-keyword">import</span> seaborn
+seaborn.set_context(context=<span class="hljs-string">"talk"</span>)
+%matplotlib inline
+</code></pre>
+<p>Table of Contents</p>
+<ul>
+<li>Table of Contents<br></br>{:toc}      </li>
+</ul>
+<h1 id="背景">背景</h1>
+<p>关于Transformer的更多背景知识读者可以阅读本项目的<a href="https://github.com/datawhalechina/learn-nlp-with-transformers/blob/main/docs/%E7%AF%87%E7%AB%A02-Transformer%E7%9B%B8%E5%85%B3%E5%8E%9F%E7%90%86/2.2-%E5%9B%BE%E8%A7%A3transformer.md" target="_blank">篇章2.2图解Transformer</a>进行学习。</p>
+<h1 id="模型架构">模型架构</h1>
+<p>大部分序列到序列（seq2seq）模型都使用编码器-解码器结构 <a href="https://arxiv.org/abs/1409.0473" target="_blank">(引用)</a>。编码器把一个输入序列$(x<em>{1},...x</em>{n})$映射到一个连续的表示$z=(z<em>{1},...z</em>{n})$中。解码器对z中的每个元素，生成输出序列$(y<em>{1},...y</em>{m})$。解码器一个时间步生成一个输出。在每一步中，模型都是自回归的<a href="https://arxiv.org/abs/1308.0850" target="_blank">(引用)</a>，在生成下一个结果时，会将先前生成的结果加入输入序列来一起预测。现在我们先构建一个EncoderDecoder类来搭建一个seq2seq架构：</p>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">EncoderDecoder</span>(nn.Module):
+    <span class="hljs-string">"""
+    基础的Encoder-Decoder结构。
+    A standard Encoder-Decoder architecture. Base for this and many 
+    other models.
+    """</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, encoder, decoder, src_embed, tgt_embed, generator</span>):
+        <span class="hljs-built_in">super</span>(EncoderDecoder, <span class="hljs-variable language_">self</span>).__init__()
+        <span class="hljs-variable language_">self</span>.encoder = encoder
+        <span class="hljs-variable language_">self</span>.decoder = decoder
+        <span class="hljs-variable language_">self</span>.src_embed = src_embed
+        <span class="hljs-variable language_">self</span>.tgt_embed = tgt_embed
+        <span class="hljs-variable language_">self</span>.generator = generator
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, src, tgt, src_mask, tgt_mask</span>):
+        <span class="hljs-string">"Take in and process masked src and target sequences."</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.decode(<span class="hljs-variable language_">self</span>.encode(src, src_mask), src_mask,
+                            tgt, tgt_mask)
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">encode</span>(<span class="hljs-params">self, src, src_mask</span>):
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.encoder(<span class="hljs-variable language_">self</span>.src_embed(src), src_mask)
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">decode</span>(<span class="hljs-params">self, memory, src_mask, tgt, tgt_mask</span>):
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.decoder(<span class="hljs-variable language_">self</span>.tgt_embed(tgt), memory, src_mask, tgt_mask)
+</code></pre>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Generator</span>(nn.Module):
+    <span class="hljs-string">"定义生成器，由linear和softmax组成"</span>
+    <span class="hljs-string">"Define standard linear + softmax generation step."</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, d_model, vocab</span>):
+        <span class="hljs-built_in">super</span>(Generator, <span class="hljs-variable language_">self</span>).__init__()
+        <span class="hljs-variable language_">self</span>.proj = nn.Linear(d_model, vocab)
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):
+        <span class="hljs-keyword">return</span> F.log_softmax(<span class="hljs-variable language_">self</span>.proj(x), dim=-<span class="hljs-number">1</span>)
+</code></pre>
+<p>TTransformer的编码器和解码器都使用self-attention和全连接层堆叠而成。如下图的左、右两边所示。</p>
+<pre><code class="lang-python">Image(filename=<span class="hljs-string">'./pictures/2-transformer.png'</span>)
+</code></pre>
+<p><img src="2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_files/2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_13_0.png" alt="png"></img></p>
+<h2 id="encoder部分和decoder部分">Encoder部分和Decoder部分</h2>
+<h3 id="encoder">Encoder</h3>
+<p>编码器由N = 6个完全相同的层组成。</p>
+<pre><code class="lang-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">clones</span>(<span class="hljs-params">module, N</span>):
+    <span class="hljs-string">"产生N个完全相同的网络层"</span>
+    <span class="hljs-string">"Produce N identical layers."</span>
+    <span class="hljs-keyword">return</span> nn.ModuleList([copy.deepcopy(module) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(N)])
+</code></pre>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Encoder</span>(nn.Module):
+    <span class="hljs-string">"完整的Encoder包含N层"</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, layer, N</span>):
+        <span class="hljs-built_in">super</span>(Encoder, <span class="hljs-variable language_">self</span>).__init__()
+        <span class="hljs-variable language_">self</span>.layers = clones(layer, N)
+        <span class="hljs-variable language_">self</span>.norm = LayerNorm(layer.size)
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x, mask</span>):
+        <span class="hljs-string">"每一层的输入是x和mask"</span>
+        <span class="hljs-keyword">for</span> layer <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.layers:
+            x = layer(x, mask)
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.norm(x)
+</code></pre>
+<p>编码器的每层encoder包含Self Attention 子层和FFNN子层，每个子层都使用了残差连接<a href="https://arxiv.org/abs/1512.03385" target="_blank">(cite)</a>，和层标准化（layer-normalization） <a href="https://arxiv.org/abs/1607.06450" target="_blank">(cite)</a>。先实现一下层标准化：</p>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">LayerNorm</span>(nn.Module):
+    <span class="hljs-string">"Construct a layernorm module (See citation for details)."</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, features, eps=<span class="hljs-number">1e-6</span></span>):
+        <span class="hljs-built_in">super</span>(LayerNorm, <span class="hljs-variable language_">self</span>).__init__()
+        <span class="hljs-variable language_">self</span>.a_2 = nn.Parameter(torch.ones(features))
+        <span class="hljs-variable language_">self</span>.b_2 = nn.Parameter(torch.zeros(features))
+        <span class="hljs-variable language_">self</span>.eps = eps
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):
+        mean = x.mean(-<span class="hljs-number">1</span>, keepdim=<span class="hljs-literal">True</span>)
+        std = x.std(-<span class="hljs-number">1</span>, keepdim=<span class="hljs-literal">True</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.a_2 * (x - mean) / (std + <span class="hljs-variable language_">self</span>.eps) + <span class="hljs-variable language_">self</span>.b_2
+</code></pre>
+<p>我们称呼子层为：$\mathrm{Sublayer}(x)$，每个子层的最终输出是$\mathrm{LayerNorm}(x + \mathrm{Sublayer}(x))$。 dropout <a href="http://jmlr.org/papers/v15/srivastava14a.html" target="_blank">(cite)</a>被加在Sublayer上。</p>
+<p>为了便于进行残差连接，模型中的所有子层以及embedding层产生的输出的维度都为 $d_{\text{model}}=512$。</p>
+<p>下面的SublayerConnection类用来处理单个Sublayer的输出，该输出将继续被输入下一个Sublayer：</p>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">SublayerConnection</span>(nn.Module):
+    <span class="hljs-string">"""
+    A residual connection followed by a layer norm.
+    Note for code simplicity the norm is first as opposed to last.
+    """</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, size, dropout</span>):
+        <span class="hljs-built_in">super</span>(SublayerConnection, <span class="hljs-variable language_">self</span>).__init__()
+        <span class="hljs-variable language_">self</span>.norm = LayerNorm(size)
+        <span class="hljs-variable language_">self</span>.dropout = nn.Dropout(dropout)
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x, sublayer</span>):
+        <span class="hljs-string">"Apply residual connection to any sublayer with the same size."</span>
+        <span class="hljs-keyword">return</span> x + <span class="hljs-variable language_">self</span>.dropout(sublayer(<span class="hljs-variable language_">self</span>.norm(x)))
+</code></pre>
+<p>每一层encoder都有两个子层。 第一层是一个multi-head self-attention层，第二层是一个简单的全连接前馈网络，对于这两层都需要使用SublayerConnection类进行处理。</p>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">EncoderLayer</span>(nn.Module):
+    <span class="hljs-string">"Encoder is made up of self-attn and feed forward (defined below)"</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, size, self_attn, feed_forward, dropout</span>):
+        <span class="hljs-built_in">super</span>(EncoderLayer, <span class="hljs-variable language_">self</span>).__init__()
+        <span class="hljs-variable language_">self</span>.self_attn = self_attn
+        <span class="hljs-variable language_">self</span>.feed_forward = feed_forward
+        <span class="hljs-variable language_">self</span>.sublayer = clones(SublayerConnection(size, dropout), <span class="hljs-number">2</span>)
+        <span class="hljs-variable language_">self</span>.size = size
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x, mask</span>):
+        <span class="hljs-string">"Follow Figure 1 (left) for connections."</span>
+        x = <span class="hljs-variable language_">self</span>.sublayer[<span class="hljs-number">0</span>](x, <span class="hljs-keyword">lambda</span> x: <span class="hljs-variable language_">self</span>.self_attn(x, x, x, mask))
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.sublayer[<span class="hljs-number">1</span>](x, <span class="hljs-variable language_">self</span>.feed_forward)
+</code></pre>
+<h3 id="decoder">Decoder</h3>
+<p>解码器也是由N = 6 个完全相同的decoder层组成。  </p>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Decoder</span>(nn.Module):
+    <span class="hljs-string">"Generic N layer decoder with masking."</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, layer, N</span>):
+        <span class="hljs-built_in">super</span>(Decoder, <span class="hljs-variable language_">self</span>).__init__()
+        <span class="hljs-variable language_">self</span>.layers = clones(layer, N)
+        <span class="hljs-variable language_">self</span>.norm = LayerNorm(layer.size)
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x, memory, src_mask, tgt_mask</span>):
+        <span class="hljs-keyword">for</span> layer <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.layers:
+            x = layer(x, memory, src_mask, tgt_mask)
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.norm(x)
+</code></pre>
+<p>单层decoder与单层encoder相比，decoder还有第三个子层，该层对encoder的输出执行attention：即encoder-decoder-attention层，q向量来自decoder上一层的输出，k和v向量是encoder最后层的输出向量。与encoder类似，我们在每个子层再采用残差连接，然后进行层标准化。</p>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">DecoderLayer</span>(nn.Module):
+    <span class="hljs-string">"Decoder is made of self-attn, src-attn, and feed forward (defined below)"</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, size, self_attn, src_attn, feed_forward, dropout</span>):
+        <span class="hljs-built_in">super</span>(DecoderLayer, <span class="hljs-variable language_">self</span>).__init__()
+        <span class="hljs-variable language_">self</span>.size = size
+        <span class="hljs-variable language_">self</span>.self_attn = self_attn
+        <span class="hljs-variable language_">self</span>.src_attn = src_attn
+        <span class="hljs-variable language_">self</span>.feed_forward = feed_forward
+        <span class="hljs-variable language_">self</span>.sublayer = clones(SublayerConnection(size, dropout), <span class="hljs-number">3</span>)
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x, memory, src_mask, tgt_mask</span>):
+        <span class="hljs-string">"Follow Figure 1 (right) for connections."</span>
+        m = memory
+        x = <span class="hljs-variable language_">self</span>.sublayer[<span class="hljs-number">0</span>](x, <span class="hljs-keyword">lambda</span> x: <span class="hljs-variable language_">self</span>.self_attn(x, x, x, tgt_mask))
+        x = <span class="hljs-variable language_">self</span>.sublayer[<span class="hljs-number">1</span>](x, <span class="hljs-keyword">lambda</span> x: <span class="hljs-variable language_">self</span>.src_attn(x, m, m, src_mask))
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.sublayer[<span class="hljs-number">2</span>](x, <span class="hljs-variable language_">self</span>.feed_forward)
+</code></pre>
+<p>对于单层decoder中的self-attention子层，我们需要使用mask机制，以防止在当前位置关注到后面的位置。</p>
+<pre><code class="lang-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">subsequent_mask</span>(<span class="hljs-params">size</span>):
+    <span class="hljs-string">"Mask out subsequent positions."</span>
+    attn_shape = (<span class="hljs-number">1</span>, size, size)
+    subsequent_mask = np.triu(np.ones(attn_shape), k=<span class="hljs-number">1</span>).astype(<span class="hljs-string">'uint8'</span>)
+    <span class="hljs-keyword">return</span> torch.from_numpy(subsequent_mask) == <span class="hljs-number">0</span>
+</code></pre>
+<blockquote>
+<p>下面的attention mask显示了每个tgt单词（行）允许查看（列）的位置。在训练时将当前单词的未来信息屏蔽掉，阻止此单词关注到后面的单词。</p>
+</blockquote>
+<pre><code class="lang-python">
+plt.figure(figsize=(<span class="hljs-number">5</span>,<span class="hljs-number">5</span>))
+plt.imshow(subsequent_mask(<span class="hljs-number">20</span>)[<span class="hljs-number">0</span>])
+<span class="hljs-literal">None</span>
+</code></pre>
+<p><img src="2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_files/2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_30_0.svg" alt="svg"></img></p>
+<h3 id="attention">Attention</h3>
+<p>Attention功能可以描述为将query和一组key-value映射到输出，其中query、key、value和输出都是向量。输出为value的加权和，其中每个value的权重通过query与相应key的计算得到。<br></br>我们将particular attention称之为“缩放的点积Attention”(Scaled Dot-Product Attention")。其输入为query、key(维度是$d_k$)以及values(维度是$d_v$)。我们计算query和所有key的点积，然后对每个除以 $\sqrt{d_k}$, 最后用softmax函数获得value的权重。                                                                                                                                                                                                                                 </p>
+<pre><code class="lang-python">Image(filename=<span class="hljs-string">'./pictures/transformer-self-attention.png'</span>)
+</code></pre>
+<p><img src="2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_files/2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_32_0.png" alt="png"></img></p>
+<p>在实践中，我们同时计算一组query的attention函数，并将它们组合成一个矩阵$Q$。key和value也一起组成矩阵$K$和$V$。 我们计算的输出矩阵为：</p>
+<p>$$<br></br>   \mathrm{Attention}(Q, K, V) = \mathrm{softmax}(\frac{QK^T}{\sqrt{d_k}})V               </p>
+<p>$$   </p>
+<pre><code class="lang-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">attention</span>(<span class="hljs-params">query, key, value, mask=<span class="hljs-literal">None</span>, dropout=<span class="hljs-literal">None</span></span>):
+    <span class="hljs-string">"Compute 'Scaled Dot Product Attention'"</span>
+    d_k = query.size(-<span class="hljs-number">1</span>)
+    scores = torch.matmul(query, key.transpose(-<span class="hljs-number">2</span>, -<span class="hljs-number">1</span>)) \
+             / math.sqrt(d_k)
+    <span class="hljs-keyword">if</span> mask <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+        scores = scores.masked_fill(mask == <span class="hljs-number">0</span>, -<span class="hljs-number">1e9</span>)
+    p_attn = F.softmax(scores, dim = -<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">if</span> dropout <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+        p_attn = dropout(p_attn)
+    <span class="hljs-keyword">return</span> torch.matmul(p_attn, value), p_attn
+</code></pre>
+<p>  两个最常用的attention函数是：</p>
+<ul>
+<li>加法attention<a href="https://arxiv.org/abs/1409.0473" target="_blank">(cite)</a></li>
+<li>点积（乘法）attention</li>
+</ul>
+<p>除了缩放因子$\frac{1}{\sqrt{d<em>k}}$ ，点积Attention跟我们的平时的点乘算法一样。加法attention使用具有单个隐层的前馈网络计算相似度。虽然理论上点积attention和加法attention复杂度相似，但在实践中，点积attention可以使用高度优化的矩阵乘法来实现，因此点积attention计算更快、更节省空间。<br></br>当$d_k$ 的值比较小的时候，这两个机制的性能相近。当$d_k$比较大时，加法attention比不带缩放的点积attention性能好  <a href="https://arxiv.org/abs/1703.03906" target="_blank">(cite)</a>。我们怀疑，对于很大的$d_k$值, 点积大幅度增长，将softmax函数推向具有极小梯度的区域。(为了说明为什么点积变大，假设q和k是独立的随机变量，均值为0，方差为1。那么它们的点积$q \cdot k = \sum</em>{i=1}^{d_k} q_ik_i$, 均值为0方差为$d_k$)。为了抵消这种影响，我们将点积缩小 $\frac{1}{\sqrt{d_k}}$倍。     </p>
+<p>在此引用苏剑林文章<a href="https://zhuanlan.zhihu.com/p/400925524?utm_source=wechat_session&amp;utm_medium=social&amp;utm_oi=1400823417357139968&amp;utm_campaign=shareopn" target="_blank">《浅谈Transformer的初始化、参数化与标准化》</a>中谈到的，为什么Attention中除以$\sqrt{d}$这么重要？</p>
+<pre><code class="lang-python">Image(filename=<span class="hljs-string">'pictures/transformer-linear.png'</span>)
+</code></pre>
+<p><img src="2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_files/2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_37_0.png" alt="png"></img></p>
+<p>Multi-head attention允许模型同时关注来自不同位置的不同表示子空间的信息，如果只有一个attention head，向量的表示能力会下降。</p>
+<p>$$<br></br>\mathrm{MultiHead}(Q, K, V) = \mathrm{Concat}(\mathrm{head_1}, ..., \mathrm{head_h})W^O    \<br></br>    \text{where}~\mathrm{head_i} = \mathrm{Attention}(QW^Q_i, KW^K_i, VW^V_i)                                </p>
+<p>$$                                                                           </p>
+<p>其中映射由权重矩阵完成：$W^Q<em>i \in \mathbb{R}^{d</em>{\text{model}} \times d<em>k}$, $W^K_i \in \mathbb{R}^{d</em>{\text{model}} \times d<em>k}$, $W^V_i \in \mathbb{R}^{d</em>{\text{model}} \times d<em>v}$ and $W^O \in \mathbb{R}^{hd_v \times d</em>{\text{model}}}$。 </p>
+<p> 在这项工作中，我们采用$h=8$个平行attention层或者叫head。对于这些head中的每一个，我们使用$d<em>k=d_v=d</em>{\text{model}}/h=64$。由于每个head的维度减小，总计算成本与具有全部维度的单个head attention相似。 </p>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MultiHeadedAttention</span>(nn.Module):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, h, d_model, dropout=<span class="hljs-number">0.1</span></span>):
+        <span class="hljs-string">"Take in model size and number of heads."</span>
+        <span class="hljs-built_in">super</span>(MultiHeadedAttention, <span class="hljs-variable language_">self</span>).__init__()
+        <span class="hljs-keyword">assert</span> d_model % h == <span class="hljs-number">0</span>
+        <span class="hljs-comment"># We assume d_v always equals d_k</span>
+        <span class="hljs-variable language_">self</span>.d_k = d_model // h
+        <span class="hljs-variable language_">self</span>.h = h
+        <span class="hljs-variable language_">self</span>.linears = clones(nn.Linear(d_model, d_model), <span class="hljs-number">4</span>)
+        <span class="hljs-variable language_">self</span>.attn = <span class="hljs-literal">None</span>
+        <span class="hljs-variable language_">self</span>.dropout = nn.Dropout(p=dropout)
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, query, key, value, mask=<span class="hljs-literal">None</span></span>):
+        <span class="hljs-string">"Implements Figure 2"</span>
+        <span class="hljs-keyword">if</span> mask <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-comment"># Same mask applied to all h heads.</span>
+            mask = mask.unsqueeze(<span class="hljs-number">1</span>)
+        nbatches = query.size(<span class="hljs-number">0</span>)
+
+        <span class="hljs-comment"># 1) Do all the linear projections in batch from d_model =&gt; h x d_k </span>
+        query, key, value = \
+            [l(x).view(nbatches, -<span class="hljs-number">1</span>, <span class="hljs-variable language_">self</span>.h, <span class="hljs-variable language_">self</span>.d_k).transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)
+             <span class="hljs-keyword">for</span> l, x <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(<span class="hljs-variable language_">self</span>.linears, (query, key, value))]
+
+        <span class="hljs-comment"># 2) Apply attention on all the projected vectors in batch. </span>
+        x, <span class="hljs-variable language_">self</span>.attn = attention(query, key, value, mask=mask, 
+                                 dropout=<span class="hljs-variable language_">self</span>.dropout)
+
+        <span class="hljs-comment"># 3) "Concat" using a view and apply a final linear. </span>
+        x = x.transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>).contiguous() \
+             .view(nbatches, -<span class="hljs-number">1</span>, <span class="hljs-variable language_">self</span>.h * <span class="hljs-variable language_">self</span>.d_k)
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.linears[-<span class="hljs-number">1</span>](x)
+</code></pre>
+<h3 id="模型中attention的应用">模型中Attention的应用</h3>
+<p>multi-head attention在Transformer中有三种不同的使用方式：                                                        </p>
+<ul>
+<li>在encoder-decoder attention层中，queries来自前面的decoder层，而keys和values来自encoder的输出。这使得decoder中的每个位置都能关注到输入序列中的所有位置。这是模仿序列到序列模型中典型的编码器—解码器的attention机制，例如 <a href="https://arxiv.org/abs/1609.08144" target="_blank">(cite)</a>.    </li>
+</ul>
+<ul>
+<li>encoder包含self-attention层。在self-attention层中，所有key，value和query来自同一个地方，即encoder中前一层的输出。在这种情况下，encoder中的每个位置都可以关注到encoder上一层的所有位置。</li>
+</ul>
+<ul>
+<li>类似地，decoder中的self-attention层允许decoder中的每个位置都关注decoder层中当前位置之前的所有位置（包括当前位置）。 为了保持解码器的自回归特性，需要防止解码器中的信息向左流动。我们在缩放点积attention的内部，通过屏蔽softmax输入中所有的非法连接值（设置为$-\infty$）实现了这一点。                                                                                                                                                                                                                                                     </li>
+</ul>
+<h3 id="基于位置的前馈网络">基于位置的前馈网络</h3>
+<p>除了attention子层之外，我们的编码器和解码器中的每个层都包含一个全连接的前馈网络，该网络在每个层的位置相同（都在每个encoder-layer或者decoder-layer的最后）。该前馈网络包括两个线性变换，并在两个线性变换中间有一个ReLU激活函数。</p>
+<p>$$\mathrm{FFN}(x)=\max(0, xW_1 + b_1) W_2 + b_2$$                                                                        </p>
+<p>尽管两层都是线性变换，但它们在层与层之间使用不同的参数。另一种描述方式是两个内核大小为1的卷积。 输入和输出的维度都是 $d<em>{\text{model}}=512$, 内层维度是$d</em>{ff}=2048$。（也就是第一层输入512维,输出2048维；第二层输入2048维，输出512维）</p>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PositionwiseFeedForward</span>(nn.Module):
+    <span class="hljs-string">"Implements FFN equation."</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, d_model, d_ff, dropout=<span class="hljs-number">0.1</span></span>):
+        <span class="hljs-built_in">super</span>(PositionwiseFeedForward, <span class="hljs-variable language_">self</span>).__init__()
+        <span class="hljs-variable language_">self</span>.w_1 = nn.Linear(d_model, d_ff)
+        <span class="hljs-variable language_">self</span>.w_2 = nn.Linear(d_ff, d_model)
+        <span class="hljs-variable language_">self</span>.dropout = nn.Dropout(dropout)
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.w_2(<span class="hljs-variable language_">self</span>.dropout(F.relu(<span class="hljs-variable language_">self</span>.w_1(x))))
+</code></pre>
+<h2 id="embeddings-and-softmax">Embeddings and Softmax</h2>
+<p>与其他seq2seq模型类似，我们使用学习到的embedding将输入token和输出token转换为$d<em>{\text{model}}$维的向量。我们还使用普通的线性变换和softmax函数将解码器输出转换为预测的下一个token的概率 在我们的模型中，两个嵌入层之间和pre-softmax线性变换共享相同的权重矩阵，类似于<a href="https://arxiv.org/abs/1608.05859" target="_blank">(cite)</a>。在embedding层中，我们将这些权重乘以$\sqrt{d</em>{\text{model}}}$。                                                                                                                               </p>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Embeddings</span>(nn.Module):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, d_model, vocab</span>):
+        <span class="hljs-built_in">super</span>(Embeddings, <span class="hljs-variable language_">self</span>).__init__()
+        <span class="hljs-variable language_">self</span>.lut = nn.Embedding(vocab, d_model)
+        <span class="hljs-variable language_">self</span>.d_model = d_model
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.lut(x) * math.sqrt(<span class="hljs-variable language_">self</span>.d_model)
+</code></pre>
+<h2 id="位置编码">位置编码</h2>
+<p>  由于我们的模型不包含循环和卷积，为了让模型利用序列的顺序，我们必须加入一些序列中token的相对或者绝对位置的信息。为此，我们将“位置编码”添加到编码器和解码器堆栈底部的输入embeddinng中。位置编码和embedding的维度相同，也是$d_{\text{model}}$ , 所以这两个向量可以相加。有多种位置编码可以选择，例如通过学习得到的位置编码和固定的位置编码 <a href="https://arxiv.org/pdf/1705.03122.pdf" target="_blank">(cite)</a>。</p>
+<p>  在这项工作中，我们使用不同频率的正弦和余弦函数：                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             $$PE<em>{(pos,2i)} = sin(pos / 10000^{2i/d</em>{\text{model}}})$$</p>
+<p>$$PE<em>{(pos,2i+1)} = cos(pos / 10000^{2i/d</em>{\text{model}}})$$<br></br>  其中$pos$ 是位置，$i$ 是维度。也就是说，位置编码的每个维度对应于一个正弦曲线。 这些波长形成一个从$2\pi$ 到 $10000 \cdot 2\pi$的集合级数。我们选择这个函数是因为我们假设它会让模型很容易学习对相对位置的关注，因为对任意确定的偏移$k$, $PE<em>{pos+k}$ 可以表示为 $PE</em>{pos}$的线性函数。</p>
+<p>  此外，我们会将编码器和解码器堆栈中的embedding和位置编码的和再加一个dropout。对于基本模型，我们使用的dropout比例是$P_{drop}=0.1$。</p>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PositionalEncoding</span>(nn.Module):
+    <span class="hljs-string">"Implement the PE function."</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, d_model, dropout, max_len=<span class="hljs-number">5000</span></span>):
+        <span class="hljs-built_in">super</span>(PositionalEncoding, <span class="hljs-variable language_">self</span>).__init__()
+        <span class="hljs-variable language_">self</span>.dropout = nn.Dropout(p=dropout)
+
+        <span class="hljs-comment"># Compute the positional encodings once in log space.</span>
+        pe = torch.zeros(max_len, d_model)
+        position = torch.arange(<span class="hljs-number">0</span>, max_len).unsqueeze(<span class="hljs-number">1</span>)
+        div_term = torch.exp(torch.arange(<span class="hljs-number">0</span>, d_model, <span class="hljs-number">2</span>) *
+                             -(math.log(<span class="hljs-number">10000.0</span>) / d_model))
+        pe[:, <span class="hljs-number">0</span>::<span class="hljs-number">2</span>] = torch.sin(position * div_term)
+        pe[:, <span class="hljs-number">1</span>::<span class="hljs-number">2</span>] = torch.cos(position * div_term)
+        pe = pe.unsqueeze(<span class="hljs-number">0</span>)
+        <span class="hljs-variable language_">self</span>.register_buffer(<span class="hljs-string">'pe'</span>, pe)
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):
+        x = x + Variable(<span class="hljs-variable language_">self</span>.pe[:, :x.size(<span class="hljs-number">1</span>)], 
+                         requires_grad=<span class="hljs-literal">False</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.dropout(x)
+</code></pre>
+<blockquote>
+<p>如下图，位置编码将根据位置添加正弦波。波的频率和偏移对于每个维度都是不同的。</p>
+</blockquote>
+<pre><code class="lang-python">plt.figure(figsize=(<span class="hljs-number">15</span>, <span class="hljs-number">5</span>))
+pe = PositionalEncoding(<span class="hljs-number">20</span>, <span class="hljs-number">0</span>)
+y = pe.forward(Variable(torch.zeros(<span class="hljs-number">1</span>, <span class="hljs-number">100</span>, <span class="hljs-number">20</span>)))
+plt.plot(np.arange(<span class="hljs-number">100</span>), y[<span class="hljs-number">0</span>, :, <span class="hljs-number">4</span>:<span class="hljs-number">8</span>].data.numpy())
+plt.legend([<span class="hljs-string">"dim %d"</span>%p <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>]])
+<span class="hljs-literal">None</span>
+</code></pre>
+<p><img src="2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_files/2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_48_0.svg" alt="svg"></img></p>
+<p>我们还尝试使用学习的位置embeddings<a href="https://arxiv.org/pdf/1705.03122.pdf" target="_blank">(cite)</a>来代替固定的位置编码，结果发现两种方法产生了几乎相同的效果。于是我们选择了正弦版本，因为它可能允许模型外推到，比训练时遇到的序列更长的序列。</p>
+<h2 id="完整模型">完整模型</h2>
+<blockquote>
+<p>在这里，我们定义了一个从超参数到完整模型的函数。</p>
+</blockquote>
+<pre><code class="lang-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">make_model</span>(<span class="hljs-params">src_vocab, tgt_vocab, N=<span class="hljs-number">6</span>, 
+               d_model=<span class="hljs-number">512</span>, d_ff=<span class="hljs-number">2048</span>, h=<span class="hljs-number">8</span>, dropout=<span class="hljs-number">0.1</span></span>):
+    <span class="hljs-string">"Helper: Construct a model from hyperparameters."</span>
+    c = copy.deepcopy
+    attn = MultiHeadedAttention(h, d_model)
+    ff = PositionwiseFeedForward(d_model, d_ff, dropout)
+    position = PositionalEncoding(d_model, dropout)
+    model = EncoderDecoder(
+        Encoder(EncoderLayer(d_model, c(attn), c(ff), dropout), N),
+        Decoder(DecoderLayer(d_model, c(attn), c(attn), 
+                             c(ff), dropout), N),
+        nn.Sequential(Embeddings(d_model, src_vocab), c(position)),
+        nn.Sequential(Embeddings(d_model, tgt_vocab), c(position)),
+        Generator(d_model, tgt_vocab))
+
+    <span class="hljs-comment"># This was important from their code. </span>
+    <span class="hljs-comment"># Initialize parameters with Glorot / fan_avg.</span>
+    <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> model.parameters():
+        <span class="hljs-keyword">if</span> p.dim() &gt; <span class="hljs-number">1</span>:
+            nn.init.xavier_uniform(p)
+    <span class="hljs-keyword">return</span> model
+</code></pre>
+<pre><code class="lang-python"><span class="hljs-comment"># Small example model.</span>
+tmp_model = make_model(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, <span class="hljs-number">2</span>)
+<span class="hljs-literal">None</span>
+</code></pre>
+<pre><code>/var/folders/2k/x3py0v857kgcwqvvl00xxhxw0000gn/T/ipykernel_27532/2289673833.py:20: UserWarning: nn.init.xavier_uniform is now deprecated in favor of nn.init.xavier_uniform_.
+  nn.init.xavier_uniform(p)
+</code></pre><h1 id="训练">训练</h1>
+<p>本节描述了我们模型的训练机制。</p>
+<blockquote>
+<p>我们在这快速地介绍一些工具，这些工具用于训练一个标准的encoder-decoder模型。首先，我们定义一个批处理对象，其中包含用于训练的 src 和目标句子，以及构建掩码。</p>
+</blockquote>
+<h2 id="批处理和掩码">批处理和掩码</h2>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Batch</span>:
+    <span class="hljs-string">"Object for holding a batch of data with mask during training."</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, src, trg=<span class="hljs-literal">None</span>, pad=<span class="hljs-number">0</span></span>):
+        <span class="hljs-variable language_">self</span>.src = src
+        <span class="hljs-variable language_">self</span>.src_mask = (src != pad).unsqueeze(-<span class="hljs-number">2</span>)
+        <span class="hljs-keyword">if</span> trg <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-variable language_">self</span>.trg = trg[:, :-<span class="hljs-number">1</span>]
+            <span class="hljs-variable language_">self</span>.trg_y = trg[:, <span class="hljs-number">1</span>:]
+            <span class="hljs-variable language_">self</span>.trg_mask = \
+                <span class="hljs-variable language_">self</span>.make_std_mask(<span class="hljs-variable language_">self</span>.trg, pad)
+            <span class="hljs-variable language_">self</span>.ntokens = (<span class="hljs-variable language_">self</span>.trg_y != pad).data.<span class="hljs-built_in">sum</span>()
+
+<span class="hljs-meta">    @staticmethod</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">make_std_mask</span>(<span class="hljs-params">tgt, pad</span>):
+        <span class="hljs-string">"Create a mask to hide padding and future words."</span>
+        tgt_mask = (tgt != pad).unsqueeze(-<span class="hljs-number">2</span>)
+        tgt_mask = tgt_mask &amp; Variable(
+            subsequent_mask(tgt.size(-<span class="hljs-number">1</span>)).type_as(tgt_mask.data))
+        <span class="hljs-keyword">return</span> tgt_mask
+</code></pre>
+<blockquote>
+<p>接下来我们创建一个通用的训练和评估函数来跟踪损失。我们传入一个通用的损失函数，也用它来进行参数更新。</p>
+</blockquote>
+<h2 id="training-loop">Training Loop</h2>
+<pre><code class="lang-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">run_epoch</span>(<span class="hljs-params">data_iter, model, loss_compute</span>):
+    <span class="hljs-string">"Standard Training and Logging Function"</span>
+    start = time.time()
+    total_tokens = <span class="hljs-number">0</span>
+    total_loss = <span class="hljs-number">0</span>
+    tokens = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">for</span> i, batch <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(data_iter):
+        out = model.forward(batch.src, batch.trg, 
+                            batch.src_mask, batch.trg_mask)
+        loss = loss_compute(out, batch.trg_y, batch.ntokens)
+        total_loss += loss
+        total_tokens += batch.ntokens
+        tokens += batch.ntokens
+        <span class="hljs-keyword">if</span> i % <span class="hljs-number">50</span> == <span class="hljs-number">1</span>:
+            elapsed = time.time() - start
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">"Epoch Step: %d Loss: %f Tokens per Sec: %f"</span> %
+                    (i, loss / batch.ntokens, tokens / elapsed))
+            start = time.time()
+            tokens = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">return</span> total_loss / total_tokens
+</code></pre>
+<h2 id="训练数据和批处理">训练数据和批处理</h2>
+<p>  我们在包含约450万个句子对的标准WMT 2014英语-德语数据集上进行了训练。这些句子使用字节对编码进行编码，源语句和目标语句共享大约37000个token的词汇表。对于英语-法语翻译，我们使用了明显更大的WMT 2014英语-法语数据集，该数据集由 3600 万个句子组成，并将token拆分为32000个word-piece词表。<br></br>
+每个训练批次包含一组句子对，句子对按相近序列长度来分批处理。每个训练批次的句子对包含大约25000个源语言的tokens和25000个目标语言的tokens。</p>
+<blockquote>
+<p>我们将使用torch text进行批处理（后文会进行更详细地讨论）。在这里，我们在torchtext函数中创建批处理，以确保我们填充到最大值的批处理大小不会超过阈值（如果我们有8个gpu，则为25000）。</p>
+</blockquote>
+<pre><code class="lang-python"><span class="hljs-keyword">global</span> max_src_in_batch, max_tgt_in_batch
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">batch_size_fn</span>(<span class="hljs-params">new, count, sofar</span>):
+    <span class="hljs-string">"Keep augmenting batch and calculate total number of tokens + padding."</span>
+    <span class="hljs-keyword">global</span> max_src_in_batch, max_tgt_in_batch
+    <span class="hljs-keyword">if</span> count == <span class="hljs-number">1</span>:
+        max_src_in_batch = <span class="hljs-number">0</span>
+        max_tgt_in_batch = <span class="hljs-number">0</span>
+    max_src_in_batch = <span class="hljs-built_in">max</span>(max_src_in_batch,  <span class="hljs-built_in">len</span>(new.src))
+    max_tgt_in_batch = <span class="hljs-built_in">max</span>(max_tgt_in_batch,  <span class="hljs-built_in">len</span>(new.trg) + <span class="hljs-number">2</span>)
+    src_elements = count * max_src_in_batch
+    tgt_elements = count * max_tgt_in_batch
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">max</span>(src_elements, tgt_elements)
+</code></pre>
+<h2 id="硬件和训练时间">硬件和训练时间</h2>
+<p>我们在一台配备8个 NVIDIA P100 GPU 的机器上训练我们的模型。使用论文中描述的超参数的base models，每个训练step大约需要0.4秒。我们对base models进行了总共10万steps或12小时的训练。而对于big models，每个step训练时间为1.0秒，big models训练了30万steps（3.5 天）。</p>
+<h2 id="optimizer">Optimizer</h2>
+<p>我们使用Adam优化器<a href="https://arxiv.org/abs/1412.6980" target="_blank">(cite)</a>，其中 $\beta_1=0.9$, $\beta_2=0.98$并且$\epsilon=10^{-9}$。我们根据以下公式在训练过程中改变学习率：                                         </p>
+<p>$$<br></br>lrate = d_{\text{model}}^{-0.5} \cdot<br></br>  \min({step_num}^{-0.5},<br></br>    {step_num} \cdot {warmup_steps}^{-1.5})                                                                                                                                                                                                                                                                               </p>
+<p>$$<br></br>这对应于在第一次$warmup_steps$步中线性地增加学习速率，并且随后将其与步数的平方根成比例地减小。我们使用$warmup_steps=4000$。                            </p>
+<blockquote>
+<p>注意：这部分非常重要。需要使用此模型设置进行训练。</p>
+</blockquote>
+<pre><code class="lang-python">
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">NoamOpt</span>:
+    <span class="hljs-string">"Optim wrapper that implements rate."</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, model_size, factor, warmup, optimizer</span>):
+        <span class="hljs-variable language_">self</span>.optimizer = optimizer
+        <span class="hljs-variable language_">self</span>._step = <span class="hljs-number">0</span>
+        <span class="hljs-variable language_">self</span>.warmup = warmup
+        <span class="hljs-variable language_">self</span>.factor = factor
+        <span class="hljs-variable language_">self</span>.model_size = model_size
+        <span class="hljs-variable language_">self</span>._rate = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">step</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-string">"Update parameters and rate"</span>
+        <span class="hljs-variable language_">self</span>._step += <span class="hljs-number">1</span>
+        rate = <span class="hljs-variable language_">self</span>.rate()
+        <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.optimizer.param_groups:
+            p[<span class="hljs-string">'lr'</span>] = rate
+        <span class="hljs-variable language_">self</span>._rate = rate
+        <span class="hljs-variable language_">self</span>.optimizer.step()
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">rate</span>(<span class="hljs-params">self, step = <span class="hljs-literal">None</span></span>):
+        <span class="hljs-string">"Implement `lrate` above"</span>
+        <span class="hljs-keyword">if</span> step <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+            step = <span class="hljs-variable language_">self</span>._step
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.factor * \
+            (<span class="hljs-variable language_">self</span>.model_size ** (-<span class="hljs-number">0.5</span>) *
+            <span class="hljs-built_in">min</span>(step ** (-<span class="hljs-number">0.5</span>), step * <span class="hljs-variable language_">self</span>.warmup ** (-<span class="hljs-number">1.5</span>)))
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_std_opt</span>(<span class="hljs-params">model</span>):
+    <span class="hljs-keyword">return</span> NoamOpt(model.src_embed[<span class="hljs-number">0</span>].d_model, <span class="hljs-number">2</span>, <span class="hljs-number">4000</span>,
+            torch.optim.Adam(model.parameters(), lr=<span class="hljs-number">0</span>, betas=(<span class="hljs-number">0.9</span>, <span class="hljs-number">0.98</span>), eps=<span class="hljs-number">1e-9</span>))
+</code></pre>
+<blockquote>
+<p>以下是此模型针对不同模型大小和优化超参数的曲线示例。</p>
+</blockquote>
+<pre><code class="lang-python"><span class="hljs-comment"># Three settings of the lrate hyperparameters.</span>
+opts = [NoamOpt(<span class="hljs-number">512</span>, <span class="hljs-number">1</span>, <span class="hljs-number">4000</span>, <span class="hljs-literal">None</span>), 
+        NoamOpt(<span class="hljs-number">512</span>, <span class="hljs-number">1</span>, <span class="hljs-number">8000</span>, <span class="hljs-literal">None</span>),
+        NoamOpt(<span class="hljs-number">256</span>, <span class="hljs-number">1</span>, <span class="hljs-number">4000</span>, <span class="hljs-literal">None</span>)]
+plt.plot(np.arange(<span class="hljs-number">1</span>, <span class="hljs-number">20000</span>), [[opt.rate(i) <span class="hljs-keyword">for</span> opt <span class="hljs-keyword">in</span> opts] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">20000</span>)])
+plt.legend([<span class="hljs-string">"512:4000"</span>, <span class="hljs-string">"512:8000"</span>, <span class="hljs-string">"256:4000"</span>])
+<span class="hljs-literal">None</span>
+</code></pre>
+<p><img src="2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_files/2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_68_0.svg" alt="svg"></img></p>
+<h2 id="正则化">正则化</h2>
+<h3 id="标签平滑">标签平滑</h3>
+<p>在训练过程中，我们使用的label平滑的值为$\epsilon_{ls}=0.1$ <a href="https://arxiv.org/abs/1512.00567" target="_blank">(cite)</a>。虽然对label进行平滑会让模型困惑，但提高了准确性和BLEU得分。</p>
+<blockquote>
+<p>我们使用KL div损失实现标签平滑。我们没有使用one-hot独热分布，而是创建了一个分布，该分布设定目标分布为1-smoothing，将剩余概率分配给词表中的其他单词。</p>
+</blockquote>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">LabelSmoothing</span>(nn.Module):
+    <span class="hljs-string">"Implement label smoothing."</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, size, padding_idx, smoothing=<span class="hljs-number">0.0</span></span>):
+        <span class="hljs-built_in">super</span>(LabelSmoothing, <span class="hljs-variable language_">self</span>).__init__()
+        <span class="hljs-variable language_">self</span>.criterion = nn.KLDivLoss(size_average=<span class="hljs-literal">False</span>)
+        <span class="hljs-variable language_">self</span>.padding_idx = padding_idx
+        <span class="hljs-variable language_">self</span>.confidence = <span class="hljs-number">1.0</span> - smoothing
+        <span class="hljs-variable language_">self</span>.smoothing = smoothing
+        <span class="hljs-variable language_">self</span>.size = size
+        <span class="hljs-variable language_">self</span>.true_dist = <span class="hljs-literal">None</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x, target</span>):
+        <span class="hljs-keyword">assert</span> x.size(<span class="hljs-number">1</span>) == <span class="hljs-variable language_">self</span>.size
+        true_dist = x.data.clone()
+        true_dist.fill_(<span class="hljs-variable language_">self</span>.smoothing / (<span class="hljs-variable language_">self</span>.size - <span class="hljs-number">2</span>))
+        true_dist.scatter_(<span class="hljs-number">1</span>, target.data.unsqueeze(<span class="hljs-number">1</span>), <span class="hljs-variable language_">self</span>.confidence)
+        true_dist[:, <span class="hljs-variable language_">self</span>.padding_idx] = <span class="hljs-number">0</span>
+        mask = torch.nonzero(target.data == <span class="hljs-variable language_">self</span>.padding_idx)
+        <span class="hljs-keyword">if</span> mask.dim() &gt; <span class="hljs-number">0</span>:
+            true_dist.index_fill_(<span class="hljs-number">0</span>, mask.squeeze(), <span class="hljs-number">0.0</span>)
+        <span class="hljs-variable language_">self</span>.true_dist = true_dist
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.criterion(x, Variable(true_dist, requires_grad=<span class="hljs-literal">False</span>))
+</code></pre>
+<p>下面我们看一个例子，看看平滑后的真实概率分布。</p>
+<pre><code class="lang-python"><span class="hljs-comment">#Example of label smoothing.</span>
+crit = LabelSmoothing(<span class="hljs-number">5</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.4</span>)
+predict = torch.FloatTensor([[<span class="hljs-number">0</span>, <span class="hljs-number">0.2</span>, <span class="hljs-number">0.7</span>, <span class="hljs-number">0.1</span>, <span class="hljs-number">0</span>],
+                             [<span class="hljs-number">0</span>, <span class="hljs-number">0.2</span>, <span class="hljs-number">0.7</span>, <span class="hljs-number">0.1</span>, <span class="hljs-number">0</span>], 
+                             [<span class="hljs-number">0</span>, <span class="hljs-number">0.2</span>, <span class="hljs-number">0.7</span>, <span class="hljs-number">0.1</span>, <span class="hljs-number">0</span>]])
+v = crit(Variable(predict.log()), 
+         Variable(torch.LongTensor([<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>])))
+
+<span class="hljs-comment"># Show the target distributions expected by the system.</span>
+plt.imshow(crit.true_dist)
+<span class="hljs-literal">None</span>
+</code></pre>
+<pre><code>/Users/niepig/Desktop/zhihu/learn-nlp-with-transformers/venv/lib/python3.8/site-packages/torch/nn/_reduction.py:42: UserWarning: size_average and reduce args will be deprecated, please use reduction='sum' instead.
+  warnings.warn(warning.format(ret))
+</code></pre><p><img src="2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_files/2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_73_1.svg" alt="svg"></img></p>
+<pre><code class="lang-python"><span class="hljs-built_in">print</span>(crit.true_dist)
+</code></pre>
+<pre><code>tensor([[0.0000, 0.1333, 0.6000, 0.1333, 0.1333],
+        [0.0000, 0.6000, 0.1333, 0.1333, 0.1333],
+        [0.0000, 0.0000, 0.0000, 0.0000, 0.0000]])
+</code></pre><p>由于标签平滑的存在，如果模型对于某个单词特别有信心，输出特别大的概率，会被惩罚。如下代码所示，随着输入x的增大，x/d会越来越大，1/d会越来越小，但是loss并不是一直降低的。</p>
+<pre><code class="lang-python">crit = LabelSmoothing(<span class="hljs-number">5</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.1</span>)
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">loss</span>(<span class="hljs-params">x</span>):
+    d = x + <span class="hljs-number">3</span> * <span class="hljs-number">1</span>
+    predict = torch.FloatTensor([[<span class="hljs-number">0</span>, x / d, <span class="hljs-number">1</span> / d, <span class="hljs-number">1</span> / d, <span class="hljs-number">1</span> / d],
+                                 ])
+    <span class="hljs-comment">#print(predict)</span>
+    <span class="hljs-keyword">return</span> crit(Variable(predict.log()),
+                 Variable(torch.LongTensor([<span class="hljs-number">1</span>]))).item()
+
+y = [loss(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">100</span>)]
+x = np.arange(<span class="hljs-number">1</span>, <span class="hljs-number">100</span>)
+plt.plot(x, y)
+</code></pre>
+<pre><code>[&lt;matplotlib.lines.Line2D at 0x7f7fad46c970&gt;]
+</code></pre><p><img src="2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_files/2.2.1-Pytorch%E7%BC%96%E5%86%99Transformer_76_1.svg" alt="svg"></img></p>
+<h1 id="实例">实例</h1>
+<blockquote>
+<p>我们可以从尝试一个简单的复制任务开始。给定来自小词汇表的一组随机输入符号symbols，目标是生成这些相同的符号。</p>
+</blockquote>
+<h2 id="合成数据">合成数据</h2>
+<pre><code class="lang-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">data_gen</span>(<span class="hljs-params">V, batch, nbatches</span>):
+    <span class="hljs-string">"Generate random data for a src-tgt copy task."</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(nbatches):
+        data = torch.from_numpy(np.random.randint(<span class="hljs-number">1</span>, V, size=(batch, <span class="hljs-number">10</span>)))
+        data[:, <span class="hljs-number">0</span>] = <span class="hljs-number">1</span>
+        src = Variable(data, requires_grad=<span class="hljs-literal">False</span>)
+        tgt = Variable(data, requires_grad=<span class="hljs-literal">False</span>)
+        <span class="hljs-keyword">yield</span> Batch(src, tgt, <span class="hljs-number">0</span>)
+</code></pre>
+<h2 id="损失函数计算">损失函数计算</h2>
+<pre><code class="lang-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">SimpleLossCompute</span>:
+    <span class="hljs-string">"A simple loss compute and train function."</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, generator, criterion, opt=<span class="hljs-literal">None</span></span>):
+        <span class="hljs-variable language_">self</span>.generator = generator
+        <span class="hljs-variable language_">self</span>.criterion = criterion
+        <span class="hljs-variable language_">self</span>.opt = opt
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__call__</span>(<span class="hljs-params">self, x, y, norm</span>):
+        x = <span class="hljs-variable language_">self</span>.generator(x)
+        loss = <span class="hljs-variable language_">self</span>.criterion(x.contiguous().view(-<span class="hljs-number">1</span>, x.size(-<span class="hljs-number">1</span>)), 
+                              y.contiguous().view(-<span class="hljs-number">1</span>)) / norm
+        loss.backward()
+        <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.opt <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-variable language_">self</span>.opt.step()
+            <span class="hljs-variable language_">self</span>.opt.optimizer.zero_grad()
+        <span class="hljs-keyword">return</span> loss.item() * norm
+</code></pre>
+<h2 id="贪婪解码">贪婪解码</h2>
+<pre><code class="lang-python"><span class="hljs-comment"># Train the simple copy task.</span>
+V = <span class="hljs-number">11</span>
+criterion = LabelSmoothing(size=V, padding_idx=<span class="hljs-number">0</span>, smoothing=<span class="hljs-number">0.0</span>)
+model = make_model(V, V, N=<span class="hljs-number">2</span>)
+model_opt = NoamOpt(model.src_embed[<span class="hljs-number">0</span>].d_model, <span class="hljs-number">1</span>, <span class="hljs-number">400</span>,
+        torch.optim.Adam(model.parameters(), lr=<span class="hljs-number">0</span>, betas=(<span class="hljs-number">0.9</span>, <span class="hljs-number">0.98</span>), eps=<span class="hljs-number">1e-9</span>))
+
+<span class="hljs-keyword">for</span> epoch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):
+    model.train()
+    run_epoch(data_gen(V, <span class="hljs-number">30</span>, <span class="hljs-number">20</span>), model, 
+              SimpleLossCompute(model.generator, criterion, model_opt))
+    model.<span class="hljs-built_in">eval</span>()
+    <span class="hljs-built_in">print</span>(run_epoch(data_gen(V, <span class="hljs-number">30</span>, <span class="hljs-number">5</span>), model, 
+                    SimpleLossCompute(model.generator, criterion, <span class="hljs-literal">None</span>)))
+</code></pre>
+<blockquote>
+<p>为了简单起见，此代码使用贪婪解码来预测翻译。</p>
+</blockquote>
+<pre><code class="lang-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">greedy_decode</span>(<span class="hljs-params">model, src, src_mask, max_len, start_symbol</span>):
+    memory = model.encode(src, src_mask)
+    ys = torch.ones(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>).fill_(start_symbol).type_as(src.data)
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(max_len-<span class="hljs-number">1</span>):
+        out = model.decode(memory, src_mask, 
+                           Variable(ys), 
+                           Variable(subsequent_mask(ys.size(<span class="hljs-number">1</span>))
+                                    .type_as(src.data)))
+        prob = model.generator(out[:, -<span class="hljs-number">1</span>])
+        _, next_word = torch.<span class="hljs-built_in">max</span>(prob, dim = <span class="hljs-number">1</span>)
+        next_word = next_word.data[<span class="hljs-number">0</span>]
+        ys = torch.cat([ys, 
+                        torch.ones(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>).type_as(src.data).fill_(next_word)], dim=<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">return</span> ys
+
+model.<span class="hljs-built_in">eval</span>()
+src = Variable(torch.LongTensor([[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>,<span class="hljs-number">10</span>]]) )
+src_mask = Variable(torch.ones(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">10</span>) )
+<span class="hljs-built_in">print</span>(greedy_decode(model, src, src_mask, max_len=<span class="hljs-number">10</span>, start_symbol=<span class="hljs-number">1</span>))
+</code></pre>
+<pre><code>tensor([[ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10]])
+</code></pre><h1 id="真实场景示例">真实场景示例</h1>
+<p>由于原始jupyter的真实数据场景需要多GPU训练，本教程暂时不将其纳入，感兴趣的读者可以继续阅读<a href="https://nlp.seas.harvard.edu/2018/04/03/attention.html" target="_blank">原始教程</a>。另外由于真实数据原始url失效，原始教程应该也无法运行真实数据场景的代码。</p>
+<h1 id="结语">结语</h1>
+<p>到目前为止，我们逐行实现了一个完整的Transformer，并使用合成的数据对其进行了训练和预测，希望这个教程能对你有帮助。</p>
+<h1 id="致谢">致谢</h1>
+<p>本文由张红旭同学翻译，由多多同学整理，原始jupyter来源于哈佛NLP <a href="https://nlp.seas.harvard.edu/2018/04/03/attention.html" target="_blank">The annotated Transformer</a>。</p>
+<p></p><div id="disqus_thread"></div><p></p>
+<p><script>
+    /**&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+ */
+/*
+var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page&amp;#39;s canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page&amp;#39;s unique identifier variable
+};
+*/
+(function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+    var d = document, s = d.createElement(&amp;#39;script&amp;#39;);
+
+    s.src = &amp;#39;https://EXAMPLE.disqus.com/embed.js&amp;#39;;  // IMPORTANT: Replace EXAMPLE with your forum shortname!
+
+    s.setAttribute(&amp;#39;data-timestamp&amp;#39;, +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&amp;lt;/script&amp;gt;&lt;/p&gt;
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href="https://disqus.com/?ref_noscript" rel="nofollow"&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+</script></p>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="2.2-图解transformer.html" class="navigation navigation-prev " aria-label="Previous page: 2.2-图解transformer">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="2.2.1-Pytorch编写Transformer-选读.md" class="navigation navigation-next " aria-label="Next page: 2.2.2-Pytorch编写Transformer-选读">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"2.2.1-Pytorch编写Transformer","level":"2.4","depth":1,"next":{"title":"2.2.2-Pytorch编写Transformer-选读","level":"2.5","depth":1,"path":"篇章2-Transformer相关原理/2.2.1-Pytorch编写Transformer-选读.md","ref":"./篇章2-Transformer相关原理/2.2.1-Pytorch编写Transformer-选读.md","articles":[]},"previous":{"title":"2.2-图解transformer","level":"2.3","depth":1,"path":"篇章2-Transformer相关原理/2.2-图解transformer.md","ref":"./篇章2-Transformer相关原理/2.2-图解transformer.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"篇章2-Transformer相关原理/2.2.1-Pytorch编写Transformer.md","mtime":"2024-08-23T15:34:37.005Z","type":"markdown"},"gitbook":{"version":"5.1.4","time":"2024-08-23T15:50:04.957Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

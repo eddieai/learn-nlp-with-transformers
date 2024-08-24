@@ -1,0 +1,618 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <title>1.1-Transformers在NLP中的兴起 · HonKit</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 5.1.4">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../篇章2-Transformer相关原理/2.0-前言.html" />
+    
+    
+    <link rel="prev" href="1.0-本地阅读和代码运行环境配置.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">篇章1-前言</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="1.0-本地阅读和代码运行环境配置.html">
+            
+                <a href="1.0-本地阅读和代码运行环境配置.html">
+            
+                    
+                    1.0-本地阅读和代码运行环境配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3" data-path="1.1-Transformers在NLP中的兴起.html">
+            
+                <a href="1.1-Transformers在NLP中的兴起.html">
+            
+                    
+                    1.1-Transformers在NLP中的兴起
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">篇章2-Transformer相关原理</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../篇章2-Transformer相关原理/2.0-前言.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.0-前言.html">
+            
+                    
+                    2.0-前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../篇章2-Transformer相关原理/2.1-图解attention.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.1-图解attention.html">
+            
+                    
+                    2.1-图解attention
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../篇章2-Transformer相关原理/2.2-图解transformer.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.2-图解transformer.html">
+            
+                    
+                    2.2-图解transformer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../篇章2-Transformer相关原理/2.2.1-Pytorch编写Transformer.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.2.1-Pytorch编写Transformer.html">
+            
+                    
+                    2.2.1-Pytorch编写Transformer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../篇章2-Transformer相关原理/2.2.1-Pytorch编写Transformer-选读.md">
+            
+                <span>
+            
+                    
+                    2.2.2-Pytorch编写Transformer-选读
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../篇章2-Transformer相关原理/2.3-图解BERT.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.3-图解BERT.html">
+            
+                    
+                    2.3-图解BERT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="../篇章2-Transformer相关原理/2.4-图解GPT.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.4-图解GPT.html">
+            
+                    
+                    2.4-图解GPT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="../篇章2-Transformer相关原理/2.5-篇章小测.html">
+            
+                <a href="../篇章2-Transformer相关原理/2.5-篇章小测.html">
+            
+                    
+                    2.5-篇章小测
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">篇章3-编写一个Transformer模型：BERT</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../篇章3-编写一个Transformer模型：BERT/3.1-如何实现一个BERT.html">
+            
+                <a href="../篇章3-编写一个Transformer模型：BERT/3.1-如何实现一个BERT.html">
+            
+                    
+                    3.1-如何实现一个BERT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../篇章3-编写一个Transformer模型：BERT/3.2-如何应用一个BERT.html">
+            
+                <a href="../篇章3-编写一个Transformer模型：BERT/3.2-如何应用一个BERT.html">
+            
+                    
+                    3.2-如何应用一个BERT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../篇章3-编写一个Transformer模型：BERT/3.3-篇章小测.html">
+            
+                <a href="../篇章3-编写一个Transformer模型：BERT/3.3-篇章小测.html">
+            
+                    
+                    3.3-篇章小测
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">篇章4-使用Transformers解决NLP任务</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../篇章4-使用Transformers解决NLP任务/4.0-前言.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.0-前言.html">
+            
+                    
+                    4.0-前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../篇章4-使用Transformers解决NLP任务/4.0-基于HuggingFace-Transformers的预训练模型微调.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.0-基于HuggingFace-Transformers的预训练模型微调.html">
+            
+                    
+                    4.0-基于HuggingFace-Transformers的预训练模型微调
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../篇章4-使用Transformers解决NLP任务/4.1-文本分类.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.1-文本分类.html">
+            
+                    
+                    4.1-文本分类
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../篇章4-使用Transformers解决NLP任务/4.2-序列标注.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.2-序列标注.html">
+            
+                    
+                    4.2-序列标注
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="../篇章4-使用Transformers解决NLP任务/4.3-问答任务-抽取式问答.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.3-问答任务-抽取式问答.html">
+            
+                    
+                    4.3-问答任务-抽取式问答
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" data-path="../篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.html">
+            
+                    
+                    4.4-问答任务-多选问答
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" data-path="../篇章4-使用Transformers解决NLP任务/4.5-生成任务-语言模型.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.5-生成任务-语言模型.html">
+            
+                    
+                    4.5-生成任务-语言模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.8" data-path="../篇章4-使用Transformers解决NLP任务/4.6-生成任务-机器翻译.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.6-生成任务-机器翻译.html">
+            
+                    
+                    4.6-生成任务-机器翻译
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.9" data-path="../篇章4-使用Transformers解决NLP任务/4.7-生成任务-摘要生成.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.7-生成任务-摘要生成.html">
+            
+                    
+                    4.7-生成任务-摘要生成
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.10" data-path="../篇章4-使用Transformers解决NLP任务/4.8-篇章小测.html">
+            
+                <a href="../篇章4-使用Transformers解决NLP任务/4.8-篇章小测.html">
+            
+                    
+                    4.8-篇章小测
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            Published with HonKit
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >1.1-Transformers在NLP中的兴起</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="自然语言处理natural-language-processing-nlp">自然语言处理(Natural Language Processing, NLP)</h2>
+<p>自然语言处理（Natural Language Processing, NLP）是一种重要的人工智能（Artificial Intelligence, AI）技术。我们随处可以见到NLP技术的应用，比如网络搜索，广告，电子邮件，智能客服，机器翻译，智能新闻播报等等。最近几年，基于深度学习（Deep Learning, DL）的NLP技术在各项任务中取得了很好的效果，这些基于深度学习模型的NLP任务解决方案通常不使用传统的、特定任务的特征工程而是仅仅使用一个端到端（end-to-end）的神经网络模型就可以获得很好的效果。本教程将会基于最前沿的深度学习模型结构（transformers）来解决NLP里的几个经典任务。通过本教程的学习，我们将能够了解transformer相关原理、熟练使用transformer相关的深度学习模型来解决NLP里的实际问题以及在各类任务上取得很好的效果。</p>
+<p>自然语言与深度学习的课程推荐：<a href="http://web.stanford.edu/class/cs224n/" target="_blank">CS224n: Natural Language Processing with Deep Learning</a>
+自然语言处理的书籍推荐：<a href="https://web.stanford.edu/~jurafsky/slp3/" target="_blank">Speech and Language Processing</a></p>
+<h2 id="常见的nlp任务">常见的NLP任务</h2>
+<p>本教程将NLP任务划分为4个大类：1、文本分类， 2、序列标注，3、问答任务——抽取式问答和多选问答，4、生成任务——语言模型、机器翻译和摘要生成。</p>
+<ul>
+<li>文本分类：对单个、两个或者多段文本进行分类。举例：“这个教程真棒！”这段文本的情感倾向是正向的，“我在学习transformer”和“如何学习transformer”这两段文本是相似的。</li>
+<li>序列标注：对文本序列中的token、字或者词进行分类。举例：“我在<strong>国家图书馆</strong>学transformer。”这段文本中的<strong>国家图书馆</strong>是一个<strong>地点</strong>，可以被标注出来方便机器对文本的理解。</li>
+<li>问答任务——抽取式问答和多选问答：1、抽取式问答根据<strong>问题</strong>从一段给定的文本中找到<strong>答案</strong>，答案必须是给定文本的一小段文字。举例：问题“小学要读多久?”和一段文本“小学教育一般是六年制。”，则答案是“六年”。2、多选式问答，从多个选项中选出一个正确答案。举例：“以下哪个模型结构在问答中效果最好？“和4个选项”A、MLP，B、cnn，C、lstm，D、transformer“，则答案选项是D。</li>
+<li>生成任务——语言模型、机器翻译和摘要生成：根据已有的一段文字生成（generate）一个字通常叫做语言模型，根据一大段文字生成一小段总结性文字通常叫做摘要生成，将源语言比如中文句子翻译成目标语言比如英语通常叫做机器翻译。</li>
+</ul>
+<p>虽然各种基于transformer的深度学习模型已经在多个人工构建的NLP任务中表现出色，但由于人类语言博大精深，深度学习模型依然有很长的路要走。</p>
+<h2 id="transformer的兴起">Transformer的兴起</h2>
+<p>2017年，<a href="https://arxiv.org/pdf/1706.03762.pdf" target="_blank">Attention Is All You Need</a>论文首次提出了<strong>Transformer</strong>模型结构并在机器翻译任务上取得了The State of the Art(SOTA, 最好)的效果。2018年，<a href="https://arxiv.org/pdf/1810.04805.pdf" target="_blank">BERT: Pre-training of Deep Bidirectional Transformers for
+Language Understanding</a>使用Transformer模型结构进行大规模语言模型（language model）预训练（Pre-train），再在多个NLP下游（downstream）任务中进行微调（Finetune），一举刷新了各大NLP任务的榜单最高分，轰动一时。2019年-2021年，研究人员将Transformer这种模型结构和预训练+微调这种训练方式相结合，提出了一系列Transformer模型结构、训练方式的改进（比如transformer-xl，XLnet，Roberta等等）。如下图所示，各类Transformer的改进不断涌现。</p>
+<p><img src="pictures/1-x-formers.png" alt="放在一起"></img>图：各类Transformer改进，来源：<a href="https://arxiv.org/pdf/2106.04554.pdf" target="_blank">A Survey of Transformers</a></p>
+<p>另外，由于Transformer优异的模型结构，使得其参数量可以非常庞大从而容纳更多的信息，因此Transformer模型的能力随着预训练不断提升，随着近几年计算能力的提升，越来越大的预训练模型以及效果越来越好的Transformers不断涌现，简单的统计可以从下图看出：</p>
+<p><img src="pictures/2-model_parameters.png" alt="模型参数不断变大"></img> 图：预训练模型参数不断变大,来源<a href="https://huggingface.co/course/chapter1/4?fw=pt" target="_blank">Huggingface</a></p>
+<p>尽管各类Transformer的研究非常多，总体上经典和流行的Transformer模型都可以通过<a href="https://github.com/huggingface/transformers" target="_blank">HuggingFace/Transformers, 48.9k Star</a>获得和免费使用，为初学者、研究人员提供了巨大的帮助。</p>
+<p>本教程也将基于<a href="https://github.com/huggingface/transformers" target="_blank">HuggingFace/Transformers, 48.9k Star</a>进行具体的编程和任务解决方案实现。</p>
+<p>NLP中的预训练+微调的训练方式推荐阅读：
+<a href="https://zhuanlan.zhihu.com/p/363802308" target="_blank">2021年如何科学的“微调”预训练模型？
+</a>和<a href="https://zhuanlan.zhihu.com/p/49271699" target="_blank">从Word Embedding到Bert模型—自然语言处理中的预训练技术发展史</a></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="1.0-本地阅读和代码运行环境配置.html" class="navigation navigation-prev " aria-label="Previous page: 1.0-本地阅读和代码运行环境配置">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../篇章2-Transformer相关原理/2.0-前言.html" class="navigation navigation-next " aria-label="Next page: 2.0-前言">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"1.1-Transformers在NLP中的兴起","level":"1.3","depth":1,"next":{"title":"2.0-前言","level":"2.1","depth":1,"path":"篇章2-Transformer相关原理/2.0-前言.md","ref":"./篇章2-Transformer相关原理/2.0-前言.md","articles":[]},"previous":{"title":"1.0-本地阅读和代码运行环境配置","level":"1.2","depth":1,"path":"篇章1-前言/1.0-本地阅读和代码运行环境配置.md","ref":"./篇章1-前言/1.0-本地阅读和代码运行环境配置.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"篇章1-前言/1.1-Transformers在NLP中的兴起.md","mtime":"2024-08-23T15:34:36.927Z","type":"markdown"},"gitbook":{"version":"5.1.4","time":"2024-08-23T15:50:04.957Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
