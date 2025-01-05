@@ -1,0 +1,15 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "description": "Natural Language Processing with transformers. 本项目面向的对象是： - NLP初学者、transformer初学者 - 有一定的python、pytorch编程基础 - 对前沿的transformer模型感兴趣 - 了解和知道简单的深度学习模型",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "honkit": "^6.0.2"
+  }
+}
