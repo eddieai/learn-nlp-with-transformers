@@ -49,7 +49,7 @@
     
     
     <meta name="HandheldFriendly" content="true"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
@@ -471,8 +471,8 @@
                                 <p>本文涉及的jupter notebook在<a href="https://github.com/datawhalechina/learn-nlp-with-transformers/tree/main/docs/%E7%AF%87%E7%AB%A04-%E4%BD%BF%E7%94%A8Transformers%E8%A7%A3%E5%86%B3NLP%E4%BB%BB%E5%8A%A1" target="_blank">篇章4代码库中</a>。</p>
 <p>建议直接使用google colab notebook打开本教程，可以快速下载相关数据集和模型。
 如果您正在google的colab中打开这个notebook，您可能需要安装Transformers和🤗Datasets库。将以下命令取消注释即可安装。</p>
-<pre><code class="lang-pythonthon"># ! pip install datasets transformers 
-# -i https://pypi.tuna.tsinghua.edu.cn/simple
+<pre><code class="lang-python"><span class="hljs-comment"># ! pip install datasets transformers </span>
+<span class="hljs-comment"># -i https://pypi.tuna.tsinghua.edu.cn/simple</span>
 </code></pre>
 <p>如果您是在本地机器上打开这个jupyter笔记本，请确保您的环境安装了上述库的最新版本。</p>
 <p>您可以在<a href="https://github.com/huggingface/transformers/tree/master/examples/language-modeling" target="_blank">这里</a>找到这个jupyter笔记本的具体的python脚本文件，还可以通过分布式的方式使用多个gpu或tpu来微调您的模型。</p>
@@ -491,8 +491,8 @@
 <p>当然您也可以直接在分布式环境或TPU上运行该jupyter笔记本的python脚本版本，可以在<a href="https://github.com/huggingface/transformers/tree/master/examples" target="_blank">examples文件夹</a>中找到。</p>
 <h2 id="准备数据">准备数据</h2>
 <p>在接下来的这些任务中，我们将使用<a href="https://huggingface.co/datasets/wikitext#data-instances" target="_blank">Wikitext 2</a>数据集作为示例。您可以通过🤗Datasets库加载该数据集：</p>
-<pre><code class="lang-pythonthon">from datasets import load_dataset
-datasets = load_dataset('wikitext', 'wikitext-2-raw-v1')
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset
+datasets = load_dataset(<span class="hljs-string">'wikitext'</span>, <span class="hljs-string">'wikitext-2-raw-v1'</span>)
 </code></pre>
 <pre><code>Reusing dataset wikitext (/Users/niepig/.cache/huggingface/datasets/wikitext/wikitext-2-raw-v1/1.0.0/aa5e094000ec7afeb74c3be92c88313cd6f132d564c7effd961c10fd47c76f20)
 </code></pre><p>如果碰到以下错误：
@@ -501,35 +501,35 @@ datasets = load_dataset('wikitext', 'wikitext-2-raw-v1')
 <p>MAC用户: 在 <code>/etc/hosts</code> 文件中添加一行 <code>199.232.68.133  raw.githubusercontent.com</code></p>
 <p>Windowso用户: 在 <code>C:\Windows\System32\drivers\etc\hosts</code>  文件中添加一行 <code>199.232.68.133  raw.githubusercontent.com</code></p>
 <p>当然您也可以用公开在<a href="https://huggingface.co/datasets" target="_blank">hub</a>上的任何数据集替换上面的数据集，或者使用您自己的文件。只需取消注释以下单元格，并将路径替换为将导致您的文件路径：</p>
-<pre><code class="lang-pythonthon"># datasets = load_dataset("text", data_files={"train": path_to_train.txt, "validation": path_to_validation.txt}
+<pre><code class="lang-python"><span class="hljs-comment"># datasets = load_dataset("text", data_files={"train": path_to_train.txt, "validation": path_to_validation.txt}</span>
 </code></pre>
 <p>您还可以从csv或JSON文件加载数据集，更多信息请参阅<a href="https://huggingface.co/docs/datasets/loading_datasets.html#from-local-files" target="_blank">完整文档</a>。</p>
 <p>要访问一个数据中实际的元素，您需要先选择一个key，然后给出一个索引:</p>
-<pre><code class="lang-pythonthon">datasets["train"][10]
+<pre><code class="lang-python">datasets[<span class="hljs-string">"train"</span>][<span class="hljs-number">10</span>]
 </code></pre>
 <pre><code>{'text': ' The game \'s battle system , the BliTZ system , is carried over directly from Valkyira Chronicles . During missions , players select each unit using a top @-@ down perspective of the battlefield map : once a character is selected , the player moves the character around the battlefield in third @-@ person . A character can only act once per @-@ turn , but characters can be granted multiple turns at the expense of other characters \' turns . Each character has a field and distance of movement limited by their Action Gauge . Up to nine characters can be assigned to a single mission . During gameplay , characters will call out if something happens to them , such as their health points ( HP ) getting low or being knocked out by enemy attacks . Each character has specific " Potentials " , skills unique to each character . They are divided into " Personal Potential " , which are innate skills that remain unaltered unless otherwise dictated by the story and can either help or impede a character , and " Battle Potentials " , which are grown throughout the game and always grant boons to a character . To learn Battle Potentials , each character has a unique " Masters Table " , a grid @-@ based skill table that can be used to acquire and link different skills . Characters also have Special Abilities that grant them temporary boosts on the battlefield : Kurt can activate " Direct Command " and move around the battlefield without depleting his Action Point gauge , the character Reila can shift into her " Valkyria Form " and become invincible , while Imca can target multiple enemy units with her heavy weapon . \n'}
 </code></pre><p>为了快速了解数据的结构，下面的函数将显示数据集中随机选取的一些示例。</p>
-<pre><code class="lang-pythonthon">from datasets import ClassLabel
-import random
-import pandas as pd
-from IPython.display import display, HTML
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> ClassLabel
+<span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">from</span> IPython.display <span class="hljs-keyword">import</span> display, HTML
 
-def show_random_elements(dataset, num_examples=10):
-    assert num_examples &lt;= len(dataset), "Can't pick more elements than there are in the dataset."
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">show_random_elements</span>(<span class="hljs-params">dataset, num_examples=<span class="hljs-number">10</span></span>):
+    <span class="hljs-keyword">assert</span> num_examples &lt;= <span class="hljs-built_in">len</span>(dataset), <span class="hljs-string">"Can't pick more elements than there are in the dataset."</span>
     picks = []
-    for _ in range(num_examples):
-        pick = random.randint(0, len(dataset)-1)
-        while pick in picks:
-            pick = random.randint(0, len(dataset)-1)
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_examples):
+        pick = random.randint(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(dataset)-<span class="hljs-number">1</span>)
+        <span class="hljs-keyword">while</span> pick <span class="hljs-keyword">in</span> picks:
+            pick = random.randint(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(dataset)-<span class="hljs-number">1</span>)
         picks.append(pick)
 
     df = pd.DataFrame(dataset[picks])
-    for column, typ in dataset.features.items():
-        if isinstance(typ, ClassLabel):
-            df[column] = df[column].transform(lambda i: typ.names[i])
+    <span class="hljs-keyword">for</span> column, typ <span class="hljs-keyword">in</span> dataset.features.items():
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(typ, ClassLabel):
+            df[column] = df[column].transform(<span class="hljs-keyword">lambda</span> i: typ.names[i])
     display(HTML(df.to_html()))
 </code></pre>
-<pre><code class="lang-pythonthon">show_random_elements(datasets["train"])
+<pre><code class="lang-python">show_random_elements(datasets[<span class="hljs-string">"train"</span>])
 </code></pre>
 <table border="1" class="dataframe">
   <thead>
@@ -591,147 +591,147 @@ def show_random_elements(dataset, num_examples=10):
 <pre><code>文本1结尾 [BOS_TOKEN] 文本2开头
 </code></pre><p>取决于它们是否跨越数据集中的几个原始文本。标签将与输入相同，但向左移动。</p>
 <p>在本例中，我们将使用<a href="https://huggingface.co/distilgpt2" target="_blank"><code>distilgpt2</code></a> 模型。您同样也可以选择<a href="https://huggingface.co/models?filter=causal-lm" target="_blank">这里</a>列出的任何一个checkpoint:</p>
-<pre><code class="lang-pythonthon">model_checkpoint = "distilgpt2"
+<pre><code class="lang-python">model_checkpoint = <span class="hljs-string">"distilgpt2"</span>
 </code></pre>
 <p>为了用训练模型时使用的词汇对所有文本进行标记，我们必须下载一个预先训练过的分词器（Tokenizer）。而这些操作都可以由AutoTokenizer类完成:</p>
-<pre><code class="lang-pythonthon">from transformers import AutoTokenizer
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoTokenizer
 
-tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, use_fast=True)
+tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, use_fast=<span class="hljs-literal">True</span>)
 </code></pre>
 <p>我们现在可以对所有的文本调用分词器，该操作可以简单地使用来自Datasets库的map方法实现。首先，我们定义一个在文本上调用标记器的函数:</p>
-<pre><code class="lang-pythonthon">def tokenize_function(examples):
-    return tokenizer(examples["text"])
+<pre><code class="lang-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">tokenize_function</span>(<span class="hljs-params">examples</span>):
+    <span class="hljs-keyword">return</span> tokenizer(examples[<span class="hljs-string">"text"</span>])
 </code></pre>
 <p>然后我们将它应用到datasets对象中的分词，使用<code>batch=True</code>和<code>4</code>个进程来加速预处理。而之后我们并不需要<code>text</code>列，所以将其舍弃。</p>
-<pre><code class="lang-pythonthon">tokenized_datasets = datasets.map(tokenize_function, batched=True, num_proc=4, remove_columns=["text"])
+<pre><code class="lang-python">tokenized_datasets = datasets.<span class="hljs-built_in">map</span>(tokenize_function, batched=<span class="hljs-literal">True</span>, num_proc=<span class="hljs-number">4</span>, remove_columns=[<span class="hljs-string">"text"</span>])
 </code></pre>
 <p>如果我们现在查看数据集的一个元素，我们会看到文本已经被模型所需的input_ids所取代:</p>
-<pre><code class="lang-pythonthon">tokenized_datasets["train"][1]
+<pre><code class="lang-python">tokenized_datasets[<span class="hljs-string">"train"</span>][<span class="hljs-number">1</span>]
 </code></pre>
 <pre><code>{'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1],
  'input_ids': [796, 569, 18354, 7496, 17740, 6711, 796, 220, 198]}
 </code></pre><p>下一步就有点小困难了：我们需要将所有文本连接在一起，然后将结果分割成特定<code>block_size</code>的小块。为此，我们将再次使用<code>map</code>方法，并使用选项<code>batch=True</code>。这个选项允许我们通过返回不同数量的样本来改变数据集中的样本数量。通过这种方式，我们可以从一批示例中创建新的示例。</p>
 <p>首先，我们需要获取预训练模型时所使用的最大长度。最大长度在这里设置为128，以防您的显存爆炸💥。</p>
-<pre><code class="lang-pythonthon"># block_size = tokenizer.model_max_length
-block_size = 128
+<pre><code class="lang-python"><span class="hljs-comment"># block_size = tokenizer.model_max_length</span>
+block_size = <span class="hljs-number">128</span>
 </code></pre>
 <p>然后我们编写预处理函数来对我们的文本进行分组:</p>
-<pre><code class="lang-pythonthon">def group_texts(examples):
-    # 拼接所有文本
-    concatenated_examples = {k: sum(examples[k], []) for k in examples.keys()}
-    total_length = len(concatenated_examples[list(examples.keys())[0]])
-    # 我们将余数对应的部分去掉。但如果模型支持的话，可以添加padding，您可以根据需要定制此部件。
+<pre><code class="lang-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">group_texts</span>(<span class="hljs-params">examples</span>):
+    <span class="hljs-comment"># 拼接所有文本</span>
+    concatenated_examples = {k: <span class="hljs-built_in">sum</span>(examples[k], []) <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> examples.keys()}
+    total_length = <span class="hljs-built_in">len</span>(concatenated_examples[<span class="hljs-built_in">list</span>(examples.keys())[<span class="hljs-number">0</span>]])
+    <span class="hljs-comment"># 我们将余数对应的部分去掉。但如果模型支持的话，可以添加padding，您可以根据需要定制此部件。</span>
     total_length = (total_length // block_size) * block_size
-    # 通过max_len进行分割。
+    <span class="hljs-comment"># 通过max_len进行分割。</span>
     result = {
-        k: [t[i : i + block_size] for i in range(0, total_length, block_size)]
-        for k, t in concatenated_examples.items()
+        k: [t[i : i + block_size] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, total_length, block_size)]
+        <span class="hljs-keyword">for</span> k, t <span class="hljs-keyword">in</span> concatenated_examples.items()
     }
-    result["labels"] = result["input_ids"].copy()
-    return result
+    result[<span class="hljs-string">"labels"</span>] = result[<span class="hljs-string">"input_ids"</span>].copy()
+    <span class="hljs-keyword">return</span> result
 </code></pre>
 <p>首先注意，我们复制了标签的输入。</p>
 <p>这是因为🤗transformer库的模型默认向右移动，所以我们不需要手动操作。</p>
 <p>还要注意，在默认情况下，<code>map</code>方法将发送一批1,000个示例，由预处理函数处理。因此，在这里，我们将删除剩余部分，使连接的标记化文本每1000个示例为<code>block_size</code>的倍数。您可以通过传递更高的批处理大小来调整此行为(当然这也会被处理得更慢)。你也可以使用<code>multiprocessing</code>来加速预处理:</p>
-<pre><code class="lang-pythonthon">lm_datasets = tokenized_datasets.map(
+<pre><code class="lang-python">lm_datasets = tokenized_datasets.<span class="hljs-built_in">map</span>(
     group_texts,
-    batched=True,
-    batch_size=1000,
-    num_proc=4,
+    batched=<span class="hljs-literal">True</span>,
+    batch_size=<span class="hljs-number">1000</span>,
+    num_proc=<span class="hljs-number">4</span>,
 )
 </code></pre>
 <p>现在我们可以检查数据集是否发生了变化：现在样本包含了<code>block_size</code>连续字符块，可能跨越了几个原始文本。</p>
-<pre><code class="lang-pythonthon">tokenizer.decode(lm_datasets["train"][1]["input_ids"])
+<pre><code class="lang-python">tokenizer.decode(lm_datasets[<span class="hljs-string">"train"</span>][<span class="hljs-number">1</span>][<span class="hljs-string">"input_ids"</span>])
 </code></pre>
 <pre><code>' game and follows the " Nameless ", a penal military unit serving the nation of Gallia during the Second Europan War who perform secret black operations and are pitted against the Imperial unit " Calamaty Raven ". \n The game began development in 2010, carrying over a large portion of the work done on Valkyria Chronicles II. While it retained the standard features of the series, it also underwent multiple adjustments, such as making the game more forgiving for series newcomers. Character designer Raita Honjou and composer Hitoshi Sakimoto both returned from previous entries, along with Valkyria Chronicles II director Takeshi Oz'
 </code></pre><p>既然数据已经清理完毕，我们就可以实例化我们的训练器了。我们将建立一个模型:</p>
-<pre><code class="lang-pythonthon">from transformers import AutoModelForCausalLM
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoModelForCausalLM
 model = AutoModelForCausalLM.from_pretrained(model_checkpoint)
 </code></pre>
 <p>检查torch版本</p>
-<pre><code class="lang-pythonthon">
-import importlib.util
-# import importlib_metadata
-a = importlib.util.find_spec("torch") is not None
-print(a)
-# _torch_version = importlib_metadata.version("torch")
-# print(_torch_version)
+<pre><code class="lang-python">
+<span class="hljs-keyword">import</span> importlib.util
+<span class="hljs-comment"># import importlib_metadata</span>
+a = importlib.util.find_spec(<span class="hljs-string">"torch"</span>) <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>
+<span class="hljs-built_in">print</span>(a)
+<span class="hljs-comment"># _torch_version = importlib_metadata.version("torch")</span>
+<span class="hljs-comment"># print(_torch_version)</span>
 </code></pre>
 <pre><code>True
 </code></pre><p>和一些<code>TrainingArguments</code>:</p>
-<pre><code class="lang-pythonthon">from transformers import Trainer, TrainingArguments
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> Trainer, TrainingArguments
 </code></pre>
-<pre><code class="lang-pythonthon">training_args = TrainingArguments(
-    "test-clm",
-    evaluation_strategy = "epoch",
-    learning_rate=2e-5,
-    weight_decay=0.01,
+<pre><code class="lang-python">training_args = TrainingArguments(
+    <span class="hljs-string">"test-clm"</span>,
+    evaluation_strategy = <span class="hljs-string">"epoch"</span>,
+    learning_rate=<span class="hljs-number">2e-5</span>,
+    weight_decay=<span class="hljs-number">0.01</span>,
 )
 </code></pre>
 <p>我们把这些都传递给<code>Trainer</code>类:</p>
-<pre><code class="lang-pythonthon">trainer = Trainer(
+<pre><code class="lang-python">trainer = Trainer(
     model=model,
     args=training_args,
-    train_dataset=lm_datasets["train"],
-    eval_dataset=lm_datasets["validation"],
+    train_dataset=lm_datasets[<span class="hljs-string">"train"</span>],
+    eval_dataset=lm_datasets[<span class="hljs-string">"validation"</span>],
 )
 </code></pre>
 <p>然后就可以训练我们的模型🌶:</p>
-<pre><code class="lang-pythonthon">trainer.train()
+<pre><code class="lang-python">trainer.train()
 </code></pre>
 <pre><code>  0%|          | 31/7002 [04:16&lt;14:27:52,  7.47s/it]
 </code></pre><p>一旦训练完成，我们就可以评估我们的模型，得到它在验证集上的perplexity，如下所示:</p>
-<pre><code class="lang-pythonthon">import math
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> math
 eval_results = trainer.evaluate()
-print(f"Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f"Perplexity: <span class="hljs-subst">{math.exp(eval_results[<span class="hljs-string">'eval_loss'</span>]):<span class="hljs-number">.2</span>f}</span>"</span>)
 </code></pre>
 <h2 id="掩蔽语言模型（mask-language-modeling，mlm）">掩蔽语言模型（Mask Language Modeling，MLM）</h2>
 <p>掩蔽语言模型(MLM)我们将使用相同的数据集预处理和以前一样用一个额外的步骤：</p>
 <p>我们将随机"MASK"一些字符(使用"[MASK]"进行替换)以及调整标签为只包含在"[MASK]"位置处的标签(因为我们不需要预测没有被"MASK"的字符)。</p>
 <p>在本例中，我们将使用<a href="https://huggingface.co/distilroberta-base" target="_blank"><code>distilroberta-base</code></a>模型。您同样也可以选择<a href="https://huggingface.co/models?filter=causal-lm" target="_blank">这里</a>列出的任何一个checkpoint:</p>
-<pre><code class="lang-pythonthon">model_checkpoint = "distilroberta-base"
+<pre><code class="lang-python">model_checkpoint = <span class="hljs-string">"distilroberta-base"</span>
 </code></pre>
 <p>我们可以像之前一样应用相同的分词器函数，我们只需要更新我们的分词器来使用刚刚选择的checkpoint:</p>
-<pre><code class="lang-pythonthon">tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, use_fast=True)
-tokenized_datasets = datasets.map(tokenize_function, batched=True, num_proc=4, remove_columns=["text"])
+<pre><code class="lang-python">tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, use_fast=<span class="hljs-literal">True</span>)
+tokenized_datasets = datasets.<span class="hljs-built_in">map</span>(tokenize_function, batched=<span class="hljs-literal">True</span>, num_proc=<span class="hljs-number">4</span>, remove_columns=[<span class="hljs-string">"text"</span>])
 </code></pre>
 <p>像之前一样，我们把文本分组在一起，并把它们分成长度为<code>block_size</code>的样本。如果您的数据集由单独的句子组成，则可以跳过这一步。</p>
-<pre><code class="lang-pythonthon">lm_datasets = tokenized_datasets.map(
+<pre><code class="lang-python">lm_datasets = tokenized_datasets.<span class="hljs-built_in">map</span>(
     group_texts,
-    batched=True,
-    batch_size=1000,
-    num_proc=4,
+    batched=<span class="hljs-literal">True</span>,
+    batch_size=<span class="hljs-number">1000</span>,
+    num_proc=<span class="hljs-number">4</span>,
 )
 </code></pre>
 <p>剩下的和我们之前的做法非常相似，只有两个例外。首先我们使用一个适合掩蔽语言模型的模型:</p>
-<pre><code class="lang-pythonthon">from transformers import AutoModelForMaskedLM
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoModelForMaskedLM
 model = AutoModelForMaskedLM.from_pretrained(model_checkpoint)
 </code></pre>
 <p>其次，我们使用一个特殊的data_collator。data_collator是一个函数，负责获取样本并将它们批处理成张量。</p>
 <p>在前面的例子中，我们没有什么特殊的事情要做，所以我们只使用这个参数的默认值。这里我们要做随机"MASK"。</p>
 <p>我们可以将其作为预处理步骤(<code>tokenizer</code>)进行处理，但在每个阶段，字符总是以相同的方式被掩盖。通过在data_collator中执行这一步，我们可以确保每次检查数据时都以新的方式完成随机掩蔽。</p>
 <p>为了实现掩蔽，<code>Transformers</code>为掩蔽语言模型提供了一个<code>DataCollatorForLanguageModeling</code>。我们可以调整掩蔽的概率:</p>
-<pre><code class="lang-pythonthon">from transformers import DataCollatorForLanguageModeling
-data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> DataCollatorForLanguageModeling
+data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=<span class="hljs-number">0.15</span>)
 </code></pre>
 <p>然后我们要把所有的东西交给trainer，然后开始训练:</p>
-<pre><code class="lang-pythonthon">trainer = Trainer(
+<pre><code class="lang-python">trainer = Trainer(
     model=model,
     args=training_args,
-    train_dataset=lm_datasets["train"],
-    eval_dataset=lm_datasets["validation"],
+    train_dataset=lm_datasets[<span class="hljs-string">"train"</span>],
+    eval_dataset=lm_datasets[<span class="hljs-string">"validation"</span>],
     data_collator=data_collator,
 )
 </code></pre>
-<pre><code class="lang-pythonthon">trainer.train()
+<pre><code class="lang-python">trainer.train()
 </code></pre>
 <p>像以前一样，我们可以在验证集上评估我们的模型。</p>
 <p>与CLM目标相比，困惑度要低得多，因为对于MLM目标，我们只需要对隐藏的令牌(在这里占总数的15%)进行预测，同时可以访问其余的令牌。</p>
 <p>因此，对于模型来说，这是一项更容易的任务。</p>
-<pre><code class="lang-pythonthon">eval_results = trainer.evaluate()
-print(f"Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+<pre><code class="lang-python">eval_results = trainer.evaluate()
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f"Perplexity: <span class="hljs-subst">{math.exp(eval_results[<span class="hljs-string">'eval_loss'</span>]):<span class="hljs-number">.2</span>f}</span>"</span>)
 </code></pre>
-<pre><code class="lang-pythonthon">不要忘记将你的模型[上传](https://huggingface.co/transformers/model_sharing.html)到[🤗 模型中心](https://huggingface.co/models)。
+<pre><code class="lang-python">不要忘记将你的模型[上传](https://huggingface.co/transformers/model_sharing.html)到[🤗 模型中心](https://huggingface.co/models)。
 </code></pre>
 
                                 
@@ -776,7 +776,7 @@ print(f"Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.5-生成任务-语言模型","level":"4.7","depth":1,"next":{"title":"4.6-生成任务-机器翻译","level":"4.8","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.6-生成任务-机器翻译.md","ref":"./篇章4-使用Transformers解决NLP任务/4.6-生成任务-机器翻译.md","articles":[]},"previous":{"title":"4.4-问答任务-多选问答","level":"4.6","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.md","ref":"./篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"篇章4-使用Transformers解决NLP任务/4.5-生成任务-语言模型.md","mtime":"2025-01-05T18:00:51.258Z","type":"markdown"},"gitbook":{"version":"6.0.2","time":"2025-01-05T18:01:03.606Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.5-生成任务-语言模型","level":"4.7","depth":1,"next":{"title":"4.6-生成任务-机器翻译","level":"4.8","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.6-生成任务-机器翻译.md","ref":"./篇章4-使用Transformers解决NLP任务/4.6-生成任务-机器翻译.md","articles":[]},"previous":{"title":"4.4-问答任务-多选问答","level":"4.6","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.md","ref":"./篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"篇章4-使用Transformers解决NLP任务/4.5-生成任务-语言模型.md","mtime":"2025-01-11T00:02:01.079Z","type":"markdown"},"gitbook":{"version":"6.0.2","time":"2025-01-11T18:47:58.590Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -49,7 +49,7 @@
     
     
     <meta name="HandheldFriendly" content="true"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
@@ -471,7 +471,7 @@
                                 <p>本文涉及的jupter notebook在<a href="https://github.com/datawhalechina/learn-nlp-with-transformers/tree/main/docs/%E7%AF%87%E7%AB%A04-%E4%BD%BF%E7%94%A8Transformers%E8%A7%A3%E5%86%B3NLP%E4%BB%BB%E5%8A%A1" target="_blank">篇章4代码库中</a>。</p>
 <p>建议直接使用google colab notebook打开本教程，可以快速下载相关数据集和模型。
 如果您正在google的colab中打开这个notebook，您可能需要安装Transformers和🤗Datasets库。将以下命令取消注释即可安装。</p>
-<pre><code class="lang-pythonthon"># !pip install datasets transformers
+<pre><code class="lang-python"><span class="hljs-comment"># !pip install datasets transformers</span>
 </code></pre>
 <h1 id="在机器问答任务上微调transformer模型">在机器问答任务上微调transformer模型</h1>
 <p>在这个notebook中，我们将学习到如何微调<a href="https://github.com/huggingface/transformers" target="_blank">🤗 Transformers</a>的transformer模型来解决机器问答任务。本文主要解决的是抽取式问答任务：给定一个问题和一段文本，从这段文本中找出能回答该问题的文本片段（span）。通过使用<code>Trainer</code> API和dataset包，我们将轻松加载数据集，然后微调transformers。下图给出了一个简单的例子
@@ -480,24 +480,24 @@
 <p>本notebook设计的例子可以用来解决任何和SQUAD 1和SQUAD 2类似的抽取式问答任务，并且可以使用<a href="https://huggingface.co/models" target="_blank">模型库Model Hub</a>的任何模型checkpoint，只要这些模型包含了一个token classification head 和 一个fast tokenizer。关于模型和fast tokenizer的对应关系见：<a href="https://huggingface.co/transformers/index.html#bigtable" target="_blank">这个表格</a>。</p>
 <p>如果您的数据集和本notebook有所不同，英国只需要微调的调整就可以直接使用本notebook。当然，根据您的硬件设备（电脑内存、显卡大小），您需要合理的调整batch size大小，避免out-of-memory的错误。
 Set those three parameters, then the rest of the notebook should run smoothly:</p>
-<pre><code class="lang-pythonthon"># squad_v2等于True或者False分别代表使用SQUAD v1 或者 SQUAD v2。
-# 如果您使用的是其他数据集，那么True代表的是：模型可以回答“不可回答”问题，也就是部分问题不给出答案，而False则代表所有问题必须回答。
-squad_v2 = False
-model_checkpoint = "distilbert-base-uncased"
-batch_size = 16
+<pre><code class="lang-python"><span class="hljs-comment"># squad_v2等于True或者False分别代表使用SQUAD v1 或者 SQUAD v2。</span>
+<span class="hljs-comment"># 如果您使用的是其他数据集，那么True代表的是：模型可以回答“不可回答”问题，也就是部分问题不给出答案，而False则代表所有问题必须回答。</span>
+squad_v2 = <span class="hljs-literal">False</span>
+model_checkpoint = <span class="hljs-string">"distilbert-base-uncased"</span>
+batch_size = <span class="hljs-number">16</span>
 </code></pre>
 <h2 id="加载数据集">加载数据集</h2>
 <p>我们将会使用<a href="https://github.com/huggingface/datasets" target="_blank">🤗 Datasets</a> 库来下载数据，并且得到我们需要的评测指标（和benchmark基准进行比较）。</p>
 <p>使用函数<code>load_dataset</code>和<code>load_metric</code>即可简单完成这两项任务。</p>
-<pre><code class="lang-pythonthon">from datasets import load_dataset, load_metric
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset, load_metric
 </code></pre>
 <p>举个例子，我们将会在这个notebook中使用<a href="https://rajpurkar.github.io/SQuAD-explorer/" target="_blank">SQUAD 数据集</a>。同样，本notebook也适配所有dataset库中提供的所有问答数据集。</p>
 <p>如果您使用的是自己的数据集（json或者csv格式），请查看<a href="https://huggingface.co/docs/datasets/loading_datasets.html#from-local-files" target="_blank">Datasets 文档</a>学习如何加载自定义的数据集。可能需要调整每列使用的名字。</p>
-<pre><code class="lang-pythonthon"># 下载数据（确保有网络）
-datasets = load_dataset("squad_v2" if squad_v2 else "squad")
+<pre><code class="lang-python"><span class="hljs-comment"># 下载数据（确保有网络）</span>
+datasets = load_dataset(<span class="hljs-string">"squad_v2"</span> <span class="hljs-keyword">if</span> squad_v2 <span class="hljs-keyword">else</span> <span class="hljs-string">"squad"</span>)
 </code></pre>
 <p>这个<code>datasets</code>对象是<a href="https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasetdict" target="_blank"><code>DatasetDict</code></a>结构，训练、验证、测试分别对应这dict的一个key。</p>
-<pre><code class="lang-pythonthon"># 查看以下datasets及其属性
+<pre><code class="lang-python"><span class="hljs-comment"># 查看以下datasets及其属性</span>
 datasets
 </code></pre>
 <pre><code>DatasetDict({
@@ -512,10 +512,10 @@ datasets
 })
 </code></pre><p>无论是训练集、验证集还是测试集，对于每一个问答数据样本都会有“context", "question"和“answers”三个key。</p>
 <p>我们可以使用一个下标来选择一个样本。</p>
-<pre><code class="lang-pythonthon">datasets["train"][0]
-# answers代表答案
-# context代表文本片段
-# question代表问题
+<pre><code class="lang-python">datasets[<span class="hljs-string">"train"</span>][<span class="hljs-number">0</span>]
+<span class="hljs-comment"># answers代表答案</span>
+<span class="hljs-comment"># context代表文本片段</span>
+<span class="hljs-comment"># question代表问题</span>
 </code></pre>
 <pre><code>{'answers': {'answer_start': [515], 'text': ['Saint Bernadette Soubirous']},
  'context': 'Architecturally, the school has a Catholic character. Atop the Main Building\'s gold dome is a golden statue of the Virgin Mary. Immediately in front of the Main Building and facing it, is a copper statue of Christ with arms upraised with the legend "Venite Ad Me Omnes". Next to the Main Building is the Basilica of the Sacred Heart. Immediately behind the basilica is the Grotto, a Marian place of prayer and reflection. It is a replica of the grotto at Lourdes, France where the Virgin Mary reputedly appeared to Saint Bernadette Soubirous in 1858. At the end of the main drive (and in a direct line that connects through 3 statues and the Gold Dome), is a simple, modern stone statue of Mary.',
@@ -524,29 +524,29 @@ datasets
  'title': 'University_of_Notre_Dame'}
 </code></pre><p>注意answers的标注。answers除了给出了文本片段里的答案文本之外，还给出了该answer所在位置（以character开始计算，上面的例子是第515位）。</p>
 <p>为了能够进一步理解数据长什么样子，下面的函数将从数据集里随机选择几个例子进行展示。</p>
-<pre><code class="lang-pythonthon">from datasets import ClassLabel, Sequence
-import random
-import pandas as pd
-from IPython.display import display, HTML
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> ClassLabel, <span class="hljs-type">Sequence</span>
+<span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">from</span> IPython.display <span class="hljs-keyword">import</span> display, HTML
 
-def show_random_elements(dataset, num_examples=10):
-    assert num_examples &lt;= len(dataset), "Can't pick more elements than there are in the dataset."
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">show_random_elements</span>(<span class="hljs-params">dataset, num_examples=<span class="hljs-number">10</span></span>):
+    <span class="hljs-keyword">assert</span> num_examples &lt;= <span class="hljs-built_in">len</span>(dataset), <span class="hljs-string">"Can't pick more elements than there are in the dataset."</span>
     picks = []
-    for _ in range(num_examples):
-        pick = random.randint(0, len(dataset)-1)
-        while pick in picks:
-            pick = random.randint(0, len(dataset)-1)
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_examples):
+        pick = random.randint(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(dataset)-<span class="hljs-number">1</span>)
+        <span class="hljs-keyword">while</span> pick <span class="hljs-keyword">in</span> picks:
+            pick = random.randint(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(dataset)-<span class="hljs-number">1</span>)
         picks.append(pick)
 
     df = pd.DataFrame(dataset[picks])
-    for column, typ in dataset.features.items():
-        if isinstance(typ, ClassLabel):
-            df[column] = df[column].transform(lambda i: typ.names[i])
-        elif isinstance(typ, Sequence) and isinstance(typ.feature, ClassLabel):
-            df[column] = df[column].transform(lambda x: [typ.feature.names[i] for i in x])
+    <span class="hljs-keyword">for</span> column, typ <span class="hljs-keyword">in</span> dataset.features.items():
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(typ, ClassLabel):
+            df[column] = df[column].transform(<span class="hljs-keyword">lambda</span> i: typ.names[i])
+        <span class="hljs-keyword">elif</span> <span class="hljs-built_in">isinstance</span>(typ, <span class="hljs-type">Sequence</span>) <span class="hljs-keyword">and</span> <span class="hljs-built_in">isinstance</span>(typ.feature, ClassLabel):
+            df[column] = df[column].transform(<span class="hljs-keyword">lambda</span> x: [typ.feature.names[i] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> x])
     display(HTML(df.to_html()))
 </code></pre>
-<pre><code class="lang-pythonthon">show_random_elements(datasets["train"], num_examples=2)
+<pre><code class="lang-python">show_random_elements(datasets[<span class="hljs-string">"train"</span>], num_examples=<span class="hljs-number">2</span>)
 </code></pre>
 <table border="1" class="dataframe">
   <thead>
@@ -588,224 +588,224 @@ def show_random_elements(dataset, num_examples=10):
 <li>使用指定的模型checkpoint对应的tokenizer的时候，我们也下载了模型需要的词表库vocabulary，准确来说是tokens vocabulary。</li>
 </ul>
 <p>这个被下载的tokens vocabulary会被缓存起来，从而再次使用的时候不会重新下载。</p>
-<pre><code class="lang-pythonthon">from transformers import AutoTokenizer
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 </code></pre>
 <p>以下代码要求tokenizer必须是transformers.PreTrainedTokenizerFast类型，因为我们在预处理的时候需要用到fast tokenizer的一些特殊特性（比如多线程快速tokenizer）。</p>
 <p>几乎所有模型对应的tokenizer都有对应的fast tokenizer。我们可以在<a href="https://huggingface.co/transformers/index.html#bigtable" target="_blank">模型tokenizer对应表</a>里查看所有预训练模型对应的tokenizer所拥有的特点。</p>
-<pre><code class="lang-pythonthon">import transformers
-assert isinstance(tokenizer, transformers.PreTrainedTokenizerFast)
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> transformers
+<span class="hljs-keyword">assert</span> <span class="hljs-built_in">isinstance</span>(tokenizer, transformers.PreTrainedTokenizerFast)
 </code></pre>
-<pre><code class="lang-pythonthon"># 如果我们想要看到tokenizer预处理之后的文本格式，我们仅使用tokenizer的tokenize方法，add special tokens意思是增加预训练模型所要求的特俗token。
-print("单个文本tokenize: {}".format(tokenizer.tokenize("What is your name?"), add_special_tokens=True))
-print("2个文本tokenize: {}".format(tokenizer.tokenize("My name is Sylvain.", add_special_tokens=True)))
-# 预训练模型输入格式要求的输入为token IDs，还需要attetnion mask。可以使用下面的方法得到预训练模型格式所要求的输入。
+<pre><code class="lang-python"><span class="hljs-comment"># 如果我们想要看到tokenizer预处理之后的文本格式，我们仅使用tokenizer的tokenize方法，add special tokens意思是增加预训练模型所要求的特俗token。</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">"单个文本tokenize: {}"</span>.<span class="hljs-built_in">format</span>(tokenizer.tokenize(<span class="hljs-string">"What is your name?"</span>), add_special_tokens=<span class="hljs-literal">True</span>))
+<span class="hljs-built_in">print</span>(<span class="hljs-string">"2个文本tokenize: {}"</span>.<span class="hljs-built_in">format</span>(tokenizer.tokenize(<span class="hljs-string">"My name is Sylvain."</span>, add_special_tokens=<span class="hljs-literal">True</span>)))
+<span class="hljs-comment"># 预训练模型输入格式要求的输入为token IDs，还需要attetnion mask。可以使用下面的方法得到预训练模型格式所要求的输入。</span>
 </code></pre>
 <pre><code>单个文本tokenize: ['what', 'is', 'your', 'name', '?']
 2个文本tokenize: ['[CLS]', 'my', 'name', 'is', 'sy', '##lva', '##in', '.', '[SEP]']
 </code></pre><p>tokenizer既可以对单个文本进行预处理，也可以对一对文本进行预处理，tokenizer预处理后得到的数据满足预训练模型输入格式</p>
-<pre><code class="lang-pythonthon"># 对单个文本进行预处理
-tokenizer("What is your name?")
+<pre><code class="lang-python"><span class="hljs-comment"># 对单个文本进行预处理</span>
+tokenizer(<span class="hljs-string">"What is your name?"</span>)
 </code></pre>
 <pre><code>{'input_ids': [101, 2054, 2003, 2115, 2171, 1029, 102], 'attention_mask': [1, 1, 1, 1, 1, 1, 1]}
-</code></pre><pre><code class="lang-pythonthon"># 对2个文本进行预处理，可以看到tokenizer在开始添加了101 token ID，中间用102token ID区分两段文本，末尾用102结尾。这些规则都是预训练模型是所设计的。
-tokenizer("What is your name?", "My name is Sylvain.")
+</code></pre><pre><code class="lang-python"><span class="hljs-comment"># 对2个文本进行预处理，可以看到tokenizer在开始添加了101 token ID，中间用102token ID区分两段文本，末尾用102结尾。这些规则都是预训练模型是所设计的。</span>
+tokenizer(<span class="hljs-string">"What is your name?"</span>, <span class="hljs-string">"My name is Sylvain."</span>)
 </code></pre>
 <pre><code>{'input_ids': [101, 2054, 2003, 2115, 2171, 1029, 102, 2026, 2171, 2003, 25353, 22144, 2378, 1012, 102], 'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
 </code></pre><p>上面看到的token IDs也就是input_ids一般来说随着预训练模型名字的不同而有所不同。原因是不同的预训练模型在预训练的时候设定了不同的规则。但只要tokenizer和model的名字一致，那么tokenizer预处理的输入格式就会满足model需求的。关于预处理更多内容参考<a href="https://huggingface.co/transformers/preprocessing.html" target="_blank">这个教程</a></p>
 <p>现在我们还需要思考预训练机器问答模型们是如何处理非常长的文本的。一般来说预训练模型输入有最大长度要求，所以我们通常将超长的输入进行截断。但是，如果我们将问答数据三元组<question, context,="" answer="">中的超长context截断，那么我们可能丢掉答案（因为我们是从context中抽取出一个小片段作为答案）。为了解决这个问题，下面的代码找到一个超过长度的例子，然后向您演示如何进行处理。我们把超长的输入切片为多个较短的输入，每个输入都要满足模型最大长度输入要求。由于答案可能存在与切片的地方，因此我们需要允许相邻切片之间有交集，代码中通过<code>doc_stride</code>参数控制。</question,></p>
 <p>机器问答预训练模型通常将question和context拼接之后作为输入，然后让模型从context里寻找答案。</p>
-<pre><code class="lang-pythonthon">max_length = 384 # 输入feature的最大长度，question和context拼接之后
-doc_stride = 128 # 2个切片之间的重合token数量。
+<pre><code class="lang-python">max_length = <span class="hljs-number">384</span> <span class="hljs-comment"># 输入feature的最大长度，question和context拼接之后</span>
+doc_stride = <span class="hljs-number">128</span> <span class="hljs-comment"># 2个切片之间的重合token数量。</span>
 </code></pre>
 <p>for循环遍历数据集，寻找一个超长样本，本notebook例子模型所要求的最大输入是384（经常使用的还有512）</p>
-<pre><code class="lang-pythonthon">for i, example in enumerate(datasets["train"]):
-    if len(tokenizer(example["question"], example["context"])["input_ids"]) &gt; 384:
-        break
-example = datasets["train"][i]
+<pre><code class="lang-python"><span class="hljs-keyword">for</span> i, example <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(datasets[<span class="hljs-string">"train"</span>]):
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(tokenizer(example[<span class="hljs-string">"question"</span>], example[<span class="hljs-string">"context"</span>])[<span class="hljs-string">"input_ids"</span>]) &gt; <span class="hljs-number">384</span>:
+        <span class="hljs-keyword">break</span>
+example = datasets[<span class="hljs-string">"train"</span>][i]
 </code></pre>
 <p>如果不截断的化，那么输入的长度是396</p>
-<pre><code class="lang-pythonthon">len(tokenizer(example["question"], example["context"])["input_ids"])
+<pre><code class="lang-python"><span class="hljs-built_in">len</span>(tokenizer(example[<span class="hljs-string">"question"</span>], example[<span class="hljs-string">"context"</span>])[<span class="hljs-string">"input_ids"</span>])
 </code></pre>
 <pre><code>396
 </code></pre><p>现在如果我们截断成最大长度384，将会丢失超长部分的信息</p>
-<pre><code class="lang-pythonthon">len(tokenizer(example["question"], example["context"], max_length=max_length, truncation="only_second")["input_ids"])
+<pre><code class="lang-python"><span class="hljs-built_in">len</span>(tokenizer(example[<span class="hljs-string">"question"</span>], example[<span class="hljs-string">"context"</span>], max_length=max_length, truncation=<span class="hljs-string">"only_second"</span>)[<span class="hljs-string">"input_ids"</span>])
 </code></pre>
 <pre><code>384
 </code></pre><p>注意，一般来说，我们只对context进行切片，不会对问题进行切片，由于context是拼接在question后面的，对应着第2个文本，所以使用<code>only_second</code>控制.tokenizer使用<code>doc_stride</code>控制切片之间的重合长度。</p>
-<pre><code class="lang-pythonthon">tokenized_example = tokenizer(
-    example["question"],
-    example["context"],
+<pre><code class="lang-python">tokenized_example = tokenizer(
+    example[<span class="hljs-string">"question"</span>],
+    example[<span class="hljs-string">"context"</span>],
     max_length=max_length,
-    truncation="only_second",
-    return_overflowing_tokens=True,
+    truncation=<span class="hljs-string">"only_second"</span>,
+    return_overflowing_tokens=<span class="hljs-literal">True</span>,
     stride=doc_stride
 )
 </code></pre>
 <p>由于对超长输入进行了切片，我们得到了多个输入，这些输入input_ids对应的长度是</p>
-<pre><code class="lang-pythonthon">[len(x) for x in tokenized_example["input_ids"]]
+<pre><code class="lang-python">[<span class="hljs-built_in">len</span>(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> tokenized_example[<span class="hljs-string">"input_ids"</span>]]
 </code></pre>
 <pre><code>[384, 157]
 </code></pre><p>我们可以将预处理后的token IDs，input_ids还原为文本格式：</p>
-<pre><code class="lang-pythonthon">for i, x in enumerate(tokenized_example["input_ids"][:2]):
-    print("切片: {}".format(i))
-    print(tokenizer.decode(x))
+<pre><code class="lang-python"><span class="hljs-keyword">for</span> i, x <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(tokenized_example[<span class="hljs-string">"input_ids"</span>][:<span class="hljs-number">2</span>]):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">"切片: {}"</span>.<span class="hljs-built_in">format</span>(i))
+    <span class="hljs-built_in">print</span>(tokenizer.decode(x))
 </code></pre>
 <pre><code>切片: 0
 [CLS] how many wins does the notre dame men's basketball team have? [SEP] the men's basketball team has over 1, 600 wins, one of only 12 schools who have reached that mark, and have appeared in 28 ncaa tournaments. former player austin carr holds the record for most points scored in a single game of the tournament with 61. although the team has never won the ncaa tournament, they were named by the helms athletic foundation as national champions twice. the team has orchestrated a number of upsets of number one ranked teams, the most notable of which was ending ucla's record 88 - game winning streak in 1974. the team has beaten an additional eight number - one teams, and those nine wins rank second, to ucla's 10, all - time in wins against the top team. the team plays in newly renovated purcell pavilion ( within the edmund p. joyce center ), which reopened for the beginning of the 2009 – 2010 season. the team is coached by mike brey, who, as of the 2014 – 15 season, his fifteenth at notre dame, has achieved a 332 - 165 record. in 2009 they were invited to the nit, where they advanced to the semifinals but were beaten by penn state who went on and beat baylor in the championship. the 2010 – 11 team concluded its regular season ranked number seven in the country, with a record of 25 – 5, brey's fifth straight 20 - win season, and a second - place finish in the big east. during the 2014 - 15 season, the team went 32 - 6 and won the acc conference tournament, later advancing to the elite 8, where the fighting irish lost on a missed buzzer - beater against then undefeated kentucky. led by nba draft picks jerian grant and pat connaughton, the fighting irish beat the eventual national champion duke blue devils twice during the season. the 32 wins were [SEP]
 切片: 1
 [CLS] how many wins does the notre dame men's basketball team have? [SEP] championship. the 2010 – 11 team concluded its regular season ranked number seven in the country, with a record of 25 – 5, brey's fifth straight 20 - win season, and a second - place finish in the big east. during the 2014 - 15 season, the team went 32 - 6 and won the acc conference tournament, later advancing to the elite 8, where the fighting irish lost on a missed buzzer - beater against then undefeated kentucky. led by nba draft picks jerian grant and pat connaughton, the fighting irish beat the eventual national champion duke blue devils twice during the season. the 32 wins were the most by the fighting irish team since 1908 - 09. [SEP]
 </code></pre><p>由于我们对超长文本进行了切片，我们需要重新寻找答案所在位置（相对于每一片context开头的相对位置）。机器问答模型将使用答案的位置（答案的起始位置和结束位置，start和end）作为训练标签（而不是答案的token IDS）。所以切片需要和原始输入有一个对应关系，每个token在切片后context的位置和原始超长context里位置的对应关系。在tokenizer里可以使用<code>return_offsets_mapping</code>参数得到这个对应关系的map：</p>
-<pre><code class="lang-pythonthon">tokenized_example = tokenizer(
-    example["question"],
-    example["context"],
+<pre><code class="lang-python">tokenized_example = tokenizer(
+    example[<span class="hljs-string">"question"</span>],
+    example[<span class="hljs-string">"context"</span>],
     max_length=max_length,
-    truncation="only_second",
-    return_overflowing_tokens=True,
-    return_offsets_mapping=True,
+    truncation=<span class="hljs-string">"only_second"</span>,
+    return_overflowing_tokens=<span class="hljs-literal">True</span>,
+    return_offsets_mapping=<span class="hljs-literal">True</span>,
     stride=doc_stride
 )
-# 打印切片前后位置下标的对应关系
-print(tokenized_example["offset_mapping"][0][:100])
+<span class="hljs-comment"># 打印切片前后位置下标的对应关系</span>
+<span class="hljs-built_in">print</span>(tokenized_example[<span class="hljs-string">"offset_mapping"</span>][<span class="hljs-number">0</span>][:<span class="hljs-number">100</span>])
 </code></pre>
 <pre><code>[(0, 0), (0, 3), (4, 8), (9, 13), (14, 18), (19, 22), (23, 28), (29, 33), (34, 37), (37, 38), (38, 39), (40, 50), (51, 55), (56, 60), (60, 61), (0, 0), (0, 3), (4, 7), (7, 8), (8, 9), (10, 20), (21, 25), (26, 29), (30, 34), (35, 36), (36, 37), (37, 40), (41, 45), (45, 46), (47, 50), (51, 53), (54, 58), (59, 61), (62, 69), (70, 73), (74, 78), (79, 86), (87, 91), (92, 96), (96, 97), (98, 101), (102, 106), (107, 115), (116, 118), (119, 121), (122, 126), (127, 138), (138, 139), (140, 146), (147, 153), (154, 160), (161, 165), (166, 171), (172, 175), (176, 182), (183, 186), (187, 191), (192, 198), (199, 205), (206, 208), (209, 210), (211, 217), (218, 222), (223, 225), (226, 229), (230, 240), (241, 245), (246, 248), (248, 249), (250, 258), (259, 262), (263, 267), (268, 271), (272, 277), (278, 281), (282, 285), (286, 290), (291, 301), (301, 302), (303, 307), (308, 312), (313, 318), (319, 321), (322, 325), (326, 330), (330, 331), (332, 340), (341, 351), (352, 354), (355, 363), (364, 373), (374, 379), (379, 380), (381, 384), (385, 389), (390, 393), (394, 406), (407, 408), (409, 415), (416, 418)]
 [0, 0]
 </code></pre><p>上面打印的是tokenized_example第0片的前100个tokens在原始context片里的位置。注意第一个token是<code>[CLS]</code>设定为(0, 0)是因为这个token不属于qeustion或者answer的一部分。第2个token对应的起始和结束位置是0和3。我们可以根据切片后的token id转化对应的token；然后使用<code>offset_mapping</code>参数映射回切片前的token位置，找到原始位置的tokens。由于question拼接在context前面，所以直接从question里根据下标找就行了。</p>
-<pre><code class="lang-pythonthon">first_token_id = tokenized_example["input_ids"][0][1]
-offsets = tokenized_example["offset_mapping"][0][1]
-print(tokenizer.convert_ids_to_tokens([first_token_id])[0], example["question"][offsets[0]:offsets[1]])
+<pre><code class="lang-python">first_token_id = tokenized_example[<span class="hljs-string">"input_ids"</span>][<span class="hljs-number">0</span>][<span class="hljs-number">1</span>]
+offsets = tokenized_example[<span class="hljs-string">"offset_mapping"</span>][<span class="hljs-number">0</span>][<span class="hljs-number">1</span>]
+<span class="hljs-built_in">print</span>(tokenizer.convert_ids_to_tokens([first_token_id])[<span class="hljs-number">0</span>], example[<span class="hljs-string">"question"</span>][offsets[<span class="hljs-number">0</span>]:offsets[<span class="hljs-number">1</span>]])
 </code></pre>
 <pre><code>how How
 </code></pre><p>因此，我们得到了切片前后的位置对应关系。我们还需要使用<code>sequence_ids</code>参数来区分question和context。</p>
-<pre><code class="lang-pythonthon">sequence_ids = tokenized_example.sequence_ids()
-print(sequence_ids)
+<pre><code class="lang-python">sequence_ids = tokenized_example.sequence_ids()
+<span class="hljs-built_in">print</span>(sequence_ids)
 </code></pre>
 <pre><code>[None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, None, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, None]
 </code></pre><p> <code>None</code>对应了special tokens，然后0或者1分表代表第1个文本和第2个文本，由于我们qeustin第1个传入，context第2个传入，所以分别对应question和context。最终我们可以找到标注的答案在预处理之后的features里的位置:</p>
-<pre><code class="lang-pythonthon">answers = example["answers"]
-start_char = answers["answer_start"][0]
-end_char = start_char + len(answers["text"][0])
+<pre><code class="lang-python">answers = example[<span class="hljs-string">"answers"</span>]
+start_char = answers[<span class="hljs-string">"answer_start"</span>][<span class="hljs-number">0</span>]
+end_char = start_char + <span class="hljs-built_in">len</span>(answers[<span class="hljs-string">"text"</span>][<span class="hljs-number">0</span>])
 
-# 找到当前文本的Start token index.
-token_start_index = 0
-while sequence_ids[token_start_index] != 1:
-    token_start_index += 1
+<span class="hljs-comment"># 找到当前文本的Start token index.</span>
+token_start_index = <span class="hljs-number">0</span>
+<span class="hljs-keyword">while</span> sequence_ids[token_start_index] != <span class="hljs-number">1</span>:
+    token_start_index += <span class="hljs-number">1</span>
 
-# 找到当前文本的End token idnex.
-token_end_index = len(tokenized_example["input_ids"][0]) - 1
-while sequence_ids[token_end_index] != 1:
-    token_end_index -= 1
+<span class="hljs-comment"># 找到当前文本的End token idnex.</span>
+token_end_index = <span class="hljs-built_in">len</span>(tokenized_example[<span class="hljs-string">"input_ids"</span>][<span class="hljs-number">0</span>]) - <span class="hljs-number">1</span>
+<span class="hljs-keyword">while</span> sequence_ids[token_end_index] != <span class="hljs-number">1</span>:
+    token_end_index -= <span class="hljs-number">1</span>
 
-# 检测答案是否在文本区间的外部，这种情况下意味着该样本的数据标注在CLS token位置。
-offsets = tokenized_example["offset_mapping"][0]
-if (offsets[token_start_index][0] &lt;= start_char and offsets[token_end_index][1] &gt;= end_char):
-    # 将token_start_index和token_end_index移动到answer所在位置的两侧.
-    # 注意：答案在最末尾的边界条件.
-    while token_start_index &lt; len(offsets) and offsets[token_start_index][0] &lt;= start_char:
-        token_start_index += 1
-    start_position = token_start_index - 1
-    while offsets[token_end_index][1] &gt;= end_char:
-        token_end_index -= 1
-    end_position = token_end_index + 1
-    print("start_position: {}, end_position: {}".format(start_position, end_position))
-else:
-    print("The answer is not in this feature.")
+<span class="hljs-comment"># 检测答案是否在文本区间的外部，这种情况下意味着该样本的数据标注在CLS token位置。</span>
+offsets = tokenized_example[<span class="hljs-string">"offset_mapping"</span>][<span class="hljs-number">0</span>]
+<span class="hljs-keyword">if</span> (offsets[token_start_index][<span class="hljs-number">0</span>] &lt;= start_char <span class="hljs-keyword">and</span> offsets[token_end_index][<span class="hljs-number">1</span>] &gt;= end_char):
+    <span class="hljs-comment"># 将token_start_index和token_end_index移动到answer所在位置的两侧.</span>
+    <span class="hljs-comment"># 注意：答案在最末尾的边界条件.</span>
+    <span class="hljs-keyword">while</span> token_start_index &lt; <span class="hljs-built_in">len</span>(offsets) <span class="hljs-keyword">and</span> offsets[token_start_index][<span class="hljs-number">0</span>] &lt;= start_char:
+        token_start_index += <span class="hljs-number">1</span>
+    start_position = token_start_index - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> offsets[token_end_index][<span class="hljs-number">1</span>] &gt;= end_char:
+        token_end_index -= <span class="hljs-number">1</span>
+    end_position = token_end_index + <span class="hljs-number">1</span>
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">"start_position: {}, end_position: {}"</span>.<span class="hljs-built_in">format</span>(start_position, end_position))
+<span class="hljs-keyword">else</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">"The answer is not in this feature."</span>)
 </code></pre>
 <pre><code>start_position: 23, end_position: 26
 </code></pre><p>我们需要对答案的位置进行验证，验证方式是：使用答案所在位置下标，取到对应的token ID，然后转化为文本，然后和原始答案进行但对比。</p>
-<pre><code class="lang-pythonthon">print(tokenizer.decode(tokenized_example["input_ids"][0][start_position: end_position+1]))
-print(answers["text"][0])
+<pre><code class="lang-python"><span class="hljs-built_in">print</span>(tokenizer.decode(tokenized_example[<span class="hljs-string">"input_ids"</span>][<span class="hljs-number">0</span>][start_position: end_position+<span class="hljs-number">1</span>]))
+<span class="hljs-built_in">print</span>(answers[<span class="hljs-string">"text"</span>][<span class="hljs-number">0</span>])
 </code></pre>
 <pre><code>over 1, 600
 over 1,600
 </code></pre><p>有时候question拼接context，而有时候是context拼接question，不同的模型有不同的要求，因此我们需要使用<code>padding_side</code>参数来指定。</p>
-<pre><code class="lang-pythonthon">pad_on_right = tokenizer.padding_side == "right" #context在右边
+<pre><code class="lang-python">pad_on_right = tokenizer.padding_side == <span class="hljs-string">"right"</span> <span class="hljs-comment">#context在右边</span>
 </code></pre>
 <p>现在，把所有步骤合并到一起。对于context中无答案的情况，我们直接将标注的答案起始位置和结束位置放置在CLS的下标处。如果<code>allow_impossible_answers</code>这个参数是<code>False</code>的化，那这些无答案的样本都会被扔掉。为了简洁起见，我们先扔掉把。</p>
-<pre><code class="lang-pythonthon">def prepare_train_features(examples):
-    # 既要对examples进行truncation（截断）和padding（补全）还要还要保留所有信息，所以要用的切片的方法。
-    # 每一个一个超长文本example会被切片成多个输入，相邻两个输入之间会有交集。
+<pre><code class="lang-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">prepare_train_features</span>(<span class="hljs-params">examples</span>):
+    <span class="hljs-comment"># 既要对examples进行truncation（截断）和padding（补全）还要还要保留所有信息，所以要用的切片的方法。</span>
+    <span class="hljs-comment"># 每一个一个超长文本example会被切片成多个输入，相邻两个输入之间会有交集。</span>
     tokenized_examples = tokenizer(
-        examples["question" if pad_on_right else "context"],
-        examples["context" if pad_on_right else "question"],
-        truncation="only_second" if pad_on_right else "only_first",
+        examples[<span class="hljs-string">"question"</span> <span class="hljs-keyword">if</span> pad_on_right <span class="hljs-keyword">else</span> <span class="hljs-string">"context"</span>],
+        examples[<span class="hljs-string">"context"</span> <span class="hljs-keyword">if</span> pad_on_right <span class="hljs-keyword">else</span> <span class="hljs-string">"question"</span>],
+        truncation=<span class="hljs-string">"only_second"</span> <span class="hljs-keyword">if</span> pad_on_right <span class="hljs-keyword">else</span> <span class="hljs-string">"only_first"</span>,
         max_length=max_length,
         stride=doc_stride,
-        return_overflowing_tokens=True,
-        return_offsets_mapping=True,
-        padding="max_length",
+        return_overflowing_tokens=<span class="hljs-literal">True</span>,
+        return_offsets_mapping=<span class="hljs-literal">True</span>,
+        padding=<span class="hljs-string">"max_length"</span>,
     )
 
-    # 我们使用overflow_to_sample_mapping参数来映射切片片ID到原始ID。
-    # 比如有2个expamples被切成4片，那么对应是[0, 0, 1, 1]，前两片对应原来的第一个example。
-    sample_mapping = tokenized_examples.pop("overflow_to_sample_mapping")
-    # offset_mapping也对应4片
-    # offset_mapping参数帮助我们映射到原始输入，由于答案标注在原始输入上，所以有助于我们找到答案的起始和结束位置。
-    offset_mapping = tokenized_examples.pop("offset_mapping")
+    <span class="hljs-comment"># 我们使用overflow_to_sample_mapping参数来映射切片片ID到原始ID。</span>
+    <span class="hljs-comment"># 比如有2个expamples被切成4片，那么对应是[0, 0, 1, 1]，前两片对应原来的第一个example。</span>
+    sample_mapping = tokenized_examples.pop(<span class="hljs-string">"overflow_to_sample_mapping"</span>)
+    <span class="hljs-comment"># offset_mapping也对应4片</span>
+    <span class="hljs-comment"># offset_mapping参数帮助我们映射到原始输入，由于答案标注在原始输入上，所以有助于我们找到答案的起始和结束位置。</span>
+    offset_mapping = tokenized_examples.pop(<span class="hljs-string">"offset_mapping"</span>)
 
-    # 重新标注数据
-    tokenized_examples["start_positions"] = []
-    tokenized_examples["end_positions"] = []
+    <span class="hljs-comment"># 重新标注数据</span>
+    tokenized_examples[<span class="hljs-string">"start_positions"</span>] = []
+    tokenized_examples[<span class="hljs-string">"end_positions"</span>] = []
 
-    for i, offsets in enumerate(offset_mapping):
-        # 对每一片进行处理
-        # 将无答案的样本标注到CLS上
-        input_ids = tokenized_examples["input_ids"][i]
+    <span class="hljs-keyword">for</span> i, offsets <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(offset_mapping):
+        <span class="hljs-comment"># 对每一片进行处理</span>
+        <span class="hljs-comment"># 将无答案的样本标注到CLS上</span>
+        input_ids = tokenized_examples[<span class="hljs-string">"input_ids"</span>][i]
         cls_index = input_ids.index(tokenizer.cls_token_id)
 
-        # 区分question和context
+        <span class="hljs-comment"># 区分question和context</span>
         sequence_ids = tokenized_examples.sequence_ids(i)
 
-        # 拿到原始的example 下标.
+        <span class="hljs-comment"># 拿到原始的example 下标.</span>
         sample_index = sample_mapping[i]
-        answers = examples["answers"][sample_index]
-        # 如果没有答案，则使用CLS所在的位置为答案.
-        if len(answers["answer_start"]) == 0:
-            tokenized_examples["start_positions"].append(cls_index)
-            tokenized_examples["end_positions"].append(cls_index)
-        else:
-            # 答案的character级别Start/end位置.
-            start_char = answers["answer_start"][0]
-            end_char = start_char + len(answers["text"][0])
+        answers = examples[<span class="hljs-string">"answers"</span>][sample_index]
+        <span class="hljs-comment"># 如果没有答案，则使用CLS所在的位置为答案.</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(answers[<span class="hljs-string">"answer_start"</span>]) == <span class="hljs-number">0</span>:
+            tokenized_examples[<span class="hljs-string">"start_positions"</span>].append(cls_index)
+            tokenized_examples[<span class="hljs-string">"end_positions"</span>].append(cls_index)
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-comment"># 答案的character级别Start/end位置.</span>
+            start_char = answers[<span class="hljs-string">"answer_start"</span>][<span class="hljs-number">0</span>]
+            end_char = start_char + <span class="hljs-built_in">len</span>(answers[<span class="hljs-string">"text"</span>][<span class="hljs-number">0</span>])
 
-            # 找到token级别的index start.
-            token_start_index = 0
-            while sequence_ids[token_start_index] != (1 if pad_on_right else 0):
-                token_start_index += 1
+            <span class="hljs-comment"># 找到token级别的index start.</span>
+            token_start_index = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">while</span> sequence_ids[token_start_index] != (<span class="hljs-number">1</span> <span class="hljs-keyword">if</span> pad_on_right <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>):
+                token_start_index += <span class="hljs-number">1</span>
 
-            # 找到token级别的index end.
-            token_end_index = len(input_ids) - 1
-            while sequence_ids[token_end_index] != (1 if pad_on_right else 0):
-                token_end_index -= 1
+            <span class="hljs-comment"># 找到token级别的index end.</span>
+            token_end_index = <span class="hljs-built_in">len</span>(input_ids) - <span class="hljs-number">1</span>
+            <span class="hljs-keyword">while</span> sequence_ids[token_end_index] != (<span class="hljs-number">1</span> <span class="hljs-keyword">if</span> pad_on_right <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>):
+                token_end_index -= <span class="hljs-number">1</span>
 
-            # 检测答案是否超出文本长度，超出的话也适用CLS index作为标注.
-            if not (offsets[token_start_index][0] &lt;= start_char and offsets[token_end_index][1] &gt;= end_char):
-                tokenized_examples["start_positions"].append(cls_index)
-                tokenized_examples["end_positions"].append(cls_index)
-            else:
-                # 如果不超出则找到答案token的start和end位置。.
-                # Note: we could go after the last offset if the answer is the last word (edge case).
-                while token_start_index &lt; len(offsets) and offsets[token_start_index][0] &lt;= start_char:
-                    token_start_index += 1
-                tokenized_examples["start_positions"].append(token_start_index - 1)
-                while offsets[token_end_index][1] &gt;= end_char:
-                    token_end_index -= 1
-                tokenized_examples["end_positions"].append(token_end_index + 1)
+            <span class="hljs-comment"># 检测答案是否超出文本长度，超出的话也适用CLS index作为标注.</span>
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> (offsets[token_start_index][<span class="hljs-number">0</span>] &lt;= start_char <span class="hljs-keyword">and</span> offsets[token_end_index][<span class="hljs-number">1</span>] &gt;= end_char):
+                tokenized_examples[<span class="hljs-string">"start_positions"</span>].append(cls_index)
+                tokenized_examples[<span class="hljs-string">"end_positions"</span>].append(cls_index)
+            <span class="hljs-keyword">else</span>:
+                <span class="hljs-comment"># 如果不超出则找到答案token的start和end位置。.</span>
+                <span class="hljs-comment"># Note: we could go after the last offset if the answer is the last word (edge case).</span>
+                <span class="hljs-keyword">while</span> token_start_index &lt; <span class="hljs-built_in">len</span>(offsets) <span class="hljs-keyword">and</span> offsets[token_start_index][<span class="hljs-number">0</span>] &lt;= start_char:
+                    token_start_index += <span class="hljs-number">1</span>
+                tokenized_examples[<span class="hljs-string">"start_positions"</span>].append(token_start_index - <span class="hljs-number">1</span>)
+                <span class="hljs-keyword">while</span> offsets[token_end_index][<span class="hljs-number">1</span>] &gt;= end_char:
+                    token_end_index -= <span class="hljs-number">1</span>
+                tokenized_examples[<span class="hljs-string">"end_positions"</span>].append(token_end_index + <span class="hljs-number">1</span>)
 
-    return tokenized_examples
+    <span class="hljs-keyword">return</span> tokenized_examples
 </code></pre>
 <p>以上的预处理函数可以处理一个样本，也可以处理多个样本exapmles。如果是处理多个样本，则返回的是多个样本被预处理之后的结果list。</p>
-<pre><code class="lang-pythonthon">features = prepare_train_features(datasets['train'][:5])
-# 处理5个样本
+<pre><code class="lang-python">features = prepare_train_features(datasets[<span class="hljs-string">'train'</span>][:<span class="hljs-number">5</span>])
+<span class="hljs-comment"># 处理5个样本</span>
 </code></pre>
 <p>接下来对数据集datasets里面的所有样本进行预处理，处理的方式是使用<code>map</code>函数，将预处理函数<code>prepare_train_features</code>应用到（map)所有样本上。</p>
-<pre><code class="lang-pythonthon">tokenized_datasets = datasets.map(prepare_train_features, batched=True, remove_columns=datasets["train"].column_names)
+<pre><code class="lang-python">tokenized_datasets = datasets.<span class="hljs-built_in">map</span>(prepare_train_features, batched=<span class="hljs-literal">True</span>, remove_columns=datasets[<span class="hljs-string">"train"</span>].column_names)
 </code></pre>
 <p>更好的是，返回的结果会自动被缓存，避免下次处理的时候重新计算（但是也要注意，如果输入有改动，可能会被缓存影响！）。datasets库函数会对输入的参数进行检测，判断是否有变化，如果没有变化就使用缓存数据，如果有变化就重新处理。但如果输入参数不变，想改变输入的时候，最好清理调这个缓存。清理的方式是使用<code>load_from_cache_file=False</code>参数。另外，上面使用到的<code>batched=True</code>这个参数是tokenizer的特点，以为这会使用多线程同时并行对输入进行处理。</p>
 <h2 id="fine-tuning微调模型">Fine-tuning微调模型</h2>
 <p>目前，我们已经预处理好了训练/微调需要的数据，现在我们下载预训练的模型。由于我们要做的是机器问答任务，于是我们使用这个类<code>AutoModelForQuestionAnswering</code>。和tokenizer相似，model也是使用<code>from_pretrained</code>方法进行加载。</p>
-<pre><code class="lang-pythonthon">from transformers import AutoModelForQuestionAnswering, TrainingArguments, Trainer
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoModelForQuestionAnswering, TrainingArguments, Trainer
 
 model = AutoModelForQuestionAnswering.from_pretrained(model_checkpoint)
 </code></pre>
@@ -818,57 +818,57 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 </code></pre><p>由于我们微调的任务是机器问答任务，而我们加载的是预训练的语言模型，那么上面会提示我们加载模型的时候扔掉了一些不匹配的神经网络参数（预训练语言模型的神经网络head被扔掉了，同时随机初始化了机器问答的神经网络head）。</p>
 <p>正因为有这些随机初始化的参数，所以我们要在新的数据集上重新fine-tune我们的模型。</p>
 <p>为了能够得到一个<code>Trainer</code>训练工具，我们还需要3个要素，其中最重要的是训练的设定/参数<a href="https://huggingface.co/transformers/main_classes/trainer.html#transformers.TrainingArguments" target="_blank"><code>TrainingArguments</code></a>。这个训练设定包含了能够定义训练过程的所有属性。同时它需要一个文件夹的名字。这个文件夹会被用来保存模型和其他模型配置。</p>
-<pre><code class="lang-pythonthon">args = TrainingArguments(
-    f"test-squad",
-    evaluation_strategy = "epoch",
-    learning_rate=2e-5, #学习率
+<pre><code class="lang-python">args = TrainingArguments(
+    <span class="hljs-string">f"test-squad"</span>,
+    evaluation_strategy = <span class="hljs-string">"epoch"</span>,
+    learning_rate=<span class="hljs-number">2e-5</span>, <span class="hljs-comment">#学习率</span>
     per_device_train_batch_size=batch_size,
     per_device_eval_batch_size=batch_size,
-    num_train_epochs=3, # 训练的论次
-    weight_decay=0.01,
+    num_train_epochs=<span class="hljs-number">3</span>, <span class="hljs-comment"># 训练的论次</span>
+    weight_decay=<span class="hljs-number">0.01</span>,
 )
 </code></pre>
 <p>上面<code>evaluation_strategy = "epoch"</code>参数告诉训练代码：我们每个epcoh会做一次验证评估。</p>
 <p>上面<code>batch_size</code>在这个notebook之前定义好了。</p>
 <p>我们使用一个default_data_collator将预处理好的数据喂给模型。</p>
-<pre><code class="lang-pythonthon">from transformers import default_data_collator
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> default_data_collator
 
 data_collator = default_data_collator
 </code></pre>
 <p>训练的时候，我们将只会计算loss。根据评测指标评估模型将会放在下一节。</p>
 <p>只需要把模型，训练参数，数据，之前使用的tokenizer，和数据投递工具default_data_collator传入Tranier即可。</p>
-<pre><code class="lang-pythonthon">trainer = Trainer(
+<pre><code class="lang-python">trainer = Trainer(
     model,
     args,
-    train_dataset=tokenized_datasets["train"],
-    eval_dataset=tokenized_datasets["validation"],
+    train_dataset=tokenized_datasets[<span class="hljs-string">"train"</span>],
+    eval_dataset=tokenized_datasets[<span class="hljs-string">"validation"</span>],
     data_collator=data_collator,
     tokenizer=tokenizer,
 )
 </code></pre>
 <p>调用<code>train</code>方法开始训练</p>
-<pre><code class="lang-pythonthon">trainer.train()
+<pre><code class="lang-python">trainer.train()
 </code></pre>
 <p>由于训练时间很长，如果是在本地mac训练，每个epcoh大约需要2消失，所以每次训练完保存以下模型。</p>
-<pre><code class="lang-pythonthon">trainer.save_model("test-squad-trained")
+<pre><code class="lang-python">trainer.save_model(<span class="hljs-string">"test-squad-trained"</span>)
 </code></pre>
 <h2 id="evaluation评估">Evaluation评估</h2>
 <p>模型评估会稍微优点复杂，我们需要将模型的输出后处理成我们需要的文本格式。模型本身预测的是answer所在start/end位置的logits。如果我们评估时喂入模型的是一个batch，那么输出如下：</p>
-<pre><code class="lang-pythonthon">import torch
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> torch
 
-for batch in trainer.get_eval_dataloader():
-    break
-batch = {k: v.to(trainer.args.device) for k, v in batch.items()}
-with torch.no_grad():
+<span class="hljs-keyword">for</span> batch <span class="hljs-keyword">in</span> trainer.get_eval_dataloader():
+    <span class="hljs-keyword">break</span>
+batch = {k: v.to(trainer.args.device) <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> batch.items()}
+<span class="hljs-keyword">with</span> torch.no_grad():
     output = trainer.model(**batch)
 output.keys()
 </code></pre>
 <p>模型的输出是一个像dict的数据结构，包含了loss（因为提供了label，所有有loss），answer start和end的logits。我们在输出预测结果的时候不需要看loss，直接看logits就好了。</p>
-<pre><code class="lang-pythonthon">output.start_logits.shape, output.end_logits.shape
+<pre><code class="lang-python">output.start_logits.shape, output.end_logits.shape
 </code></pre>
 <pre><code>(torch.Size([16, 384]), torch.Size([16, 384]))
 </code></pre><p>每个feature里的每个token都会有一个logit。预测answer最简单的方法就是选择start的logits里最大的下标最为answer其实位置，end的logits里最大下标作为answer的结束位置。</p>
-<pre><code class="lang-pythonthon">output.start_logits.argmax(dim=-1), output.end_logits.argmax(dim=-1)
+<pre><code class="lang-python">output.start_logits.argmax(dim=-<span class="hljs-number">1</span>), output.end_logits.argmax(dim=-<span class="hljs-number">1</span>)
 </code></pre>
 <pre><code>(tensor([ 46,  57,  78,  43, 118,  15,  72,  35,  15,  34,  73,  41,  80,  91,
          156,  35], device='cuda:0'),
@@ -877,23 +877,23 @@ output.keys()
 </code></pre><p>以上策略大部分情况下都是不错的。但是，如果我们的输入告诉我们找不到答案：比如start的位置比end的位置下标大，或者start和end的位置指向了question。</p>
 <p>这个时候，简单的方法是我们继续需要选择第2好的预测作为我们的答案了，实在不行看第3好的预测，以此类推。</p>
 <p>由于上面的方法不太容易找到可行的答案，我们需要思考更合理的方法。我们将start和end的logits相加得到新的打分，然后去看最好的<code>n_best_size</code>个start和end对。从<code>n_best_size</code>个start和end对里推出相应的答案，然后检查答案是否有效，最后将他们按照打分进行怕苦，选择得分最高的作为答案。</p>
-<pre><code class="lang-pythonthon">n_best_size = 20
+<pre><code class="lang-python">n_best_size = <span class="hljs-number">20</span>
 </code></pre>
-<pre><code class="lang-pythonthon">import numpy as np
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
 
-start_logits = output.start_logits[0].cpu().numpy()
-end_logits = output.end_logits[0].cpu().numpy()
-# 收集最佳的start和end logits的位置:
-start_indexes = np.argsort(start_logits)[-1 : -n_best_size - 1 : -1].tolist()
-end_indexes = np.argsort(end_logits)[-1 : -n_best_size - 1 : -1].tolist()
+start_logits = output.start_logits[<span class="hljs-number">0</span>].cpu().numpy()
+end_logits = output.end_logits[<span class="hljs-number">0</span>].cpu().numpy()
+<span class="hljs-comment"># 收集最佳的start和end logits的位置:</span>
+start_indexes = np.argsort(start_logits)[-<span class="hljs-number">1</span> : -n_best_size - <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>].tolist()
+end_indexes = np.argsort(end_logits)[-<span class="hljs-number">1</span> : -n_best_size - <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>].tolist()
 valid_answers = []
-for start_index in start_indexes:
-    for end_index in end_indexes:
-        if start_index &lt;= end_index: # 如果start小雨end，那么合理的
+<span class="hljs-keyword">for</span> start_index <span class="hljs-keyword">in</span> start_indexes:
+    <span class="hljs-keyword">for</span> end_index <span class="hljs-keyword">in</span> end_indexes:
+        <span class="hljs-keyword">if</span> start_index &lt;= end_index: <span class="hljs-comment"># 如果start小雨end，那么合理的</span>
             valid_answers.append(
                 {
-                    "score": start_logits[start_index] + end_logits[end_index],
-                    "text": "" # 后续需要根据token的下标将答案找出来
+                    <span class="hljs-string">"score"</span>: start_logits[start_index] + end_logits[end_index],
+                    <span class="hljs-string">"text"</span>: <span class="hljs-string">""</span> <span class="hljs-comment"># 后续需要根据token的下标将答案找出来</span>
                 }
             )
 </code></pre>
@@ -904,100 +904,100 @@ for start_index in start_indexes:
 <li>offset mapping： 将每个切片的tokens的位置映射会原始文本基于character的下标位置。</li>
 </ul>
 <p>所以我们又重新处理了以下validation验证集。和处理训练的时候的<code>prepare_train_features</code>稍有不同。</p>
-<pre><code class="lang-pythonthon">
-def prepare_validation_features(examples):
-    # Tokenize our examples with truncation and maybe padding, but keep the overflows using a stride. This results
-    # in one example possible giving several features when a context is long, each of those features having a
-    # context that overlaps a bit the context of the previous feature.
+<pre><code class="lang-python">
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">prepare_validation_features</span>(<span class="hljs-params">examples</span>):
+    <span class="hljs-comment"># Tokenize our examples with truncation and maybe padding, but keep the overflows using a stride. This results</span>
+    <span class="hljs-comment"># in one example possible giving several features when a context is long, each of those features having a</span>
+    <span class="hljs-comment"># context that overlaps a bit the context of the previous feature.</span>
     tokenized_examples = tokenizer(
-        examples["question" if pad_on_right else "context"],
-        examples["context" if pad_on_right else "question"],
-        truncation="only_second" if pad_on_right else "only_first",
+        examples[<span class="hljs-string">"question"</span> <span class="hljs-keyword">if</span> pad_on_right <span class="hljs-keyword">else</span> <span class="hljs-string">"context"</span>],
+        examples[<span class="hljs-string">"context"</span> <span class="hljs-keyword">if</span> pad_on_right <span class="hljs-keyword">else</span> <span class="hljs-string">"question"</span>],
+        truncation=<span class="hljs-string">"only_second"</span> <span class="hljs-keyword">if</span> pad_on_right <span class="hljs-keyword">else</span> <span class="hljs-string">"only_first"</span>,
         max_length=max_length,
         stride=doc_stride,
-        return_overflowing_tokens=True,
-        return_offsets_mapping=True,
-        padding="max_length",
+        return_overflowing_tokens=<span class="hljs-literal">True</span>,
+        return_offsets_mapping=<span class="hljs-literal">True</span>,
+        padding=<span class="hljs-string">"max_length"</span>,
     )
 
-    # Since one example might give us several features if it has a long context, we need a map from a feature to
-    # its corresponding example. This key gives us just that.
-    sample_mapping = tokenized_examples.pop("overflow_to_sample_mapping")
+    <span class="hljs-comment"># Since one example might give us several features if it has a long context, we need a map from a feature to</span>
+    <span class="hljs-comment"># its corresponding example. This key gives us just that.</span>
+    sample_mapping = tokenized_examples.pop(<span class="hljs-string">"overflow_to_sample_mapping"</span>)
 
-    # We keep the example_id that gave us this feature and we will store the offset mappings.
-    tokenized_examples["example_id"] = []
+    <span class="hljs-comment"># We keep the example_id that gave us this feature and we will store the offset mappings.</span>
+    tokenized_examples[<span class="hljs-string">"example_id"</span>] = []
 
-    for i in range(len(tokenized_examples["input_ids"])):
-        # Grab the sequence corresponding to that example (to know what is the context and what is the question).
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(tokenized_examples[<span class="hljs-string">"input_ids"</span>])):
+        <span class="hljs-comment"># Grab the sequence corresponding to that example (to know what is the context and what is the question).</span>
         sequence_ids = tokenized_examples.sequence_ids(i)
-        context_index = 1 if pad_on_right else 0
+        context_index = <span class="hljs-number">1</span> <span class="hljs-keyword">if</span> pad_on_right <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>
 
-        # One example can give several spans, this is the index of the example containing this span of text.
+        <span class="hljs-comment"># One example can give several spans, this is the index of the example containing this span of text.</span>
         sample_index = sample_mapping[i]
-        tokenized_examples["example_id"].append(examples["id"][sample_index])
+        tokenized_examples[<span class="hljs-string">"example_id"</span>].append(examples[<span class="hljs-string">"id"</span>][sample_index])
 
-        # Set to None the offset_mapping that are not part of the context so it's easy to determine if a token
-        # position is part of the context or not.
-        tokenized_examples["offset_mapping"][i] = [
-            (o if sequence_ids[k] == context_index else None)
-            for k, o in enumerate(tokenized_examples["offset_mapping"][i])
+        <span class="hljs-comment"># Set to None the offset_mapping that are not part of the context so it's easy to determine if a token</span>
+        <span class="hljs-comment"># position is part of the context or not.</span>
+        tokenized_examples[<span class="hljs-string">"offset_mapping"</span>][i] = [
+            (o <span class="hljs-keyword">if</span> sequence_ids[k] == context_index <span class="hljs-keyword">else</span> <span class="hljs-literal">None</span>)
+            <span class="hljs-keyword">for</span> k, o <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(tokenized_examples[<span class="hljs-string">"offset_mapping"</span>][i])
         ]
 
-    return tokenized_examples
+    <span class="hljs-keyword">return</span> tokenized_examples
 </code></pre>
 <p>和之前一样将<code>prepare_validation_features</code>函数应用到每个验证集合的样本上。</p>
-<pre><code class="lang-pythonthon">validation_features = datasets["validation"].map(
+<pre><code class="lang-python">validation_features = datasets[<span class="hljs-string">"validation"</span>].<span class="hljs-built_in">map</span>(
     prepare_validation_features,
-    batched=True,
-    remove_columns=datasets["validation"].column_names
+    batched=<span class="hljs-literal">True</span>,
+    remove_columns=datasets[<span class="hljs-string">"validation"</span>].column_names
 )
 </code></pre>
 <pre><code>HBox(children=(FloatProgress(value=0.0, max=11.0), HTML(value='')))
 </code></pre><p>使用<code>Trainer.predict</code>方法获得所有预测结果</p>
-<pre><code class="lang-pythonthon">raw_predictions = trainer.predict(validation_features)
+<pre><code class="lang-python">raw_predictions = trainer.predict(validation_features)
 </code></pre>
 <p>这个 <code>Trainer</code> <em>隐藏了</em> 一些模型训练时候没有使用的属性(这里是 <code>example_id</code>和<code>offset_mapping</code>，后处理的时候会用到),所以我们需要把这些设置回来:</p>
-<pre><code class="lang-pythonthon">validation_features.set_format(type=validation_features.format["type"], columns=list(validation_features.features.keys()))
+<pre><code class="lang-python">validation_features.set_format(<span class="hljs-built_in">type</span>=validation_features.<span class="hljs-built_in">format</span>[<span class="hljs-string">"type"</span>], columns=<span class="hljs-built_in">list</span>(validation_features.features.keys()))
 </code></pre>
 <p>当一个token位置对应着question部分时候，<code>prepare_validation_features</code>函数将offset mappings设定为<code>None</code>，所以我们根据offset mapping很容易可以鉴定token是否在context里面啦。我们同样也根绝扔掉了特别长的答案。</p>
-<pre><code class="lang-pythonthon">max_answer_length = 30
+<pre><code class="lang-python">max_answer_length = <span class="hljs-number">30</span>
 </code></pre>
-<pre><code class="lang-pythonthon">start_logits = output.start_logits[0].cpu().numpy()
-end_logits = output.end_logits[0].cpu().numpy()
-offset_mapping = validation_features[0]["offset_mapping"]
-# The first feature comes from the first example. For the more general case, we will need to be match the example_id to
-# an example index
-context = datasets["validation"][0]["context"]
+<pre><code class="lang-python">start_logits = output.start_logits[<span class="hljs-number">0</span>].cpu().numpy()
+end_logits = output.end_logits[<span class="hljs-number">0</span>].cpu().numpy()
+offset_mapping = validation_features[<span class="hljs-number">0</span>][<span class="hljs-string">"offset_mapping"</span>]
+<span class="hljs-comment"># The first feature comes from the first example. For the more general case, we will need to be match the example_id to</span>
+<span class="hljs-comment"># an example index</span>
+context = datasets[<span class="hljs-string">"validation"</span>][<span class="hljs-number">0</span>][<span class="hljs-string">"context"</span>]
 
-# Gather the indices the best start/end logits:
-start_indexes = np.argsort(start_logits)[-1 : -n_best_size - 1 : -1].tolist()
-end_indexes = np.argsort(end_logits)[-1 : -n_best_size - 1 : -1].tolist()
+<span class="hljs-comment"># Gather the indices the best start/end logits:</span>
+start_indexes = np.argsort(start_logits)[-<span class="hljs-number">1</span> : -n_best_size - <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>].tolist()
+end_indexes = np.argsort(end_logits)[-<span class="hljs-number">1</span> : -n_best_size - <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>].tolist()
 valid_answers = []
-for start_index in start_indexes:
-    for end_index in end_indexes:
-        # Don't consider out-of-scope answers, either because the indices are out of bounds or correspond
-        # to part of the input_ids that are not in the context.
-        if (
-            start_index &gt;= len(offset_mapping)
-            or end_index &gt;= len(offset_mapping)
-            or offset_mapping[start_index] is None
-            or offset_mapping[end_index] is None
+<span class="hljs-keyword">for</span> start_index <span class="hljs-keyword">in</span> start_indexes:
+    <span class="hljs-keyword">for</span> end_index <span class="hljs-keyword">in</span> end_indexes:
+        <span class="hljs-comment"># Don't consider out-of-scope answers, either because the indices are out of bounds or correspond</span>
+        <span class="hljs-comment"># to part of the input_ids that are not in the context.</span>
+        <span class="hljs-keyword">if</span> (
+            start_index &gt;= <span class="hljs-built_in">len</span>(offset_mapping)
+            <span class="hljs-keyword">or</span> end_index &gt;= <span class="hljs-built_in">len</span>(offset_mapping)
+            <span class="hljs-keyword">or</span> offset_mapping[start_index] <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>
+            <span class="hljs-keyword">or</span> offset_mapping[end_index] <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>
         ):
-            continue
-        # Don't consider answers with a length that is either &lt; 0 or &gt; max_answer_length.
-        if end_index &lt; start_index or end_index - start_index + 1 &gt; max_answer_length:
-            continue
-        if start_index &lt;= end_index: # We need to refine that test to check the answer is inside the context
-            start_char = offset_mapping[start_index][0]
-            end_char = offset_mapping[end_index][1]
+            <span class="hljs-keyword">continue</span>
+        <span class="hljs-comment"># Don't consider answers with a length that is either &lt; 0 or &gt; max_answer_length.</span>
+        <span class="hljs-keyword">if</span> end_index &lt; start_index <span class="hljs-keyword">or</span> end_index - start_index + <span class="hljs-number">1</span> &gt; max_answer_length:
+            <span class="hljs-keyword">continue</span>
+        <span class="hljs-keyword">if</span> start_index &lt;= end_index: <span class="hljs-comment"># We need to refine that test to check the answer is inside the context</span>
+            start_char = offset_mapping[start_index][<span class="hljs-number">0</span>]
+            end_char = offset_mapping[end_index][<span class="hljs-number">1</span>]
             valid_answers.append(
                 {
-                    "score": start_logits[start_index] + end_logits[end_index],
-                    "text": context[start_char: end_char]
+                    <span class="hljs-string">"score"</span>: start_logits[start_index] + end_logits[end_index],
+                    <span class="hljs-string">"text"</span>: context[start_char: end_char]
                 }
             )
 
-valid_answers = sorted(valid_answers, key=lambda x: x["score"], reverse=True)[:n_best_size]
+valid_answers = <span class="hljs-built_in">sorted</span>(valid_answers, key=<span class="hljs-keyword">lambda</span> x: x[<span class="hljs-string">"score"</span>], reverse=<span class="hljs-literal">True</span>)[:n_best_size]
 valid_answers
 </code></pre>
 <pre><code>[{'score': 16.706663, 'text': 'Denver Broncos'},
@@ -1034,115 +1034,115 @@ valid_answers
   'text': 'Carolina Panthers 24–10 to earn their third Super Bowl title.'},
  {'score': 6.71136,
   'text': 'Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24'}]
-</code></pre><pre><code class="lang-pythonthon">将预测答案和真实答案进行比较即可:
+</code></pre><pre><code class="lang-python">将预测答案和真实答案进行比较即可:
 </code></pre>
-<pre><code class="lang-pythonthon">datasets["validation"][0]["answers"]
+<pre><code class="lang-python">datasets[<span class="hljs-string">"validation"</span>][<span class="hljs-number">0</span>][<span class="hljs-string">"answers"</span>]
 </code></pre>
 <pre><code>{'answer_start': [177, 177, 177],
  'text': ['Denver Broncos', 'Denver Broncos', 'Denver Broncos']}
 </code></pre><p>可以看到模型做对了！</p>
 <p>如同上面的例子所言，由于第1个feature一定是来自于第1个example，所以相对容易。对于其他的fearures来说，我们需要一个features和examples的一个映射map。同样，由于一个example可能被切片成多个features，所以我们也需要将所有features里的答案全部手机起来。以下的代码就将exmaple的下标和features的下标进行map映射。</p>
-<pre><code class="lang-pythonthon">import collections
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> collections
 
-examples = datasets["validation"]
+examples = datasets[<span class="hljs-string">"validation"</span>]
 features = validation_features
 
-example_id_to_index = {k: i for i, k in enumerate(examples["id"])}
-features_per_example = collections.defaultdict(list)
-for i, feature in enumerate(features):
-    features_per_example[example_id_to_index[feature["example_id"]]].append(i)
+example_id_to_index = {k: i <span class="hljs-keyword">for</span> i, k <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(examples[<span class="hljs-string">"id"</span>])}
+features_per_example = collections.defaultdict(<span class="hljs-built_in">list</span>)
+<span class="hljs-keyword">for</span> i, feature <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(features):
+    features_per_example[example_id_to_index[feature[<span class="hljs-string">"example_id"</span>]]].append(i)
 </code></pre>
 <p>对于后处理过程基本上已经全部完成了。最后一点事情是如何解决无答案的情况（squad_v2=True的时候）。以上的代码都只考虑了context里面的asnwers，所以我们同样需要将无答案的预测得分进行搜集（无答案的预测对应的CLSt oken的start和end）。如果一个example样本又多个features，那么我们还需要在多个features里预测是不是都无答案。所以无答案的最终得分是所有features的无答案得分最小的那个。</p>
 <p>只要无答案的最终得分高于其他所有答案的得分，那么该问题就是无答案。</p>
 <p>把所有事情都合并起来：</p>
-<pre><code class="lang-pythonthon">from tqdm.auto import tqdm
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> tqdm.auto <span class="hljs-keyword">import</span> tqdm
 
-def postprocess_qa_predictions(examples, features, raw_predictions, n_best_size = 20, max_answer_length = 30):
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">postprocess_qa_predictions</span>(<span class="hljs-params">examples, features, raw_predictions, n_best_size = <span class="hljs-number">20</span>, max_answer_length = <span class="hljs-number">30</span></span>):
     all_start_logits, all_end_logits = raw_predictions
-    # Build a map example to its corresponding features.
-    example_id_to_index = {k: i for i, k in enumerate(examples["id"])}
-    features_per_example = collections.defaultdict(list)
-    for i, feature in enumerate(features):
-        features_per_example[example_id_to_index[feature["example_id"]]].append(i)
+    <span class="hljs-comment"># Build a map example to its corresponding features.</span>
+    example_id_to_index = {k: i <span class="hljs-keyword">for</span> i, k <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(examples[<span class="hljs-string">"id"</span>])}
+    features_per_example = collections.defaultdict(<span class="hljs-built_in">list</span>)
+    <span class="hljs-keyword">for</span> i, feature <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(features):
+        features_per_example[example_id_to_index[feature[<span class="hljs-string">"example_id"</span>]]].append(i)
 
-    # The dictionaries we have to fill.
+    <span class="hljs-comment"># The dictionaries we have to fill.</span>
     predictions = collections.OrderedDict()
 
-    # Logging.
-    print(f"Post-processing {len(examples)} example predictions split into {len(features)} features.")
+    <span class="hljs-comment"># Logging.</span>
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Post-processing <span class="hljs-subst">{<span class="hljs-built_in">len</span>(examples)}</span> example predictions split into <span class="hljs-subst">{<span class="hljs-built_in">len</span>(features)}</span> features."</span>)
 
-    # Let's loop over all the examples!
-    for example_index, example in enumerate(tqdm(examples)):
-        # Those are the indices of the features associated to the current example.
+    <span class="hljs-comment"># Let's loop over all the examples!</span>
+    <span class="hljs-keyword">for</span> example_index, example <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(tqdm(examples)):
+        <span class="hljs-comment"># Those are the indices of the features associated to the current example.</span>
         feature_indices = features_per_example[example_index]
 
-        min_null_score = None # Only used if squad_v2 is True.
+        min_null_score = <span class="hljs-literal">None</span> <span class="hljs-comment"># Only used if squad_v2 is True.</span>
         valid_answers = []
 
-        context = example["context"]
-        # Looping through all the features associated to the current example.
-        for feature_index in feature_indices:
-            # We grab the predictions of the model for this feature.
+        context = example[<span class="hljs-string">"context"</span>]
+        <span class="hljs-comment"># Looping through all the features associated to the current example.</span>
+        <span class="hljs-keyword">for</span> feature_index <span class="hljs-keyword">in</span> feature_indices:
+            <span class="hljs-comment"># We grab the predictions of the model for this feature.</span>
             start_logits = all_start_logits[feature_index]
             end_logits = all_end_logits[feature_index]
-            # This is what will allow us to map some the positions in our logits to span of texts in the original
-            # context.
-            offset_mapping = features[feature_index]["offset_mapping"]
+            <span class="hljs-comment"># This is what will allow us to map some the positions in our logits to span of texts in the original</span>
+            <span class="hljs-comment"># context.</span>
+            offset_mapping = features[feature_index][<span class="hljs-string">"offset_mapping"</span>]
 
-            # Update minimum null prediction.
-            cls_index = features[feature_index]["input_ids"].index(tokenizer.cls_token_id)
+            <span class="hljs-comment"># Update minimum null prediction.</span>
+            cls_index = features[feature_index][<span class="hljs-string">"input_ids"</span>].index(tokenizer.cls_token_id)
             feature_null_score = start_logits[cls_index] + end_logits[cls_index]
-            if min_null_score is None or min_null_score &lt; feature_null_score:
+            <span class="hljs-keyword">if</span> min_null_score <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">or</span> min_null_score &lt; feature_null_score:
                 min_null_score = feature_null_score
 
-            # Go through all possibilities for the `n_best_size` greater start and end logits.
-            start_indexes = np.argsort(start_logits)[-1 : -n_best_size - 1 : -1].tolist()
-            end_indexes = np.argsort(end_logits)[-1 : -n_best_size - 1 : -1].tolist()
-            for start_index in start_indexes:
-                for end_index in end_indexes:
-                    # Don't consider out-of-scope answers, either because the indices are out of bounds or correspond
-                    # to part of the input_ids that are not in the context.
-                    if (
-                        start_index &gt;= len(offset_mapping)
-                        or end_index &gt;= len(offset_mapping)
-                        or offset_mapping[start_index] is None
-                        or offset_mapping[end_index] is None
+            <span class="hljs-comment"># Go through all possibilities for the `n_best_size` greater start and end logits.</span>
+            start_indexes = np.argsort(start_logits)[-<span class="hljs-number">1</span> : -n_best_size - <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>].tolist()
+            end_indexes = np.argsort(end_logits)[-<span class="hljs-number">1</span> : -n_best_size - <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>].tolist()
+            <span class="hljs-keyword">for</span> start_index <span class="hljs-keyword">in</span> start_indexes:
+                <span class="hljs-keyword">for</span> end_index <span class="hljs-keyword">in</span> end_indexes:
+                    <span class="hljs-comment"># Don't consider out-of-scope answers, either because the indices are out of bounds or correspond</span>
+                    <span class="hljs-comment"># to part of the input_ids that are not in the context.</span>
+                    <span class="hljs-keyword">if</span> (
+                        start_index &gt;= <span class="hljs-built_in">len</span>(offset_mapping)
+                        <span class="hljs-keyword">or</span> end_index &gt;= <span class="hljs-built_in">len</span>(offset_mapping)
+                        <span class="hljs-keyword">or</span> offset_mapping[start_index] <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>
+                        <span class="hljs-keyword">or</span> offset_mapping[end_index] <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>
                     ):
-                        continue
-                    # Don't consider answers with a length that is either &lt; 0 or &gt; max_answer_length.
-                    if end_index &lt; start_index or end_index - start_index + 1 &gt; max_answer_length:
-                        continue
+                        <span class="hljs-keyword">continue</span>
+                    <span class="hljs-comment"># Don't consider answers with a length that is either &lt; 0 or &gt; max_answer_length.</span>
+                    <span class="hljs-keyword">if</span> end_index &lt; start_index <span class="hljs-keyword">or</span> end_index - start_index + <span class="hljs-number">1</span> &gt; max_answer_length:
+                        <span class="hljs-keyword">continue</span>
 
-                    start_char = offset_mapping[start_index][0]
-                    end_char = offset_mapping[end_index][1]
+                    start_char = offset_mapping[start_index][<span class="hljs-number">0</span>]
+                    end_char = offset_mapping[end_index][<span class="hljs-number">1</span>]
                     valid_answers.append(
                         {
-                            "score": start_logits[start_index] + end_logits[end_index],
-                            "text": context[start_char: end_char]
+                            <span class="hljs-string">"score"</span>: start_logits[start_index] + end_logits[end_index],
+                            <span class="hljs-string">"text"</span>: context[start_char: end_char]
                         }
                     )
 
-        if len(valid_answers) &gt; 0:
-            best_answer = sorted(valid_answers, key=lambda x: x["score"], reverse=True)[0]
-        else:
-            # In the very rare edge case we have not a single non-null prediction, we create a fake prediction to avoid
-            # failure.
-            best_answer = {"text": "", "score": 0.0}
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(valid_answers) &gt; <span class="hljs-number">0</span>:
+            best_answer = <span class="hljs-built_in">sorted</span>(valid_answers, key=<span class="hljs-keyword">lambda</span> x: x[<span class="hljs-string">"score"</span>], reverse=<span class="hljs-literal">True</span>)[<span class="hljs-number">0</span>]
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-comment"># In the very rare edge case we have not a single non-null prediction, we create a fake prediction to avoid</span>
+            <span class="hljs-comment"># failure.</span>
+            best_answer = {<span class="hljs-string">"text"</span>: <span class="hljs-string">""</span>, <span class="hljs-string">"score"</span>: <span class="hljs-number">0.0</span>}
 
-        # Let's pick our final answer: the best one or the null answer (only for squad_v2)
-        if not squad_v2:
-            predictions[example["id"]] = best_answer["text"]
-        else:
-            answer = best_answer["text"] if best_answer["score"] &gt; min_null_score else ""
-            predictions[example["id"]] = answer
+        <span class="hljs-comment"># Let's pick our final answer: the best one or the null answer (only for squad_v2)</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> squad_v2:
+            predictions[example[<span class="hljs-string">"id"</span>]] = best_answer[<span class="hljs-string">"text"</span>]
+        <span class="hljs-keyword">else</span>:
+            answer = best_answer[<span class="hljs-string">"text"</span>] <span class="hljs-keyword">if</span> best_answer[<span class="hljs-string">"score"</span>] &gt; min_null_score <span class="hljs-keyword">else</span> <span class="hljs-string">""</span>
+            predictions[example[<span class="hljs-string">"id"</span>]] = answer
 
-    return predictions
+    <span class="hljs-keyword">return</span> predictions
 </code></pre>
 <p>将后处理函数应用到原始预测上：</p>
-<pre><code class="lang-pythonthon">
+<pre><code class="lang-python">
 
 </code></pre>
-<pre><code class="lang-pythonthon">final_predictions = postprocess_qa_predictions(datasets["validation"], validation_features, raw_predictions.predictions)
+<pre><code class="lang-python">final_predictions = postprocess_qa_predictions(datasets[<span class="hljs-string">"validation"</span>], validation_features, raw_predictions.predictions)
 </code></pre>
 <pre><code>Post-processing 10570 example predictions split into 10784 features.
 
@@ -1150,19 +1150,19 @@ def postprocess_qa_predictions(examples, features, raw_predictions, n_best_size 
 
 HBox(children=(FloatProgress(value=0.0, max=10570.0), HTML(value='')))
 </code></pre><p>然后我们加载评测指标：</p>
-<pre><code class="lang-pythonthon">metric = load_metric("squad_v2" if squad_v2 else "squad")
+<pre><code class="lang-python">metric = load_metric(<span class="hljs-string">"squad_v2"</span> <span class="hljs-keyword">if</span> squad_v2 <span class="hljs-keyword">else</span> <span class="hljs-string">"squad"</span>)
 </code></pre>
 <p>然后我们基于预测和标注对评测指标进行计算。为了合理的比较，我们需要将预测和标注的格式。对于squad2来说，评测指标还需要<code>no_answer_probability</code>参数（由于已经无答案直接设置成了空字符串，所以这里直接将这个参数设置为0.0）</p>
-<pre><code class="lang-pythonthon">if squad_v2:
-    formatted_predictions = [{"id": k, "prediction_text": v, "no_answer_probability": 0.0} for k, v in predictions.items()]
-else:
-    formatted_predictions = [{"id": k, "prediction_text": v} for k, v in final_predictions.items()]
-references = [{"id": ex["id"], "answers": ex["answers"]} for ex in datasets["validation"]]
+<pre><code class="lang-python"><span class="hljs-keyword">if</span> squad_v2:
+    formatted_predictions = [{<span class="hljs-string">"id"</span>: k, <span class="hljs-string">"prediction_text"</span>: v, <span class="hljs-string">"no_answer_probability"</span>: <span class="hljs-number">0.0</span>} <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> predictions.items()]
+<span class="hljs-keyword">else</span>:
+    formatted_predictions = [{<span class="hljs-string">"id"</span>: k, <span class="hljs-string">"prediction_text"</span>: v} <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> final_predictions.items()]
+references = [{<span class="hljs-string">"id"</span>: ex[<span class="hljs-string">"id"</span>], <span class="hljs-string">"answers"</span>: ex[<span class="hljs-string">"answers"</span>]} <span class="hljs-keyword">for</span> ex <span class="hljs-keyword">in</span> datasets[<span class="hljs-string">"validation"</span>]]
 metric.compute(predictions=formatted_predictions, references=references)
 </code></pre>
 <pre><code>{'exact_match': 76.74550614947965, 'f1': 85.13412652023338}
 </code></pre><p>最后别忘了，<a href="https://huggingface.co/transformers/model_sharing.html" target="_blank">查看如何上传模型</a> ，上传模型到<a href="https://huggingface.co/models" target="_blank">🤗 Model Hub</a>。随后您就可以像这个notebook一开始一样，直接用名字就能使用您的模型啦。</p>
-<pre><code class="lang-pythonthon">
+<pre><code class="lang-python">
 
 </code></pre>
 
@@ -1208,7 +1208,7 @@ metric.compute(predictions=formatted_predictions, references=references)
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.3-问答任务-抽取式问答","level":"4.5","depth":1,"next":{"title":"4.4-问答任务-多选问答","level":"4.6","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.md","ref":"./篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.md","articles":[]},"previous":{"title":"4.2-序列标注","level":"4.4","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.2-序列标注.md","ref":"./篇章4-使用Transformers解决NLP任务/4.2-序列标注.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"篇章4-使用Transformers解决NLP任务/4.3-问答任务-抽取式问答.md","mtime":"2025-01-05T18:00:51.268Z","type":"markdown"},"gitbook":{"version":"6.0.2","time":"2025-01-05T18:01:03.606Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.3-问答任务-抽取式问答","level":"4.5","depth":1,"next":{"title":"4.4-问答任务-多选问答","level":"4.6","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.md","ref":"./篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.md","articles":[]},"previous":{"title":"4.2-序列标注","level":"4.4","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.2-序列标注.md","ref":"./篇章4-使用Transformers解决NLP任务/4.2-序列标注.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"篇章4-使用Transformers解决NLP任务/4.3-问答任务-抽取式问答.md","mtime":"2025-01-11T00:02:01.079Z","type":"markdown"},"gitbook":{"version":"6.0.2","time":"2025-01-11T18:47:58.590Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -49,7 +49,7 @@
     
     
     <meta name="HandheldFriendly" content="true"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
@@ -547,21 +547,21 @@
 <p>🤗 <a href="https://github.com/huggingface/transformers" target="_blank">Transformers 库</a>提供了创建和使用共享模型的功能.。<a href="https://huggingface.co/models" target="_blank">Model Hub</a>包含数千个所有人都可以下载和使用的预训练模型。 您也可以将自己的模型上传到 Hub！</p>
 </blockquote>
 <p>🤗 Transformers 库中最基本的对象是pipeline。 它将模型与其必要的预处理和后处理步骤连接起来，使我们能够直接输入任何文本并获得可理解的答案：</p>
-<pre><code class="lang-pythonthon">from transformers import pipeline
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> pipeline
 
-classifier = pipeline("sentiment-analysis")
-classifier("I've been waiting for a HuggingFace course my whole life.")
+classifier = pipeline(<span class="hljs-string">"sentiment-analysis"</span>)
+classifier(<span class="hljs-string">"I've been waiting for a HuggingFace course my whole life."</span>)
 </code></pre>
-<pre><code class="lang-pythonthon">[{'label': 'POSITIVE', 'score': 0.9598047137260437}]
+<pre><code class="lang-python">[{<span class="hljs-string">'label'</span>: <span class="hljs-string">'POSITIVE'</span>, <span class="hljs-string">'score'</span>: <span class="hljs-number">0.9598047137260437</span>}]
 </code></pre>
 <p>我们甚至可以传入几个句子！</p>
-<pre><code class="lang-pythonthon">classifier([
-    "I've been waiting for a HuggingFace course my whole life.", 
-    "I hate this so much!"
+<pre><code class="lang-python">classifier([
+    <span class="hljs-string">"I've been waiting for a HuggingFace course my whole life."</span>, 
+    <span class="hljs-string">"I hate this so much!"</span>
 ])
 </code></pre>
-<pre><code class="lang-pythonthon">[{'label': 'POSITIVE', 'score': 0.9598047137260437},
- {'label': 'NEGATIVE', 'score': 0.9994558095932007}]
+<pre><code class="lang-python">[{<span class="hljs-string">'label'</span>: <span class="hljs-string">'POSITIVE'</span>, <span class="hljs-string">'score'</span>: <span class="hljs-number">0.9598047137260437</span>},
+ {<span class="hljs-string">'label'</span>: <span class="hljs-string">'NEGATIVE'</span>, <span class="hljs-string">'score'</span>: <span class="hljs-number">0.9994558095932007</span>}]
 </code></pre>
 <p>默认情况下，此管道选择一个特定的预训练模型，该模型已针对英语情感分析进行了微调。 创建分类器对象时，将下载并缓存模型。 如果您重新运行该命令，则将使用缓存的模型，无需再次下载模型。</p>
 <p>将一些文本传递到管道时涉及三个主要步骤：</p>
@@ -621,17 +621,17 @@ classifier("I've been waiting for a HuggingFace course my whole life.")
 YouTube视频：<a href="https://youtu.be/1pedAIvTWXk" target="_blank">what happend inside the pipeline function</a></p>
 </blockquote>
 <p>让我们从一个完整的例子开始，看看当我们在第1节中执行以下代码时，幕后发生了什么：</p>
-<pre><code class="lang-pythonthon">
-from transformers import pipeline
+<pre><code class="lang-python">
+<span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> pipeline
 
-classifier = pipeline("sentiment-analysis")
+classifier = pipeline(<span class="hljs-string">"sentiment-analysis"</span>)
 classifier([
-    "I've been waiting for a HuggingFace course my whole life.", 
-    "I hate this so much!",
+    <span class="hljs-string">"I've been waiting for a HuggingFace course my whole life."</span>, 
+    <span class="hljs-string">"I hate this so much!"</span>,
 ])
 </code></pre>
-<pre><code class="lang-pythonthon">[{'label': 'POSITIVE', 'score': 0.9598047137260437},
- {'label': 'NEGATIVE', 'score': 0.9994558095932007}]
+<pre><code class="lang-python">[{<span class="hljs-string">'label'</span>: <span class="hljs-string">'POSITIVE'</span>, <span class="hljs-string">'score'</span>: <span class="hljs-number">0.9598047137260437</span>},
+ {<span class="hljs-string">'label'</span>: <span class="hljs-string">'NEGATIVE'</span>, <span class="hljs-string">'score'</span>: <span class="hljs-number">0.9994558095932007</span>}]
 </code></pre>
 <p>正如我们在第 1 章中看到的，这个管道将三个步骤组合在一起：预处理、通过模型传递输入和后处理：
 <img src="https://img-blog.csdnimg.cn/7f19b775bfe94fa0bb9e35d883567e16.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA56We5rSb5Y2O,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="full_nlp_pipeline "></img></p>
@@ -645,38 +645,38 @@ classifier([
 </ul>
 <p>使用 AutoTokenizer 类及其 from_pretrained 方法，以保证所有这些预处理都以与模型预训练时完全相同的方式完成。设定模型的 checkpoint名称，它会自动获取与模型的Tokenizer关联的数据并缓存它（所以它只在你第一次运行下面的代码时下载）。</p>
 <p>由于情感分析管道的默认检查点是 <a href="https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english" target="_blank">distilbert-base-uncased-finetuned-sst-2-english</a>，我们可以运行以下命令得到我们需要的tokenizer：</p>
-<pre><code class="lang-pythonthon">from transformers import AutoTokenizer
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoTokenizer
 
-checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
+checkpoint = <span class="hljs-string">"distilbert-base-uncased-finetuned-sst-2-english"</span>
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 </code></pre>
-<pre><code class="lang-pythonthon">raw_inputs = [
-    "I've been waiting for a HuggingFace course my whole life.", 
-    "I hate this so much!",
+<pre><code class="lang-python">raw_inputs = [
+    <span class="hljs-string">"I've been waiting for a HuggingFace course my whole life."</span>, 
+    <span class="hljs-string">"I hate this so much!"</span>,
 ]
-inputs = tokenizer(raw_inputs, padding=True, truncation=True, return_tensors="pt")
-#return_tensors="pt"表示返回Pytorch张量。文本转换为数字之后必须再转换成张量tensors才能输入模型。
-#padding=True表示填充输入序列到最大长度，truncation=True表示过长序列被截断
+inputs = tokenizer(raw_inputs, padding=<span class="hljs-literal">True</span>, truncation=<span class="hljs-literal">True</span>, return_tensors=<span class="hljs-string">"pt"</span>)
+<span class="hljs-comment">#return_tensors="pt"表示返回Pytorch张量。文本转换为数字之后必须再转换成张量tensors才能输入模型。</span>
+<span class="hljs-comment">#padding=True表示填充输入序列到最大长度，truncation=True表示过长序列被截断</span>
 
-print(inputs)
+<span class="hljs-built_in">print</span>(inputs)
 </code></pre>
 <p>以下是 PyTorch 张量的结果：</p>
-<pre><code class="lang-pythonthon">{
-    'input_ids': tensor([
-        [  101,  1045,  1005,  2310,  2042,  3403,  2005,  1037, 17662, 12172, 2607,  2026,  2878,  2166,  1012,   102],
-        [  101,  1045,  5223,  2023,  2061,  2172,   999,   102,     0,     0,     0,     0,     0,     0,     0,     0]
+<pre><code class="lang-python">{
+    <span class="hljs-string">'input_ids'</span>: tensor([
+        [  <span class="hljs-number">101</span>,  <span class="hljs-number">1045</span>,  <span class="hljs-number">1005</span>,  <span class="hljs-number">2310</span>,  <span class="hljs-number">2042</span>,  <span class="hljs-number">3403</span>,  <span class="hljs-number">2005</span>,  <span class="hljs-number">1037</span>, <span class="hljs-number">17662</span>, <span class="hljs-number">12172</span>, <span class="hljs-number">2607</span>,  <span class="hljs-number">2026</span>,  <span class="hljs-number">2878</span>,  <span class="hljs-number">2166</span>,  <span class="hljs-number">1012</span>,   <span class="hljs-number">102</span>],
+        [  <span class="hljs-number">101</span>,  <span class="hljs-number">1045</span>,  <span class="hljs-number">5223</span>,  <span class="hljs-number">2023</span>,  <span class="hljs-number">2061</span>,  <span class="hljs-number">2172</span>,   <span class="hljs-number">999</span>,   <span class="hljs-number">102</span>,     <span class="hljs-number">0</span>,     <span class="hljs-number">0</span>,     <span class="hljs-number">0</span>,     <span class="hljs-number">0</span>,     <span class="hljs-number">0</span>,     <span class="hljs-number">0</span>,     <span class="hljs-number">0</span>,     <span class="hljs-number">0</span>]
     ]), 
-    'attention_mask': tensor([
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    <span class="hljs-string">'attention_mask'</span>: tensor([
+        [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+        [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]
     ])
 }
 </code></pre>
 <h3 id="选择模型">选择模型</h3>
 <p>我们可以像使用分词器一样下载我们的预训练模型。 🤗 Transformers 提供了一个 AutoModel 类，它也有一个 from_pretrained 方法：</p>
-<pre><code class="lang-pythonthon">from transformers import AutoModel
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoModel
 
-checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
+checkpoint = <span class="hljs-string">"distilbert-base-uncased-finetuned-sst-2-english"</span>
 model = AutoModel.from_pretrained(checkpoint)
 </code></pre>
 <p>AutoModel 类及其所有相关类实际上是库中各种可用模型的简单包装器。 它可以自动为您的checkpoint猜测合适的模型架构，然后使用该架构实例化模型。（<strong><em>即AutoModel 类可以从checkpoint实例化任何模型，而且这是一种更好的实例化模型方法。构建模型还有另一种方法，放在文末。</em></strong>）</p>
@@ -699,40 +699,40 @@ model = AutoModel.from_pretrained(checkpoint)
 </ul>
 <p>以情感分类为例，我们需要一个带有序列分类的Model head（能够将句子分类为正面或负面）。 因此，我们实际上不会使用 AutoModel 类，而是使用 AutoModelForSequenceClassification：</p>
 <p>（<strong><em>也就是说前面写的model = AutoModel.from_pretrained(checkpoint)并不能得到情感分类任务的结果，因为没有加载Model head</em></strong>）</p>
-<pre><code class="lang-pythonthon">from transformers import AutoModelForSequenceClassification
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoModelForSequenceClassification
 
-checkpoint = "distilbert-base-uncased-finetuned-sst-2-english"
+checkpoint = <span class="hljs-string">"distilbert-base-uncased-finetuned-sst-2-english"</span>
 model = AutoModelForSequenceClassification.from_pretrained(checkpoint)
 outputs = model(**inputs)
 </code></pre>
 <p>model head将我们之前看到的高维向量作为输入，并输出包含两个值（每个标签一个）的向量：</p>
-<pre><code class="lang-pythonthon">print(outputs.logits.shape)
+<pre><code class="lang-python"><span class="hljs-built_in">print</span>(outputs.logits.shape)
 </code></pre>
-<pre><code class="lang-pythonthon">torch.Size([2, 2])
+<pre><code class="lang-python">torch.Size([<span class="hljs-number">2</span>, <span class="hljs-number">2</span>])
 </code></pre>
 <p>由于我们只有两个句子和两个标签，因此我们从模型中得到的结果是 2 x 2 的形状。</p>
 <h3 id="post-processing后处理">Post-processing后处理</h3>
 <p>我们从模型中获得的作为输出的值本身并不一定有意义。 让我们来看看：</p>
-<pre><code class="lang-pythonthon">print(outputs.logits)
+<pre><code class="lang-python"><span class="hljs-built_in">print</span>(outputs.logits)
 </code></pre>
-<pre><code class="lang-pythonthon">tensor([[-1.5607,  1.6123],
-        [ 4.1692, -3.3464]], grad_fn=&lt;AddmmBackward&gt;)
+<pre><code class="lang-python">tensor([[-<span class="hljs-number">1.5607</span>,  <span class="hljs-number">1.6123</span>],
+        [ <span class="hljs-number">4.1692</span>, -<span class="hljs-number">3.3464</span>]], grad_fn=&lt;AddmmBackward&gt;)
 </code></pre>
 <p>我们的模型预测了第一个句子结果 [-1.5607, 1.6123] 和第二个句子的结果 [4.1692, -3.3464]。 这些不是概率，而是 logits，即模型最后一层输出的原始非标准化分数。 要转换为概率，它们需要经过一个 SoftMax 层。所有🤗 Transformers 模型都输出 logits，这是因为训练的损失函数一般会将最后一个激活函数（比如SoftMax）和实际的交叉熵损失函数相融合。<br></br>
 （<strong><em>补充：在Pytorch里面，交叉熵损失CEloss不是数学上的交叉熵损失（NLLLoss）。Pytorch的CrossEntropyLoss就是把Softmax–Log–NLLLoss合并成一步。详细内容可以参考知乎文章<a href="https://zhuanlan.zhihu.com/p/30187567" target="_blank">《如何理解NLLLoss?》</a></em></strong>）</p>
-<pre><code class="lang-pythonthon">import torch
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> torch
 
-predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)
-print(predictions)
+predictions = torch.nn.functional.softmax(outputs.logits, dim=-<span class="hljs-number">1</span>)
+<span class="hljs-built_in">print</span>(predictions)
 </code></pre>
-<pre><code class="lang-pythonthon">tensor([[4.0195e-02, 9.5980e-01],
-        [9.9946e-01, 5.4418e-04]], grad_fn=&lt;SoftmaxBackward&gt;)
+<pre><code class="lang-python">tensor([[<span class="hljs-number">4.0195e-02</span>, <span class="hljs-number">9.5980e-01</span>],
+        [<span class="hljs-number">9.9946e-01</span>, <span class="hljs-number">5.4418e-04</span>]], grad_fn=&lt;SoftmaxBackward&gt;)
 </code></pre>
 <p>这次输出是可识别的概率分数。</p>
 <p>要获得每个位置对应的标签，我们可以检查模型配置的 id2label 属性：</p>
-<pre><code class="lang-pythonthon">model.config.id2label
+<pre><code class="lang-python">model.config.id2label
 </code></pre>
-<pre><code class="lang-pythonthon">{0: 'NEGATIVE', 1: 'POSITIVE'}
+<pre><code class="lang-python">{<span class="hljs-number">0</span>: <span class="hljs-string">'NEGATIVE'</span>, <span class="hljs-number">1</span>: <span class="hljs-string">'POSITIVE'</span>}
 </code></pre>
 <p>现在我们可以得出结论，该模型预测了以下内容：</p>
 <p>第一句：NEGATIVE：0.0402，POSITIVE：0.9598<br></br>
@@ -756,23 +756,23 @@ print(predictions)
 <p>Hub 不仅包含模型；还含有多个<a href="https://huggingface.co/datasets" target="_blank">datasets</a>，这些datasets有很多不同的语言。我们建议您在完成本节后尝试加载和处理新数据集（<a href="https://huggingface.co/docs/datasets/loading_datasets.html#from-the-huggingface-hub" target="_blank">参考文档</a>）。 </p>
 <p> MRPC 数据集是构成 <a href="https://gluebenchmark.com/" target="_blank">GLUE 基准</a>的 10 个数据集之一。而GLUE 基准是一种学术基准，用于衡量 ML 模型在 10 个不同文本分类任务中的性能。</p>
 <p>🤗 Datasets库提供了一个非常简单的命令来下载和缓存Hub上的dataset。 我们可以像这样下载 MRPC 数据集：</p>
-<pre><code class="lang-pythonthon">from datasets import load_dataset
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset
 
-raw_datasets = load_dataset("glue", "mrpc")
+raw_datasets = load_dataset(<span class="hljs-string">"glue"</span>, <span class="hljs-string">"mrpc"</span>)
 raw_datasets
 </code></pre>
-<pre><code class="lang-pythonthon">DatasetDict({
+<pre><code class="lang-python">DatasetDict({
     train: Dataset({
-        features: ['sentence1', 'sentence2', 'label', 'idx'],
-        num_rows: 3668
+        features: [<span class="hljs-string">'sentence1'</span>, <span class="hljs-string">'sentence2'</span>, <span class="hljs-string">'label'</span>, <span class="hljs-string">'idx'</span>],
+        num_rows: <span class="hljs-number">3668</span>
     })
     validation: Dataset({
-        features: ['sentence1', 'sentence2', 'label', 'idx'],
-        num_rows: 408
+        features: [<span class="hljs-string">'sentence1'</span>, <span class="hljs-string">'sentence2'</span>, <span class="hljs-string">'label'</span>, <span class="hljs-string">'idx'</span>],
+        num_rows: <span class="hljs-number">408</span>
     })
     test: Dataset({
-        features: ['sentence1', 'sentence2', 'label', 'idx'],
-        num_rows: 1725
+        features: [<span class="hljs-string">'sentence1'</span>, <span class="hljs-string">'sentence2'</span>, <span class="hljs-string">'label'</span>, <span class="hljs-string">'idx'</span>],
+        num_rows: <span class="hljs-number">1725</span>
     })
 })
 </code></pre>
@@ -786,26 +786,26 @@ raw_datasets
 <p>例如： datasets = load_dataset("text", data_files={"train": path_to_train.txt, "validation": path_to_validation.txt} 具体可以<a href="https://link.zhihu.com/?target=https%3A//huggingface.co/docs/datasets/loading_datasets.html%23from-local-files" target="_blank">参考文档</a></p>
 <p>load_dataset命令下载并缓存数据集，默认在 ~/.cache/huggingface/dataset 中。您可以通过设置 HF_HOME 环境变量来自定义缓存文件夹。</p>
 <p>和字典一样，raw_datasets 可以通过索引访问其中的句子对：</p>
-<pre><code class="lang-pythonthon">raw_train_dataset = raw_datasets["train"]
-raw_train_dataset[0]
+<pre><code class="lang-python">raw_train_dataset = raw_datasets[<span class="hljs-string">"train"</span>]
+raw_train_dataset[<span class="hljs-number">0</span>]
 </code></pre>
-<pre><code class="lang-pythonthon">{'idx': 0,
- 'label': 1,
- 'sentence1': 'Amrozi accused his brother , whom he called " the witness " , of deliberately distorting his evidence .',
- 'sentence2': 'Referring to him as only " the witness " , Amrozi accused his brother of deliberately distorting his evidence .'}
+<pre><code class="lang-python">{<span class="hljs-string">'idx'</span>: <span class="hljs-number">0</span>,
+ <span class="hljs-string">'label'</span>: <span class="hljs-number">1</span>,
+ <span class="hljs-string">'sentence1'</span>: <span class="hljs-string">'Amrozi accused his brother , whom he called " the witness " , of deliberately distorting his evidence .'</span>,
+ <span class="hljs-string">'sentence2'</span>: <span class="hljs-string">'Referring to him as only " the witness " , Amrozi accused his brother of deliberately distorting his evidence .'</span>}
 </code></pre>
-<pre><code class="lang-pythonthon">import pandas as pd
-validation=pd.DataFrame(raw_datasets['validation'])
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+validation=pd.DataFrame(raw_datasets[<span class="hljs-string">'validation'</span>])
 validation
 </code></pre>
 <p><img src="https://img-blog.csdnimg.cn/df0adbee66ba40dc862e64f5df5e0022.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA56We5rSb5Y2O,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="validation"></img>
 可见标签已经是整数，不需要再做任何预处理。通过raw_train_dataset的features属性可以知道每一列的类型：</p>
-<pre><code class="lang-pythonthon">raw_train_dataset.features
+<pre><code class="lang-python">raw_train_dataset.features
 </code></pre>
-<pre><code class="lang-pythonthon">{'sentence1': Value(dtype='string', id=None),
- 'sentence2': Value(dtype='string', id=None),
- 'label': ClassLabel(num_classes=2, names=['not_equivalent', 'equivalent'], names_file=None, id=None),
- 'idx': Value(dtype='int32', id=None)}
+<pre><code class="lang-python">{<span class="hljs-string">'sentence1'</span>: Value(dtype=<span class="hljs-string">'string'</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>),
+ <span class="hljs-string">'sentence2'</span>: Value(dtype=<span class="hljs-string">'string'</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>),
+ <span class="hljs-string">'label'</span>: ClassLabel(num_classes=<span class="hljs-number">2</span>, names=[<span class="hljs-string">'not_equivalent'</span>, <span class="hljs-string">'equivalent'</span>], names_file=<span class="hljs-literal">None</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>),
+ <span class="hljs-string">'idx'</span>: Value(dtype=<span class="hljs-string">'int32'</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>)}
 </code></pre>
 <p>label是 ClassLabel 类型，label=1表示这对句子互为paraphrases，label=0表示句子对意思不一致。</p>
 <h3 id="数据集预处理">数据集预处理</h3>
@@ -813,51 +813,51 @@ validation
 <p>YouTube视频<a href="https://youtu.be/0u3ioSwev3s" target="_blank">《Preprocessing sentence pairs》</a></p>
 </blockquote>
 <p>通过tokenizer可以将文本转换为模型能理解的数字。</p>
-<pre><code class="lang-pythonthon">from transformers import AutoTokenizer
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoTokenizer
 
-checkpoint = "bert-base-uncased"
+checkpoint = <span class="hljs-string">"bert-base-uncased"</span>
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 </code></pre>
 <p>让我们看一个示例：</p>
-<pre><code class="lang-pythonthon">inputs = tokenizer("This is the first sentence.", "This is the second one.")
+<pre><code class="lang-python">inputs = tokenizer(<span class="hljs-string">"This is the first sentence."</span>, <span class="hljs-string">"This is the second one."</span>)
 inputs
 </code></pre>
-<pre><code class="lang-pythonthon">{ 'input_ids': [101, 2023, 2003, 1996, 2034, 6251, 1012, 102, 2023, 2003, 1996, 2117, 2028, 1012, 102],
-  'token_type_ids': [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
-  'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+<pre><code class="lang-python">{ <span class="hljs-string">'input_ids'</span>: [<span class="hljs-number">101</span>, <span class="hljs-number">2023</span>, <span class="hljs-number">2003</span>, <span class="hljs-number">1996</span>, <span class="hljs-number">2034</span>, <span class="hljs-number">6251</span>, <span class="hljs-number">1012</span>, <span class="hljs-number">102</span>, <span class="hljs-number">2023</span>, <span class="hljs-number">2003</span>, <span class="hljs-number">1996</span>, <span class="hljs-number">2117</span>, <span class="hljs-number">2028</span>, <span class="hljs-number">1012</span>, <span class="hljs-number">102</span>],
+  <span class="hljs-string">'token_type_ids'</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>],
+  <span class="hljs-string">'attention_mask'</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]}
 </code></pre>
 <p>所以将句子对列表传给tokenizer，就可以对整个数据集进行分词处理。因此，预处理训练数据集的一种方法是：</p>
-<pre><code class="lang-pythonthon">tokenized_dataset = tokenizer(
-    raw_datasets["train"]["sentence1"],
-    raw_datasets["train"]["sentence2"],
-    padding=True,
-    truncation=True,
+<pre><code class="lang-python">tokenized_dataset = tokenizer(
+    raw_datasets[<span class="hljs-string">"train"</span>][<span class="hljs-string">"sentence1"</span>],
+    raw_datasets[<span class="hljs-string">"train"</span>][<span class="hljs-string">"sentence2"</span>],
+    padding=<span class="hljs-literal">True</span>,
+    truncation=<span class="hljs-literal">True</span>,
 )
 </code></pre>
 <p>这种处理方法是ok的，但缺点是处理之后tokenized_dataset不再是一个dataset格式，而是返回字典（带有我们的键:input_ids、attention_mask 和 token_type_ids，对应的键值对的值）。 而且一旦我们的dataset过大，无法放在内存中，那么这样子的做法会导致 Out of Memory 的异常。（ 🤗 Datasets 库中的数据集是存储在磁盘上的 Apache Arrow 文件，因此请求加载的样本都保存在内存中）。</p>
 <p>为了使我们的数据保持dataset的格式，我们将使用更灵活的Dataset.map 方法。此方法可以完成更多的预处理而不仅仅是 tokenization。 map 方法是对数据集中的每个元素应用同一个函数，所以让我们定义一个函数来对输入进行tokenize预处理：</p>
-<pre><code class="lang-pythonthon">def tokenize_function(example):
-    return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
+<pre><code class="lang-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">tokenize_function</span>(<span class="hljs-params">example</span>):
+    <span class="hljs-keyword">return</span> tokenizer(example[<span class="hljs-string">"sentence1"</span>], example[<span class="hljs-string">"sentence2"</span>], truncation=<span class="hljs-literal">True</span>)
 </code></pre>
 <p>这个函数接受的是一个字典（就像我们dataset的items），返回的也是一个字典（有三个键：input_ids、attention_mask 和 token_type_ids ）。 </p>
 <p>在tokenization函数中省略了padding 参数，这是因为padding到该批次中的最大长度时的效率，会高于所有序列都padding到整个数据集的最大序列长度。 当输入序列长度很不一致时，这可以节省大量时间和处理能力！</p>
 <p>以下是对整个数据集应用tokenization方法。 我们在 map 调用中使用了 batched=True，因此该函数一次应用于数据集的整个batch元素，而不是分别应用于每个元素。 这样预处理速度会更快（因为 🤗 Tokenizers 库中的Tokenizer用 Rust 编写，一次处理很多输入时这个分词器可以非常快）。</p>
-<pre><code class="lang-pythonthon">tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
+<pre><code class="lang-python">tokenized_datasets = raw_datasets.<span class="hljs-built_in">map</span>(tokenize_function, batched=<span class="hljs-literal">True</span>)
 tokenized_datasets
 </code></pre>
 <p>🤗 Datasets库应用这种处理的方式是向数据集添加新字段，如下所示：</p>
-<pre><code class="lang-pythonthon">DatasetDict({
+<pre><code class="lang-python">DatasetDict({
     train: Dataset({
-        features: ['attention_mask', 'idx', 'input_ids', 'label', 'sentence1', 'sentence2', 'token_type_ids'],
-        num_rows: 3668
+        features: [<span class="hljs-string">'attention_mask'</span>, <span class="hljs-string">'idx'</span>, <span class="hljs-string">'input_ids'</span>, <span class="hljs-string">'label'</span>, <span class="hljs-string">'sentence1'</span>, <span class="hljs-string">'sentence2'</span>, <span class="hljs-string">'token_type_ids'</span>],
+        num_rows: <span class="hljs-number">3668</span>
     })
     validation: Dataset({
-        features: ['attention_mask', 'idx', 'input_ids', 'label', 'sentence1', 'sentence2', 'token_type_ids'],
-        num_rows: 408
+        features: [<span class="hljs-string">'attention_mask'</span>, <span class="hljs-string">'idx'</span>, <span class="hljs-string">'input_ids'</span>, <span class="hljs-string">'label'</span>, <span class="hljs-string">'sentence1'</span>, <span class="hljs-string">'sentence2'</span>, <span class="hljs-string">'token_type_ids'</span>],
+        num_rows: <span class="hljs-number">408</span>
     })
     test: Dataset({
-        features: ['attention_mask', 'idx', 'input_ids', 'label', 'sentence1', 'sentence2', 'token_type_ids'],
-        num_rows: 1725
+        features: [<span class="hljs-string">'attention_mask'</span>, <span class="hljs-string">'idx'</span>, <span class="hljs-string">'input_ids'</span>, <span class="hljs-string">'label'</span>, <span class="hljs-string">'sentence1'</span>, <span class="hljs-string">'sentence2'</span>, <span class="hljs-string">'token_type_ids'</span>],
+        num_rows: <span class="hljs-number">1725</span>
     })
 })
 </code></pre>
@@ -883,51 +883,51 @@ tokenized_datasets
 </ul>
 <p>除了以上主要参数还有一些参数和属性（得有几十个吧，可以慢慢看。完整的Trainer文档可以参考<a href="https://huggingface.co/transformers/main_classes/trainer.html?highlight=trainer#transformers.Trainer" target="_blank">这里</a>）</p>
 <p>下面的代码示例假定您已经执行了上一节中的示例：</p>
-<pre><code class="lang-pythonthon">from datasets import load_dataset
-from transformers import AutoTokenizer, DataCollatorWithPadding
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset
+<span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoTokenizer, DataCollatorWithPadding
 
-raw_datasets = load_dataset("glue", "mrpc")#MRPC判断两个句子是否互为paraphrases
-checkpoint = "bert-base-uncased"
+raw_datasets = load_dataset(<span class="hljs-string">"glue"</span>, <span class="hljs-string">"mrpc"</span>)<span class="hljs-comment">#MRPC判断两个句子是否互为paraphrases</span>
+checkpoint = <span class="hljs-string">"bert-base-uncased"</span>
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 
-def tokenize_function(example):
-    return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">tokenize_function</span>(<span class="hljs-params">example</span>):
+    <span class="hljs-keyword">return</span> tokenizer(example[<span class="hljs-string">"sentence1"</span>], example[<span class="hljs-string">"sentence2"</span>], truncation=<span class="hljs-literal">True</span>)
 
-tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
-data_collator = DataCollatorWithPadding(tokenizer=tokenizer)#动态填充，即将每个批次的输入序列填充到一样的长度
+tokenized_datasets = raw_datasets.<span class="hljs-built_in">map</span>(tokenize_function, batched=<span class="hljs-literal">True</span>)
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)<span class="hljs-comment">#动态填充，即将每个批次的输入序列填充到一样的长度</span>
 </code></pre>
 <h4 id="训练">训练</h4>
 <p>Trainer 第一个参数是TrainingArguments类，是一个与训练循环本身相关的参数的子集，包含 Trainer中用于训练和评估的所有超参数。 唯一一个必须提供的参数是：保存model或者说是checkpoint的目录，其它参数可以选取默认值（比如默认训练3个epoch等）（TrainingArguments也有几十个参数，，常见参数写在文末，完整文档包含在上面说的Trainer文档里）</p>
-<pre><code class="lang-pythonthon">from transformers import TrainingArguments
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> TrainingArguments
 
-training_args = TrainingArguments("test-trainer")
+training_args = TrainingArguments(<span class="hljs-string">"test-trainer"</span>)
 </code></pre>
 <p>第二步：定义模型
 和上一节一样，我们将使用 AutoModelForSequenceClassification 类，带有两个标签：
 （<strong><em>其实就是根据自己的任务选择任务头task head，以便进行微调</em></strong>）</p>
-<pre><code class="lang-pythonthon">from transformers import AutoModelForSequenceClassification
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoModelForSequenceClassification
 
-model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2)#标签数为2也就是二分类
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=<span class="hljs-number">2</span>)<span class="hljs-comment">#标签数为2也就是二分类</span>
 </code></pre>
 <p>在实例化此预训练模型后会报一个warning。 这是因为 BERT 没有在句子对分类方面进行过预训练，所以预训练模型的head已经被丢弃，而是添加了一个适合序列分类的new head。 警告表明一些权重没有使用（对应于丢弃的预训练head部分），而其他一些权重被随机初始化（new head部分）， 最后鼓励您训练模型。</p>
 <p>有了模型之后，就可以定义一个训练器Trainer，将迄今为止构建的所有对象传递给它进行模型精调。这些对象包括：model、training_args、训练和验证数据集、data_collator 和tokenizer。（这都是Trainer的参数）：</p>
-<pre><code class="lang-pythonthon">from transformers import Trainer
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> Trainer
 
 trainer = Trainer(
     model,
     training_args,
-    train_dataset=tokenized_datasets["train"],
-    eval_dataset=tokenized_datasets["validation"],
+    train_dataset=tokenized_datasets[<span class="hljs-string">"train"</span>],
+    eval_dataset=tokenized_datasets[<span class="hljs-string">"validation"</span>],
     data_collator=data_collator,
     tokenizer=tokenizer,
 )
 </code></pre>
 <p>像上面这样传递tokenizer时，参数data_collator 是之前定义的动态填充DataCollatorWithPadding，所以此调用中的 data_collator=data_collator行可以跳过。（但是像之前一样写出这一步很重要It was still important to show you this part of the processing in section 2!）</p>
 <p>要在我们的数据集上微调模型，我们只需要调用 Trainer 的 train方法：</p>
-<pre><code class="lang-pythonthon">trainer.train()
+<pre><code class="lang-python">trainer.train()
 </code></pre>
 <p>开始微调（在colab上用 GPU 6分钟左右），训练完毕显示：</p>
-<pre><code class="lang-pythonthon">The following columns in the training set  don't have a corresponding argument in `BertForSequenceClassification.forward` and have been ignored: sentence1, sentence2, idx.
+<pre><code class="lang-python">The following columns <span class="hljs-keyword">in</span> the training <span class="hljs-built_in">set</span>  don<span class="hljs-string">'t have a corresponding argument in `BertForSequenceClassification.forward` and have been ignored: sentence1, sentence2, idx.
 ***** Running training *****
   Num examples = 3668
   Num Epochs = 3
@@ -940,22 +940,22 @@ Step   Training Loss
 500    0.544700
 1000   0.326500
 
-TrainOutput(global_step=1377, training_loss=0.3773723704795865, metrics={'train_runtime': 379.1704, 'train_samples_per_second': 29.021, 'train_steps_per_second': 3.632, 'total_flos': 405470580750720.0, 'train_loss': 0.3773723704795865, 'epoch': 3.0})
+TrainOutput(global_step=1377, training_loss=0.3773723704795865, metrics={'</span>train_runtime<span class="hljs-string">': 379.1704, '</span>train_samples_per_second<span class="hljs-string">': 29.021, '</span>train_steps_per_second<span class="hljs-string">': 3.632, '</span>total_flos<span class="hljs-string">': 405470580750720.0, '</span>train_loss<span class="hljs-string">': 0.3773723704795865, '</span>epoch<span class="hljs-string">': 3.0})
 #运行中只显示500 steps和1000 steps的结果，最终是1377 steps，最终loss是0.377
-</code></pre>
+</span></code></pre>
 <p>我们可以先看看验证集预处理后的结构：</p>
-<pre><code class="lang-pythonthon">tokenized_datasets["validation"]
+<pre><code class="lang-python">tokenized_datasets[<span class="hljs-string">"validation"</span>]
 </code></pre>
-<pre><code class="lang-pythonthon">Dataset({
-    features: ['attention_mask', 'idx', 'input_ids', 'label', 'sentence1', 'sentence2', 'token_type_ids'],
-    num_rows: 408
+<pre><code class="lang-python">Dataset({
+    features: [<span class="hljs-string">'attention_mask'</span>, <span class="hljs-string">'idx'</span>, <span class="hljs-string">'input_ids'</span>, <span class="hljs-string">'label'</span>, <span class="hljs-string">'sentence1'</span>, <span class="hljs-string">'sentence2'</span>, <span class="hljs-string">'token_type_ids'</span>],
+    num_rows: <span class="hljs-number">408</span>
 })
 </code></pre>
 <p>我们可以使用 Trainer.predict 命令获得模型的预测结果：</p>
-<pre><code class="lang-pythonthon">predictions = trainer.predict(tokenized_datasets["validation"])
-print(predictions.predictions.shape, predictions.label_ids.shape)
+<pre><code class="lang-python">predictions = trainer.predict(tokenized_datasets[<span class="hljs-string">"validation"</span>])
+<span class="hljs-built_in">print</span>(predictions.predictions.shape, predictions.label_ids.shape)
 </code></pre>
-<pre><code class="lang-pythonthon">(408, 2) (408,)
+<pre><code class="lang-python">(<span class="hljs-number">408</span>, <span class="hljs-number">2</span>) (<span class="hljs-number">408</span>,)
 </code></pre>
 <p>predict 方法输出一个具有三个字段的元组。</p>
 <ul>
@@ -964,11 +964,11 @@ print(predictions.predictions.shape, predictions.label_ids.shape)
 <li>metrics：评价指标，默认是training loss，以及一些time metrics （预测所需的总时间和平均时间）。但是一旦我们传入了 compute_metrics 函数给 Trainer，那么该函数的返回值也会一并输出</li>
 </ul>
 <p><img src="https://img-blog.csdnimg.cn/7a920b0dddf147cf87b38fb18a0ad0a8.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA56We5rSb5Y2O,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="mrpc"></img></p>
-<pre><code class="lang-pythonthon">metrics={'test_loss': 0.6269022822380066, 'test_runtime': 4.0653, 'test_samples_per_second': 100.362, 'test_steps_per_second': 12.545})
+<pre><code class="lang-python">metrics={<span class="hljs-string">'test_loss'</span>: <span class="hljs-number">0.6269022822380066</span>, <span class="hljs-string">'test_runtime'</span>: <span class="hljs-number">4.0653</span>, <span class="hljs-string">'test_samples_per_second'</span>: <span class="hljs-number">100.362</span>, <span class="hljs-string">'test_steps_per_second'</span>: <span class="hljs-number">12.545</span>})
 </code></pre>
 <p>predictions是一个二维数组，形状为 408 x 2（验证集408组数据，两个标签）。 要预测结果与标签进行比较，我们需要在predictions第二个轴上取最大值的索引：</p>
-<pre><code class="lang-pythonthon">import numpy as np
-preds = np.argmax(predictions.predictions, axis=-1)
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+preds = np.argmax(predictions.predictions, axis=-<span class="hljs-number">1</span>)
 </code></pre>
 <p>同时，从上面训练过程可以看到：模型每 500 steps报告一次训练损失。 但是，它不会告诉您模型的表现如何。 这是因为：</p>
 <ol>
@@ -984,40 +984,40 @@ preds = np.argmax(predictions.predictions, axis=-1)
 </ul>
 <p><strong><em>也就是<a href="https://datawhalechina.github.io/learn-nlp-with-transformers/#/./%E7%AF%87%E7%AB%A04-%E4%BD%BF%E7%94%A8Transformers%E8%A7%A3%E5%86%B3NLP%E4%BB%BB%E5%8A%A1/4.1-%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB" target="_blank">教程4.1</a>说的：直接调用metric的compute方法，传入labels和predictions即可得到metric的值。也只有这样做才能在训练时得到acc、F1等结果（具体指标根据不同任务来定）</em></strong></p>
 <p>为了构建我们的 compute_metric 函数，我们将依赖 🤗 Datasets 库中的metric。 通过 load_metric 函数，我们可以像加载数据集一样轻松加载与 MRPC 数据集关联的metric。The object returned has a compute method we can use to do the metric calculation:</p>
-<pre><code class="lang-pythonthon">from datasets import load_metric
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_metric
 
-metric = load_metric("glue", "mrpc")
+metric = load_metric(<span class="hljs-string">"glue"</span>, <span class="hljs-string">"mrpc"</span>)
 metric.compute(predictions=preds, references=predictions.label_ids)
 </code></pre>
-<pre><code class="lang-pythonthon">{'accuracy': 0.8578431372549019, 'f1': 0.8996539792387542}#模型在验证集上的准确率为 85.78%，F1 分数为 89.97
+<pre><code class="lang-python">{<span class="hljs-string">'accuracy'</span>: <span class="hljs-number">0.8578431372549019</span>, <span class="hljs-string">'f1'</span>: <span class="hljs-number">0.8996539792387542</span>}<span class="hljs-comment">#模型在验证集上的准确率为 85.78%，F1 分数为 89.97</span>
 </code></pre>
 <p>每次训练时model head的随机初始化可能会改变最终的metric值，所以这里的最终结果可能和你跑出的不一样。 acc和F1 是用于评估 GLUE 基准的 MRPC 数据集结果的两个指标。 BERT 论文中的表格报告了基本模型的 F1 分数为 88.9。 那是un-cased模型，而我们目前使用的是cased模型，这说明了更好的结果。(cased就是指区分英文的大小写）</p>
 <p>将以上内容整合到一起，得到 compute_metrics 函数：</p>
-<pre><code class="lang-pythonthon">def compute_metrics(eval_preds):
-    metric = load_metric("glue", "mrpc")
+<pre><code class="lang-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">compute_metrics</span>(<span class="hljs-params">eval_preds</span>):
+    metric = load_metric(<span class="hljs-string">"glue"</span>, <span class="hljs-string">"mrpc"</span>)
     logits, labels = eval_preds
-    predictions = np.argmax(logits, axis=-1)
-    return metric.compute(predictions=predictions, references=labels)
+    predictions = np.argmax(logits, axis=-<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">return</span> metric.compute(predictions=predictions, references=labels)
 </code></pre>
 <p>再设定每个epoch查看一次验证评估。所以下面就是我们设定compute_metrics参数之后的Trainer：</p>
-<pre><code class="lang-pythonthon">training_args = TrainingArguments("test-trainer", evaluation_strategy="epoch")
-model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
+<pre><code class="lang-python">training_args = TrainingArguments(<span class="hljs-string">"test-trainer"</span>, evaluation_strategy=<span class="hljs-string">"epoch"</span>)
+model = AutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=<span class="hljs-number">2</span>)
 </code></pre>
-<pre><code class="lang-pythonthon">trainer = Trainer(
+<pre><code class="lang-python">trainer = Trainer(
     model,
     training_args,
-    train_dataset=tokenized_datasets["train"],
-    eval_dataset=tokenized_datasets["validation"],
+    train_dataset=tokenized_datasets[<span class="hljs-string">"train"</span>],
+    eval_dataset=tokenized_datasets[<span class="hljs-string">"validation"</span>],
     data_collator=data_collator,
     tokenizer=tokenizer,
     compute_metrics=compute_metrics
 )
 </code></pre>
 <p>请注意，我们创建了一个新的 TrainingArguments，其evaluation_strategy 设置为“epoch”和一个新模型——否则，我们只会继续训练我们已经训练过的模型。 要启动新的训练运行，我们执行：</p>
-<pre><code class="lang-pythonthon">trainer.train()
+<pre><code class="lang-python">trainer.train()
 </code></pre>
 <p>最终训练了6分33秒，比上一次稍微长了一点点。最后运行结果为：</p>
-<pre><code class="lang-pythonthon">The following columns in the training set  don't have a corresponding argument in `BertForSequenceClassification.forward` and have been ignored: sentence1, sentence2, idx.
+<pre><code class="lang-python">The following columns <span class="hljs-keyword">in</span> the training <span class="hljs-built_in">set</span>  don<span class="hljs-string">'t have a corresponding argument in `BertForSequenceClassification.forward` and have been ignored: sentence1, sentence2, idx.
 ***** Running training *****
   Num examples = 3668
   Num Epochs = 3
@@ -1030,8 +1030,8 @@ Epoch    Training Loss    Validation Loss     Accuracy       F1
 1           No log          0.557327         0.806373    0.872375
 2          0.552700          0.458040         0.862745    0.903448
 3          0.333900          0.560826         0.867647    0.907850
-TrainOutput(global_step=1377, training_loss=0.37862846690325436, metrics={'train_runtime': 393.5652, 'train_samples_per_second': 27.96, 'train_steps_per_second': 3.499, 'total_flos': 405470580750720.0, 'train_loss': 0.37862846690325436, 'epoch': 3.0})
-</code></pre>
+TrainOutput(global_step=1377, training_loss=0.37862846690325436, metrics={'</span>train_runtime<span class="hljs-string">': 393.5652, '</span>train_samples_per_second<span class="hljs-string">': 27.96, '</span>train_steps_per_second<span class="hljs-string">': 3.499, '</span>total_flos<span class="hljs-string">': 405470580750720.0, '</span>train_loss<span class="hljs-string">': 0.37862846690325436, '</span>epoch<span class="hljs-string">': 3.0})
+</span></code></pre>
 <p>这次，模型训练时会在training loss之外，还报告每个 epoch 结束时的 validation loss和metrics。 同样，由于模型的随机头部(task head)初始化，您达到的准确准确率/F1 分数可能与我们发现的略有不同，但它应该在同一范围内。</p>
 <p>Trainer 默认支持 多GPU/TPU，也支持混合精度训练，可以在训练的配置 TrainingArguments 中，设置 fp16 = True。</p>
 <p>使用Trainer 很方便，但是高级的封装API也会有其弊端，就是无法进行很多自定义的操作。所以我们可以采用常规的 pytorch 的训练方法，自定义训练循环。还可以选择使用Accelerate库进行分布式训练（之前的例子都是使用单个GPU/CPU）。这部分内容不做要求，感兴趣的可以查看原文<a href="https://huggingface.co/course/chapter3/4?fw=pt" target="_blank">《A full training》</a>，或者翻译<a href="https://blog.csdn.net/qq_56591814/article/details/120147114" target="_blank">《微调预训练模型》</a>。</p>
@@ -1073,42 +1073,42 @@ TrainOutput(global_step=1377, training_loss=0.37862846690325436, metrics={'train
 <p>AutoModel 类及其所有相关类实际上是库中各种可用模型的简单包装器。 它可以自动为您的checkpoint猜测合适的模型架构，然后使用该架构实例化模型。</p>
 <p>但是，如果您知道要使用的模型类型，则可以直接使用定义其架构的类。 让我们来看看它如何与 BERT 模型配合使用。</p>
 <p>初始化 BERT 模型需要做的第一件事是加载配置对象：</p>
-<pre><code class="lang-pythonthon">from transformers import BertConfig, BertModel
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> BertConfig, BertModel
 
-# Building the config
+<span class="hljs-comment"># Building the config</span>
 config = BertConfig()
 
-# Building the model from the config
+<span class="hljs-comment"># Building the model from the config</span>
 model = BertModel(config)
 </code></pre>
 <p>config配置包含了许多用于构建模型的属性：</p>
-<pre><code class="lang-pythonthon">print(config)
+<pre><code class="lang-python"><span class="hljs-built_in">print</span>(config)
 </code></pre>
-<pre><code class="lang-pythonthon">BertConfig {
+<pre><code class="lang-python">BertConfig {
   [...]
-  "hidden_size": 768,            #hidden_states 向量的大小
-  "intermediate_size": 3072,     #FFN第一层神经元个数，即attention层传入第一层全连接会扩维4倍
-  "max_position_embeddings": 512,#最大序列长度512
-  "num_attention_heads": 12,
-  "num_hidden_layers": 12,
+  <span class="hljs-string">"hidden_size"</span>: <span class="hljs-number">768</span>,            <span class="hljs-comment">#hidden_states 向量的大小</span>
+  <span class="hljs-string">"intermediate_size"</span>: <span class="hljs-number">3072</span>,     <span class="hljs-comment">#FFN第一层神经元个数，即attention层传入第一层全连接会扩维4倍</span>
+  <span class="hljs-string">"max_position_embeddings"</span>: <span class="hljs-number">512</span>,<span class="hljs-comment">#最大序列长度512</span>
+  <span class="hljs-string">"num_attention_heads"</span>: <span class="hljs-number">12</span>,
+  <span class="hljs-string">"num_hidden_layers"</span>: <span class="hljs-number">12</span>,
   [...]
 }
 </code></pre>
 <p>hidden_size ： hidden_states 向量的大小<br></br>
 num_hidden_layers ：Transformer 模型的层数</p>
 <p>从默认配置创建模型会使用随机值对其进行初始化：</p>
-<pre><code class="lang-pythonthon">from transformers import BertConfig, BertModel
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> BertConfig, BertModel
 
 config = BertConfig()
 model = BertModel(config)
 
-# 模型已经随机初始化了
+<span class="hljs-comment"># 模型已经随机初始化了</span>
 </code></pre>
 <p>模型可以在这种状态下使用，但是会输出乱码； 它需要先训练。 我们可以根据手头的任务从头开始训练模型，这将需要很长时间和大量数据。</p>
 <p>使用 from_pretrained 方法来加载一个已经训练过的 Transformer 模型：</p>
-<pre><code class="lang-pythonthon">from transformers import BertModel
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> BertModel
 
-model = BertModel.from_pretrained("bert-base-cased")
+model = BertModel.from_pretrained(<span class="hljs-string">"bert-base-cased"</span>)
 </code></pre>
 <p>正如您之前看到的，我们可以用 AutoModel 类替换 BertModel，效果是一样的。后面我们会使用AutoModel类，这样做的好处是设定模型结构的部分可以不影响checkpoint。如果您的代码适用于一个checkpoint，那么也可以用于另一个checkpoint。甚至即使模型结构不同，只要checkpoint是针对类似任务训练的，也适用。</p>
 <p><strong><em>使用AutoModel类，传入不同的ckeckpoint，就可以实现不同的模型，来处理任务（只要这个模型的输出可以处理此任务）。如果选择BertModel这样的，模型结构就定死了。</em></strong></p>
@@ -1124,27 +1124,27 @@ model = BertModel.from_pretrained("bert-base-cased")
 <p>由于我们所拥有的输入序列长度不同，所以需要对输入序列进行填充（作为模型的输入，同批次的各张量必须是同一长度）。前面说过，padding到该批次中的最大长度时的效率，会高于所有序列都padding到整个数据集的最大序列长度。
 注意：如果使用TPU，则还是需要padding 到模型的 max length，因为TPU这样子效率更高。
 为了在实践中做到这一点，我们必须定义一个 collate 函数，它将对批处理数据应用正确的填充数量。（对于不同的batch 数据，进行不同长度的padding。）🤗 Transformers 库通过 DataCollatorWithPadding 为我们提供了这样的功能。当您实例化它时，它需要一个tokenizer（以了解要使用哪个填充token，以及模型希望填充在输入的左侧还是右侧），并且会执行您需要的所有操作：</p>
-<pre><code class="lang-pythonthon">from transformers import DataCollatorWithPadding
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> DataCollatorWithPadding
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 </code></pre>
 <p>为了测试，我们从训练集中选取我们想要一起批处理的样本。这里需要删除 idx、sentence1 和 sentence2 列，因为不需要这些列并且它们包含字符串（不能创建张量）。查看批处理中每个输入的长度：</p>
-<pre><code class="lang-pythonthon">samples = tokenized_datasets["train"][:8]
+<pre><code class="lang-python">samples = tokenized_datasets[<span class="hljs-string">"train"</span>][:<span class="hljs-number">8</span>]
 samples = {
-    k: v for k, v in samples.items() if k not in ["idx", "sentence1", "sentence2"]
+    k: v <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> samples.items() <span class="hljs-keyword">if</span> k <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> [<span class="hljs-string">"idx"</span>, <span class="hljs-string">"sentence1"</span>, <span class="hljs-string">"sentence2"</span>]
 }
-[len(x) for x in samples["input_ids"]]
+[<span class="hljs-built_in">len</span>(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> samples[<span class="hljs-string">"input_ids"</span>]]
 </code></pre>
-<pre><code class="lang-pythonthon">[50, 59, 47, 67, 59, 50, 62, 32]
+<pre><code class="lang-python">[<span class="hljs-number">50</span>, <span class="hljs-number">59</span>, <span class="hljs-number">47</span>, <span class="hljs-number">67</span>, <span class="hljs-number">59</span>, <span class="hljs-number">50</span>, <span class="hljs-number">62</span>, <span class="hljs-number">32</span>]
 </code></pre>
 <p>我们得到了不同长度的序列。动态填充意味着该批次中的序列都应该填充到 67 的长度。 如果没有动态填充，所有样本都必须填充到整个数据集中的最大长度，或者模型可以接受的最大长度。 让我们仔细检查我们的 data_collator 是否正确地动态填充批处理：</p>
-<pre><code class="lang-pythonthon">batch = data_collator(samples)
-{k: v.shape for k, v in batch.items()}
+<pre><code class="lang-python">batch = data_collator(samples)
+{k: v.shape <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> batch.items()}
 </code></pre>
-<pre><code class="lang-pythonthon">{'attention_mask': torch.Size([8, 67]),
- 'input_ids': torch.Size([8, 67]),
- 'token_type_ids': torch.Size([8, 67]),
- 'labels': torch.Size([8])}
+<pre><code class="lang-python">{<span class="hljs-string">'attention_mask'</span>: torch.Size([<span class="hljs-number">8</span>, <span class="hljs-number">67</span>]),
+ <span class="hljs-string">'input_ids'</span>: torch.Size([<span class="hljs-number">8</span>, <span class="hljs-number">67</span>]),
+ <span class="hljs-string">'token_type_ids'</span>: torch.Size([<span class="hljs-number">8</span>, <span class="hljs-number">67</span>]),
+ <span class="hljs-string">'labels'</span>: torch.Size([<span class="hljs-number">8</span>])}
 </code></pre>
 <p>Tips：以上加粗的斜体字都是笔者的注释，是对原文部分内容的解读。本教程中如果发现问题请及时反馈，谢谢。</p>
 
@@ -1190,7 +1190,7 @@ samples = {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.0-基于HuggingFace-Transformers的预训练模型微调","level":"4.2","depth":1,"next":{"title":"4.1-文本分类","level":"4.3","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.1-文本分类.md","ref":"./篇章4-使用Transformers解决NLP任务/4.1-文本分类.md","articles":[]},"previous":{"title":"4.0-前言","level":"4.1","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.0-前言.md","ref":"./篇章4-使用Transformers解决NLP任务/4.0-前言.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"篇章4-使用Transformers解决NLP任务/4.0-基于HuggingFace-Transformers的预训练模型微调.md","mtime":"2025-01-05T18:00:51.268Z","type":"markdown"},"gitbook":{"version":"6.0.2","time":"2025-01-05T18:01:03.606Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.0-基于HuggingFace-Transformers的预训练模型微调","level":"4.2","depth":1,"next":{"title":"4.1-文本分类","level":"4.3","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.1-文本分类.md","ref":"./篇章4-使用Transformers解决NLP任务/4.1-文本分类.md","articles":[]},"previous":{"title":"4.0-前言","level":"4.1","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.0-前言.md","ref":"./篇章4-使用Transformers解决NLP任务/4.0-前言.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"篇章4-使用Transformers解决NLP任务/4.0-基于HuggingFace-Transformers的预训练模型微调.md","mtime":"2025-01-11T00:02:01.079Z","type":"markdown"},"gitbook":{"version":"6.0.2","time":"2025-01-11T18:47:58.590Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

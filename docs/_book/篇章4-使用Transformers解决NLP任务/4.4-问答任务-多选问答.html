@@ -49,7 +49,7 @@
     
     
     <meta name="HandheldFriendly" content="true"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
@@ -471,32 +471,32 @@
                                 <p>本文涉及的jupter notebook在<a href="https://github.com/datawhalechina/learn-nlp-with-transformers/tree/main/docs/%E7%AF%87%E7%AB%A04-%E4%BD%BF%E7%94%A8Transformers%E8%A7%A3%E5%86%B3NLP%E4%BB%BB%E5%8A%A1" target="_blank">篇章4代码库中</a>。</p>
 <p>如果您在colab上打开这个jupyter笔记本，您需要安装🤗Trasnformers和🤗datasets。具体命令如下（取消注释并运行，如果速度慢请切换国内源，加上第二行的参数）。</p>
 <p>在运行单元格之前，建议您按照本项目readme中提示，建立一个专门的python环境用于学习。</p>
-<pre><code class="lang-pythonthon">#! pip install datasets transformers 
-# -i https://pypi.tuna.tsinghua.edu.cn/simple
+<pre><code class="lang-python"><span class="hljs-comment">#! pip install datasets transformers </span>
+<span class="hljs-comment"># -i https://pypi.tuna.tsinghua.edu.cn/simple</span>
 </code></pre>
 <p>如果您是在本地机器上打开这个jupyter笔记本，请确保您的环境安装了上述库的最新版本。</p>
 <p>您可以在<a href="https://github.com/huggingface/transformers/blob/master/examples/pytorch/multiple-choice/" target="_blank">这里</a>找到这个jupyter笔记本的具体的python脚本文件，还可以通过分布式的方式使用多个gpu或tpu来微调您的模型。</p>
 <h1 id="通过微调模型构建多选任务">通过微调模型构建多选任务</h1>
 <p>在当前jupyter笔记本中，我们将说明如何通过微调任意<a href="https://github.com/huggingface/transformers" target="_blank">🤗Transformers</a> 模型来构建多选任务，该任务是在给定的多个答案中选择最合理的一个。我们使用的数据集是<a href="https://www.aclweb.org/anthology/D18-1009/" target="_blank">SWAG</a>，当然你也可以将预处理过程用于其他多选数据集或者你自己的数据。SWAG是一个关于常识推理的数据集，每个样本描述一种情况，然后给出四个可能的选项。</p>
 <p>这个jupyter笔记本可以运行在<a href="https://huggingface.co/models" target="_blank">model Hub</a>中的任何模型上，只要该模型具有一个多选择头的版本。根据你的模型和你使用的GPU，你可能需要调整批大小，以避免显存不足的错误。设置好这两个参数之后，jupyter笔记本的其余部分就可以顺利运行了:</p>
-<pre><code class="lang-pythonthon">model_checkpoint = "bert-base-uncased"
-batch_size = 16
+<pre><code class="lang-python">model_checkpoint = <span class="hljs-string">"bert-base-uncased"</span>
+batch_size = <span class="hljs-number">16</span>
 </code></pre>
 <h2 id="加载数据集">加载数据集</h2>
 <p>我们将使用<a href="https://github.com/huggingface/datasets" target="_blank">🤗Datasets</a>库来下载数据。这一过程可以很容易地用函数<code>load_dataset</code>来完成。</p>
-<pre><code class="lang-pythonthon">from datasets import load_dataset, load_metric
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset, load_metric
 </code></pre>
 <p><code>load_dataset</code> 将缓存数据集以避免下次运行时再次下载它。</p>
-<pre><code class="lang-pythonthon">datasets = load_dataset("swag", "regular")
+<pre><code class="lang-python">datasets = load_dataset(<span class="hljs-string">"swag"</span>, <span class="hljs-string">"regular"</span>)
 </code></pre>
 <pre><code>Reusing dataset swag (/home/sgugger/.cache/huggingface/datasets/swag/regular/0.0.0/f9784740e0964a3c799d68cec0d992cc267d3fe94f3e048175eca69d739b980d)
 </code></pre><p>除此之外，你也可以从我们提供的<a href="https://gas.graviti.cn/dataset/datawhale/SWAG" target="_blank">链接</a>下载数据并解压，将解压后的3个csv文件复制到到<code>docs/篇章4-使用Transformers解决NLP任务/datasets/swag</code>目录下，然后用下面的代码进行加载。</p>
-<pre><code class="lang-pythonthon">import os
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> os
 
-data_path = './datasets/swag/'
-cache_dir = os.path.join(data_path, 'cache')
-data_files = {'train': os.path.join(data_path, 'train.csv'), 'val': os.path.join(data_path, 'val.csv'), 'test': os.path.join(data_path, 'test.csv')}
-datasets = load_dataset(data_path, 'regular', data_files=data_files, cache_dir=cache_dir)
+data_path = <span class="hljs-string">'./datasets/swag/'</span>
+cache_dir = os.path.join(data_path, <span class="hljs-string">'cache'</span>)
+data_files = {<span class="hljs-string">'train'</span>: os.path.join(data_path, <span class="hljs-string">'train.csv'</span>), <span class="hljs-string">'val'</span>: os.path.join(data_path, <span class="hljs-string">'val.csv'</span>), <span class="hljs-string">'test'</span>: os.path.join(data_path, <span class="hljs-string">'test.csv'</span>)}
+datasets = load_dataset(data_path, <span class="hljs-string">'regular'</span>, data_files=data_files, cache_dir=cache_dir)
 </code></pre>
 <pre><code>Using custom data configuration regular-2ab2d66f12115abf
 
@@ -508,7 +508,7 @@ Downloading and preparing dataset swag/regular (download: Unknown size, generate
 
 Dataset swag downloaded and prepared to ./datasets/swag/cache/swag/regular-2ab2d66f12115abf/0.0.0/a16ae67faa24f4cdd6d1fc6bfc09bdb6dc15771716221ff8bacbc6cc75533614. Subsequent calls will reuse this data.
 </code></pre><p><code>dataset</code>对象本身是<a href="https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasetdict" target="_blank"><code>DatasetDict</code></a>，它包含用于训练、验证和测试集的键值对(<code>mnli</code>是一个特殊的例子，其中包含用于不匹配的验证和测试集的键值对)。</p>
-<pre><code class="lang-pythonthon">datasets
+<pre><code class="lang-python">datasets
 </code></pre>
 <pre><code>DatasetDict({
     train: Dataset({
@@ -525,7 +525,7 @@ Dataset swag downloaded and prepared to ./datasets/swag/cache/swag/regular-2ab2d
     })
 })
 </code></pre><p>To access an actual element, you need to select a split first, then give an index:</p>
-<pre><code class="lang-pythonthon">datasets["train"][0]
+<pre><code class="lang-python">datasets[<span class="hljs-string">"train"</span>][<span class="hljs-number">0</span>]
 </code></pre>
 <pre><code>{'ending0': 'passes by walking down the street playing their instruments.',
  'ending1': 'has heard approaching them.',
@@ -539,27 +539,27 @@ Dataset swag downloaded and prepared to ./datasets/swag/cache/swag/regular-2ab2d
  'startphrase': 'Members of the procession walk down the street holding small horn brass instruments. A drum line',
  'video-id': 'anetv_jkn6uvmqwh4'}
 </code></pre><p>为了了解数据是什么样子的，下面的函数将显示数据集中随机选取的一些示例。</p>
-<pre><code class="lang-pythonthon">from datasets import ClassLabel
-import random
-import pandas as pd
-from IPython.display import display, HTML
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> ClassLabel
+<span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">from</span> IPython.display <span class="hljs-keyword">import</span> display, HTML
 
-def show_random_elements(dataset, num_examples=10):
-    assert num_examples &lt;= len(dataset), "Can't pick more elements than there are in the dataset."
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">show_random_elements</span>(<span class="hljs-params">dataset, num_examples=<span class="hljs-number">10</span></span>):
+    <span class="hljs-keyword">assert</span> num_examples &lt;= <span class="hljs-built_in">len</span>(dataset), <span class="hljs-string">"Can't pick more elements than there are in the dataset."</span>
     picks = []
-    for _ in range(num_examples):
-        pick = random.randint(0, len(dataset)-1)
-        while pick in picks:
-            pick = random.randint(0, len(dataset)-1)
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_examples):
+        pick = random.randint(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(dataset)-<span class="hljs-number">1</span>)
+        <span class="hljs-keyword">while</span> pick <span class="hljs-keyword">in</span> picks:
+            pick = random.randint(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(dataset)-<span class="hljs-number">1</span>)
         picks.append(pick)
 
     df = pd.DataFrame(dataset[picks])
-    for column, typ in dataset.features.items():
-        if isinstance(typ, ClassLabel):
-            df[column] = df[column].transform(lambda i: typ.names[i])
+    <span class="hljs-keyword">for</span> column, typ <span class="hljs-keyword">in</span> dataset.features.items():
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(typ, ClassLabel):
+            df[column] = df[column].transform(<span class="hljs-keyword">lambda</span> i: typ.names[i])
     display(HTML(df.to_html()))
 </code></pre>
-<pre><code class="lang-pythonthon">show_random_elements(datasets["train"])
+<pre><code class="lang-python">show_random_elements(datasets[<span class="hljs-string">"train"</span>])
 </code></pre>
 <table border="1" class="dataframe">
   <thead>
@@ -724,15 +724,15 @@ def show_random_elements(dataset, num_examples=10):
 
 
 <p>数据集中的每个示例都有一个上下文，它是由第一个句子(字段<code>sent1</code>)和第二个句子的简介(字段<code>sent2</code>)组成。然后给出四种可能的结尾(字段<code>ending0</code>， <code>ending1</code>， <code>ending2</code>和<code>ending3</code>)，然后让模型从中选择正确的一个(由字段<code>label</code>表示)。下面的函数让我们更直观地看到一个示例:</p>
-<pre><code class="lang-pythonthon">def show_one(example):
-    print(f"Context: {example['sent1']}")
-    print(f"  A - {example['sent2']} {example['ending0']}")
-    print(f"  B - {example['sent2']} {example['ending1']}")
-    print(f"  C - {example['sent2']} {example['ending2']}")
-    print(f"  D - {example['sent2']} {example['ending3']}")
-    print(f"\nGround truth: option {['A', 'B', 'C', 'D'][example['label']]}")
+<pre><code class="lang-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">show_one</span>(<span class="hljs-params">example</span>):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"Context: <span class="hljs-subst">{example[<span class="hljs-string">'sent1'</span>]}</span>"</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"  A - <span class="hljs-subst">{example[<span class="hljs-string">'sent2'</span>]}</span> <span class="hljs-subst">{example[<span class="hljs-string">'ending0'</span>]}</span>"</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"  B - <span class="hljs-subst">{example[<span class="hljs-string">'sent2'</span>]}</span> <span class="hljs-subst">{example[<span class="hljs-string">'ending1'</span>]}</span>"</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"  C - <span class="hljs-subst">{example[<span class="hljs-string">'sent2'</span>]}</span> <span class="hljs-subst">{example[<span class="hljs-string">'ending2'</span>]}</span>"</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"  D - <span class="hljs-subst">{example[<span class="hljs-string">'sent2'</span>]}</span> <span class="hljs-subst">{example[<span class="hljs-string">'ending3'</span>]}</span>"</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"\nGround truth: option <span class="hljs-subst">{[<span class="hljs-string">'A'</span>, <span class="hljs-string">'B'</span>, <span class="hljs-string">'C'</span>, <span class="hljs-string">'D'</span>][example[<span class="hljs-string">'label'</span>]]}</span>"</span>)
 </code></pre>
-<pre><code class="lang-pythonthon">show_one(datasets["train"][0])
+<pre><code class="lang-python">show_one(datasets[<span class="hljs-string">"train"</span>][<span class="hljs-number">0</span>])
 </code></pre>
 <pre><code>Context: Members of the procession walk down the street holding small horn brass instruments.
   A - A drum line passes by walking down the street playing their instruments.
@@ -741,7 +741,7 @@ def show_random_elements(dataset, num_examples=10):
   D - A drum line turns the lead singer watches the performance.
 
 Ground truth: option A
-</code></pre><pre><code class="lang-pythonthon">show_one(datasets["train"][15])
+</code></pre><pre><code class="lang-python">show_one(datasets[<span class="hljs-string">"train"</span>][<span class="hljs-number">15</span>])
 </code></pre>
 <pre><code>Context: Now it's someone's turn to rain blades on his opponent.
   A - Someone pats his shoulder and spins wildly.
@@ -756,54 +756,54 @@ Ground truth: option C
 <p>-我们得到一个对应于我们想要使用的模型架构的tokenizer，
 -我们下载好了预训练这个特定模型时使用的词表。</p>
 <p>同时，该词表将被缓存，因此下次运行时不会再次下载它。</p>
-<pre><code class="lang-pythonthon">from transformers import AutoTokenizer
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoTokenizer
 
-tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, use_fast=True)
+tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, use_fast=<span class="hljs-literal">True</span>)
 </code></pre>
 <p>我们将<code>use_fast=True</code>作为参数入，以使用🤗tokenizers库中的一个快速tokenizer(它由Rust支持的)。这些快速tokenizer几乎适用于所有模型，但如果您在前面的调用中出现错误，请删除该参数。</p>
 <p>你可以直接在一个句子或一个句子对上调用这个tokenizer:</p>
-<pre><code class="lang-pythonthon">tokenizer("Hello, this one sentence!", "And this sentence goes with it.")
+<pre><code class="lang-python">tokenizer(<span class="hljs-string">"Hello, this one sentence!"</span>, <span class="hljs-string">"And this sentence goes with it."</span>)
 </code></pre>
 <pre><code>{'input_ids': [101, 7592, 1010, 2023, 2028, 6251, 999, 102, 1998, 2023, 6251, 3632, 2007, 2009, 1012, 102], 'token_type_ids': [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1], 'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
 </code></pre><p>根据您选择的模型，您将在上面单元格返回的字典中看到不同的键值对。它们对于我们在这里所做的并不重要，只需要知道它们是我们稍后实例化的模型所需要的。如果您对此感兴趣，可以在<a href="https://huggingface.co/transformers/preprocessing.html" target="_blank">本教程</a>中了解更多关于它们的信息。</p>
 <p>如下面的字典所示，为了对数据集进行预处理，我们需要知道包含句子的列的名称:</p>
 <p>我们可以写一个函数来预处理我们的样本。在调用tokenizer之前，最棘手的部分是将所有可能的句子对放在两个大列表中，然后将结果拉平，以便每个示例有四个输入id、注意力掩码等。</p>
 <p>当调用<code>tokenizer</code>时，我们传入参数<code>truncation=True</code>。这将确保比所选模型所能处理的更长的输入将被截断为模型所能接受的最大长度。</p>
-<pre><code class="lang-pythonthon">ending_names = ["ending0", "ending1", "ending2", "ending3"]
+<pre><code class="lang-python">ending_names = [<span class="hljs-string">"ending0"</span>, <span class="hljs-string">"ending1"</span>, <span class="hljs-string">"ending2"</span>, <span class="hljs-string">"ending3"</span>]
 
-def preprocess_function(examples):
-    # Repeat each first sentence four times to go with the four possibilities of second sentences.
-    first_sentences = [[context] * 4 for context in examples["sent1"]]
-    # Grab all second sentences possible for each context.
-    question_headers = examples["sent2"]
-    second_sentences = [[f"{header} {examples[end][i]}" for end in ending_names] for i, header in enumerate(question_headers)]
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">preprocess_function</span>(<span class="hljs-params">examples</span>):
+    <span class="hljs-comment"># Repeat each first sentence four times to go with the four possibilities of second sentences.</span>
+    first_sentences = [[context] * <span class="hljs-number">4</span> <span class="hljs-keyword">for</span> context <span class="hljs-keyword">in</span> examples[<span class="hljs-string">"sent1"</span>]]
+    <span class="hljs-comment"># Grab all second sentences possible for each context.</span>
+    question_headers = examples[<span class="hljs-string">"sent2"</span>]
+    second_sentences = [[<span class="hljs-string">f"<span class="hljs-subst">{header}</span> <span class="hljs-subst">{examples[end][i]}</span>"</span> <span class="hljs-keyword">for</span> end <span class="hljs-keyword">in</span> ending_names] <span class="hljs-keyword">for</span> i, header <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(question_headers)]
 
-    # Flatten everything
-    first_sentences = sum(first_sentences, [])
-    second_sentences = sum(second_sentences, [])
+    <span class="hljs-comment"># Flatten everything</span>
+    first_sentences = <span class="hljs-built_in">sum</span>(first_sentences, [])
+    second_sentences = <span class="hljs-built_in">sum</span>(second_sentences, [])
 
-    # Tokenize
-    tokenized_examples = tokenizer(first_sentences, second_sentences, truncation=True)
-    # Un-flatten
-    return {k: [v[i:i+4] for i in range(0, len(v), 4)] for k, v in tokenized_examples.items()}
+    <span class="hljs-comment"># Tokenize</span>
+    tokenized_examples = tokenizer(first_sentences, second_sentences, truncation=<span class="hljs-literal">True</span>)
+    <span class="hljs-comment"># Un-flatten</span>
+    <span class="hljs-keyword">return</span> {k: [v[i:i+<span class="hljs-number">4</span>] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(v), <span class="hljs-number">4</span>)] <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> tokenized_examples.items()}
 </code></pre>
 <p>This function works with one or several examples. In the case of several examples, the tokenizer will return a list of lists of lists for each key: a list of all examples (here 5), then a list of all choices (4) and a list of input IDs (length varying here since we did not apply any padding):</p>
 <p>这个函数可以使用一个或多个示例。在传入多个示例时，tokenizer将为每个键返回一个列表的列表：所有示例的列表(长度为5)，然后是所有选项的列表(长度为4)以及输入id的列表(长度不同，因为我们没有应用任何填充):</p>
-<pre><code class="lang-pythonthon">examples = datasets["train"][:5]
+<pre><code class="lang-python">examples = datasets[<span class="hljs-string">"train"</span>][:<span class="hljs-number">5</span>]
 features = preprocess_function(examples)
-print(len(features["input_ids"]), len(features["input_ids"][0]), [len(x) for x in features["input_ids"][0]])
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(features[<span class="hljs-string">"input_ids"</span>]), <span class="hljs-built_in">len</span>(features[<span class="hljs-string">"input_ids"</span>][<span class="hljs-number">0</span>]), [<span class="hljs-built_in">len</span>(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> features[<span class="hljs-string">"input_ids"</span>][<span class="hljs-number">0</span>]])
 </code></pre>
 <pre><code>5 4 [30, 25, 30, 28]
 </code></pre><p>让我们解码一下给定示例的输入:</p>
-<pre><code class="lang-pythonthon">idx = 3
-[tokenizer.decode(features["input_ids"][idx][i]) for i in range(4)]
+<pre><code class="lang-python">idx = <span class="hljs-number">3</span>
+[tokenizer.decode(features[<span class="hljs-string">"input_ids"</span>][idx][i]) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)]
 </code></pre>
 <pre><code>['[CLS] a drum line passes by walking down the street playing their instruments. [SEP] members of the procession are playing ping pong and celebrating one left each in quick. [SEP]',
  '[CLS] a drum line passes by walking down the street playing their instruments. [SEP] members of the procession wait slowly towards the cadets. [SEP]',
  '[CLS] a drum line passes by walking down the street playing their instruments. [SEP] members of the procession makes a square call and ends by jumping down into snowy streets where fans begin to take their positions. [SEP]',
  '[CLS] a drum line passes by walking down the street playing their instruments. [SEP] members of the procession play and go back and forth hitting the drums while the audience claps for them. [SEP]']
 </code></pre><p>我们可以将它和之前生成的ground truth进行比较：</p>
-<pre><code class="lang-pythonthon">show_one(datasets["train"][3])
+<pre><code class="lang-python">show_one(datasets[<span class="hljs-string">"train"</span>][<span class="hljs-number">3</span>])
 </code></pre>
 <pre><code>Context: A drum line passes by walking down the street playing their instruments.
   A - Members of the procession are playing ping pong and celebrating one left each in quick.
@@ -813,7 +813,7 @@ print(len(features["input_ids"]), len(features["input_ids"][0]), [len(x) for x i
 
 Ground truth: option D
 </code></pre><p>这似乎没问题。我们可以将这个函数应用到我们数据集的所有示例中，只需要使用我们之前创建的<code>dataset</code>对象的<code>map</code>方法。这将应用于<code>dataset</code>对象的所有切分的所有元素，所以我们的训练，验证和测试数据将以相同的方式进行预处理。</p>
-<pre><code class="lang-pythonthon">encoded_datasets = datasets.map(preprocess_function, batched=True)
+<pre><code class="lang-python">encoded_datasets = datasets.<span class="hljs-built_in">map</span>(preprocess_function, batched=<span class="hljs-literal">True</span>)
 </code></pre>
 <pre><code>Loading cached processed dataset at /home/sgugger/.cache/huggingface/datasets/swag/regular/0.0.0/f9784740e0964a3c799d68cec0d992cc267d3fe94f3e048175eca69d739b980d/cache-975c81cf12e5b7ac.arrow
 Loading cached processed dataset at /home/sgugger/.cache/huggingface/datasets/swag/regular/0.0.0/f9784740e0964a3c799d68cec0d992cc267d3fe94f3e048175eca69d739b980d/cache-d4806d63f1eaf5cd.arrow
@@ -822,7 +822,7 @@ Loading cached processed dataset at /home/sgugger/.cache/huggingface/datasets/sw
 <p>请注意，我们传递了<code>batched=True</code>以批量对文本进行编码。这是为了充分利用我们前面加载的快速tokenizer的优势，它将使用多线程并发地处理批中的文本。</p>
 <h2 id="微调模型">微调模型</h2>
 <p>现在我们的数据已经准备好了，我们可以下载预训练好的模型并对其进行微调。因为我们的任务是关于多项选择的，所以我们使用<code>AutoModelForMultipleChoice</code>类。与tokenizer一样，<code>from_pretrained</code>方法将为我们下载并缓存模型。</p>
-<pre><code class="lang-pythonthon">from transformers import AutoModelForMultipleChoice, TrainingArguments, Trainer
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoModelForMultipleChoice, TrainingArguments, Trainer
 
 model = AutoModelForMultipleChoice.from_pretrained(model_checkpoint)
 </code></pre>
@@ -833,70 +833,70 @@ Some weights of BertForMultipleChoice were not initialized from the model checkp
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
 </code></pre><p>这个警告告诉我们，我们正在丢弃一些权重(<code>vocab_transform</code>和<code>vocab_layer_norm</code>层)，并随机初始化其他一些参数(<code>pre_classifier</code>和<code>classifier</code>层)。这是完全正常的情况，因为我们舍弃了在预训练模型时用于掩码语言建模的头，代之以一个新的多选头，并且我们没有其预训练好的权重，所以这个警告告诉我们使用这个模型来推理之前需要微调，而这正是我们要做的。</p>
 <p>为了实例化一个<code>Trainer</code>，我们需要定义另外三个东西。最重要的是<a href="https://huggingface.co/transformers/main_classes/trainer.html#transformers.TrainingArguments" target="_blank"><code>TrainingArguments</code></a>，它是一个包含所有用于训练的属性的类。它需要传入一个文件夹名，用于保存模型的检查点，而所有其他参数都是可选的:</p>
-<pre><code class="lang-pythonthon">args = TrainingArguments(
-    "test-glue",
-    evaluation_strategy = "epoch",
-    learning_rate=5e-5,
+<pre><code class="lang-python">args = TrainingArguments(
+    <span class="hljs-string">"test-glue"</span>,
+    evaluation_strategy = <span class="hljs-string">"epoch"</span>,
+    learning_rate=<span class="hljs-number">5e-5</span>,
     per_device_train_batch_size=batch_size,
     per_device_eval_batch_size=batch_size,
-    num_train_epochs=3,
-    weight_decay=0.01,
+    num_train_epochs=<span class="hljs-number">3</span>,
+    weight_decay=<span class="hljs-number">0.01</span>,
 )
 </code></pre>
 <p>在这里，我们设置在每个epoch的末尾进行评估，调整学习速率，使用在jupyter笔记本顶部定义的<code>batch_size</code>，并定制用于训练的epoch的数量，以及权重衰减。</p>
 <p>然后，我们需要告诉我们的<code>Trainer</code>如何从预处理的输入数据中构造批数据。我们还没有做任何填充，因为我们将填充每个批到批内的最大长度(而不是使用整个数据集的最大长度)。这将是<em>data collator</em>的工作。它接受示例的列表，并将它们转换为一个批(在我们的示例中，通过应用填充)。由于在库中没有data collator来处理我们的特定问题，这里我们根据<code>DataCollatorWithPadding</code>自行改编一个:</p>
-<pre><code class="lang-pythonthon">from dataclasses import dataclass
-from transformers.tokenization_utils_base import PreTrainedTokenizerBase, PaddingStrategy
-from typing import Optional, Union
-import torch
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+<span class="hljs-keyword">from</span> transformers.tokenization_utils_base <span class="hljs-keyword">import</span> PreTrainedTokenizerBase, PaddingStrategy
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Optional</span>, <span class="hljs-type">Union</span>
+<span class="hljs-keyword">import</span> torch
 
-@dataclass
-class DataCollatorForMultipleChoice:
-    """
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">DataCollatorForMultipleChoice</span>:
+    <span class="hljs-string">"""
     Data collator that will dynamically pad the inputs for multiple choice received.
-    """
+    """</span>
 
     tokenizer: PreTrainedTokenizerBase
-    padding: Union[bool, str, PaddingStrategy] = True
-    max_length: Optional[int] = None
-    pad_to_multiple_of: Optional[int] = None
+    padding: <span class="hljs-type">Union</span>[<span class="hljs-built_in">bool</span>, <span class="hljs-built_in">str</span>, PaddingStrategy] = <span class="hljs-literal">True</span>
+    max_length: <span class="hljs-type">Optional</span>[<span class="hljs-built_in">int</span>] = <span class="hljs-literal">None</span>
+    pad_to_multiple_of: <span class="hljs-type">Optional</span>[<span class="hljs-built_in">int</span>] = <span class="hljs-literal">None</span>
 
-    def __call__(self, features):
-        label_name = "label" if "label" in features[0].keys() else "labels"
-        labels = [feature.pop(label_name) for feature in features]
-        batch_size = len(features)
-        num_choices = len(features[0]["input_ids"])
-        flattened_features = [[{k: v[i] for k, v in feature.items()} for i in range(num_choices)] for feature in features]
-        flattened_features = sum(flattened_features, [])
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__call__</span>(<span class="hljs-params">self, features</span>):
+        label_name = <span class="hljs-string">"label"</span> <span class="hljs-keyword">if</span> <span class="hljs-string">"label"</span> <span class="hljs-keyword">in</span> features[<span class="hljs-number">0</span>].keys() <span class="hljs-keyword">else</span> <span class="hljs-string">"labels"</span>
+        labels = [feature.pop(label_name) <span class="hljs-keyword">for</span> feature <span class="hljs-keyword">in</span> features]
+        batch_size = <span class="hljs-built_in">len</span>(features)
+        num_choices = <span class="hljs-built_in">len</span>(features[<span class="hljs-number">0</span>][<span class="hljs-string">"input_ids"</span>])
+        flattened_features = [[{k: v[i] <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> feature.items()} <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_choices)] <span class="hljs-keyword">for</span> feature <span class="hljs-keyword">in</span> features]
+        flattened_features = <span class="hljs-built_in">sum</span>(flattened_features, [])
 
-        batch = self.tokenizer.pad(
+        batch = <span class="hljs-variable language_">self</span>.tokenizer.pad(
             flattened_features,
-            padding=self.padding,
-            max_length=self.max_length,
-            pad_to_multiple_of=self.pad_to_multiple_of,
-            return_tensors="pt",
+            padding=<span class="hljs-variable language_">self</span>.padding,
+            max_length=<span class="hljs-variable language_">self</span>.max_length,
+            pad_to_multiple_of=<span class="hljs-variable language_">self</span>.pad_to_multiple_of,
+            return_tensors=<span class="hljs-string">"pt"</span>,
         )
 
-        # Un-flatten
-        batch = {k: v.view(batch_size, num_choices, -1) for k, v in batch.items()}
-        # Add back labels
-        batch["labels"] = torch.tensor(labels, dtype=torch.int64)
-        return batch
+        <span class="hljs-comment"># Un-flatten</span>
+        batch = {k: v.view(batch_size, num_choices, -<span class="hljs-number">1</span>) <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> batch.items()}
+        <span class="hljs-comment"># Add back labels</span>
+        batch[<span class="hljs-string">"labels"</span>] = torch.tensor(labels, dtype=torch.int64)
+        <span class="hljs-keyword">return</span> batch
 </code></pre>
 <p>当传入一个示例的列表时，它会将大列表中的所有输入/注意力掩码等都压平，并传递给<code>tokenizer.pad</code>方法。这将返回一个带有大张量的字典(其大小为<code>(batch_size * 4) x seq_length</code>)，然后我们将其展开。</p>
 <p>我们可以在特征列表上检查data collator是否正常工作，在这里，我们只需要确保删除所有不被我们的模型接受的输入特征(这是<code>Trainer</code>自动为我们做的)：</p>
-<pre><code class="lang-pythonthon">accepted_keys = ["input_ids", "attention_mask", "label"]
-features = [{k: v for k, v in encoded_datasets["train"][i].items() if k in accepted_keys} for i in range(10)]
+<pre><code class="lang-python">accepted_keys = [<span class="hljs-string">"input_ids"</span>, <span class="hljs-string">"attention_mask"</span>, <span class="hljs-string">"label"</span>]
+features = [{k: v <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> encoded_datasets[<span class="hljs-string">"train"</span>][i].items() <span class="hljs-keyword">if</span> k <span class="hljs-keyword">in</span> accepted_keys} <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>)]
 batch = DataCollatorForMultipleChoice(tokenizer)(features)
 </code></pre>
 <p>再次强调，所有这些压平的、未压平的都可能是潜在错误的来源，所以让我们对输入进行另一个完整性检查：</p>
-<pre><code class="lang-pythonthon">[tokenizer.decode(batch["input_ids"][8][i].tolist()) for i in range(4)]
+<pre><code class="lang-python">[tokenizer.decode(batch[<span class="hljs-string">"input_ids"</span>][<span class="hljs-number">8</span>][i].tolist()) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)]
 </code></pre>
 <pre><code>['[CLS] someone walks over to the radio. [SEP] someone hands her another phone. [SEP] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD]',
  '[CLS] someone walks over to the radio. [SEP] someone takes the drink, then holds it. [SEP] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD]',
  '[CLS] someone walks over to the radio. [SEP] someone looks off then looks at someone. [SEP] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD]',
  '[CLS] someone walks over to the radio. [SEP] someone stares blearily down at the floor. [SEP] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD]']
-</code></pre><pre><code class="lang-pythonthon">show_one(datasets["train"][8])
+</code></pre><pre><code class="lang-python">show_one(datasets[<span class="hljs-string">"train"</span>][<span class="hljs-number">8</span>])
 </code></pre>
 <pre><code>Context: Someone walks over to the radio.
   A - Someone hands her another phone.
@@ -907,26 +907,26 @@ batch = DataCollatorForMultipleChoice(tokenizer)(features)
 Ground truth: option D
 </code></pre><p>所有的都正常运行!</p>
 <p>最后要为<code>Trainer</code>定义如何根据预测计算评估指标。我们需要来定义一个函数，它将使用我们之前加载的<code>metric</code>，我们必须做的唯一预处理是取我们预测的logits的argmax：</p>
-<pre><code class="lang-pythonthon">import numpy as np
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
 
-def compute_metrics(eval_predictions):
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">compute_metrics</span>(<span class="hljs-params">eval_predictions</span>):
     predictions, label_ids = eval_predictions
-    preds = np.argmax(predictions, axis=1)
-    return {"accuracy": (preds == label_ids).astype(np.float32).mean().item()}
+    preds = np.argmax(predictions, axis=<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">"accuracy"</span>: (preds == label_ids).astype(np.float32).mean().item()}
 </code></pre>
 <p>然后，我们只需要将所有这些以及我们的数据集一起传入<code>Trainer</code>：</p>
-<pre><code class="lang-pythonthon">trainer = Trainer(
+<pre><code class="lang-python">trainer = Trainer(
     model,
     args,
-    train_dataset=encoded_datasets["train"],
-    eval_dataset=encoded_datasets["validation"],
+    train_dataset=encoded_datasets[<span class="hljs-string">"train"</span>],
+    eval_dataset=encoded_datasets[<span class="hljs-string">"validation"</span>],
     tokenizer=tokenizer,
     data_collator=DataCollatorForMultipleChoice(tokenizer),
     compute_metrics=compute_metrics,
 )
 </code></pre>
 <p>现在，我们可以通过调用<code>train</code>方法来微调模型：</p>
-<pre><code class="lang-pythonthon">trainer.train()
+<pre><code class="lang-python">trainer.train()
 </code></pre>
 <pre><code>&lt;div&gt;
     &lt;style&gt;
@@ -1017,7 +1017,7 @@ def compute_metrics(eval_predictions):
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.4-问答任务-多选问答","level":"4.6","depth":1,"next":{"title":"4.5-生成任务-语言模型","level":"4.7","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.5-生成任务-语言模型.md","ref":"./篇章4-使用Transformers解决NLP任务/4.5-生成任务-语言模型.md","articles":[]},"previous":{"title":"4.3-问答任务-抽取式问答","level":"4.5","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.3-问答任务-抽取式问答.md","ref":"./篇章4-使用Transformers解决NLP任务/4.3-问答任务-抽取式问答.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.md","mtime":"2025-01-05T18:00:51.268Z","type":"markdown"},"gitbook":{"version":"6.0.2","time":"2025-01-05T18:01:03.606Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.4-问答任务-多选问答","level":"4.6","depth":1,"next":{"title":"4.5-生成任务-语言模型","level":"4.7","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.5-生成任务-语言模型.md","ref":"./篇章4-使用Transformers解决NLP任务/4.5-生成任务-语言模型.md","articles":[]},"previous":{"title":"4.3-问答任务-抽取式问答","level":"4.5","depth":1,"path":"篇章4-使用Transformers解决NLP任务/4.3-问答任务-抽取式问答.md","ref":"./篇章4-使用Transformers解决NLP任务/4.3-问答任务-抽取式问答.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"篇章4-使用Transformers解决NLP任务/4.4-问答任务-多选问答.md","mtime":"2025-01-11T00:02:01.079Z","type":"markdown"},"gitbook":{"version":"6.0.2","time":"2025-01-11T18:47:58.590Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
